@@ -10,6 +10,7 @@ import Logout from "./pages/logout";
 import Profile from "./pages/profile";
 import NotFound from "./pages/notfound";
 import { getCurrentUser } from "./utils/auth";
+import CreatePost from "./pages/create-post";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -24,6 +25,10 @@ function App() {
         <Route element={<PrivateRoutes check={currentUser} />}>
           <Route path="/home" element={<Welcome />} />
           <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/create-post"
+            element={<CreatePost currentUser={currentUser} />}
+          />
         </Route>
         <Route path="/login" element={<Login currentUser={currentUser} />} />
         <Route path="/logout" element={<Logout />} />

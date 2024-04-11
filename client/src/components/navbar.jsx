@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 
 const Navbar = ({ user }) => {
   return (
-    <div className="navbar bg-base-100 p-5">
+    <div className="navbar bg-base-200 p-5 mb-4">
       <div className="flex-1">
         <NavLink to={"/home"} className="btn btn-ghost text-xl">
           Qitir Tiri📄
