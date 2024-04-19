@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { login } from "../utils/auth";
 import Error from "../components/error";
 import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";
 import GoogleSignup from "../components/google-signup";
+import { setUserInfo } from "../redux/userSlice";
 
 const Login = ({ currentUser }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [error, setError] = useState({
     caught: false,
     cause: "",
@@ -16,7 +21,6 @@ const Login = ({ currentUser }) => {
     email: "",
     password: "",
   });
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,12 +31,16 @@ const Login = ({ currentUser }) => {
       }));
 
     const res = await login(user);
-    if (res.response.status !== 200) {
+
+    if (!res) {
       setError((prev) => ({
         caught: true,
         cause: "Wrong Email or Password!",
       }));
     }
+
+    dispatch(setUserInfo(res.data));
+    navigate("/home");
   };
 
   const handleChange = (e) => {

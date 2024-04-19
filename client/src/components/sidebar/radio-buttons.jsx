@@ -7,7 +7,6 @@ const RadioButtons = ({ title }) => {
         type="radio"
         name="radio-10"
         className="radio radio-sm checked:bg-red-500"
-        checked
       />
       <span className="text-md">{title}</span>
     </label>

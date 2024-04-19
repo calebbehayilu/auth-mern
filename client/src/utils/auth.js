@@ -3,16 +3,17 @@ import { jwtDecode } from "jwt-decode";
 
 export async function login(user) {
   try {
-    const post = await axios.post("http://localhost:3000/auth", {
+    const res = await axios.post("http://localhost:3000/auth", {
       email: user.email,
       password: user.password,
     });
-
-    if (post.status == 200) {
-      localStorage.setItem("token", post.headers["x-auth-token"]);
-      window.location = "/home";
+    if (res.statusText !== "OK") {
+      console.log(res);
     }
-    return post;
+
+    localStorage.setItem("token", res.headers["x-auth-token"]);
+
+    return res;
   } catch (error) {
     return error;
   }
