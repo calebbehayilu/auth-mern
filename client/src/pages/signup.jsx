@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";
+const url = import.meta.env.VITE_APP_API_URL;
 
 const Signup = () => {
   const [user, setUser] = useState({
@@ -15,7 +16,7 @@ const Signup = () => {
   const [error, setError] = useState(false);
 
   const signUp = async (user) => {
-    const post = await axios.post("http://localhost:3000/user", {
+    const post = await axios.post(`${url}/user`, {
       name: user.name,
       email: user.email,
       password: user.password,
