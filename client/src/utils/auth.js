@@ -23,6 +23,7 @@ export async function login(user) {
 
 export function logout() {
   localStorage.removeItem("token");
+  localStorage.removeItem("userInfo");
   window.location = "/login";
 }
 
