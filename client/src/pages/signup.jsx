@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";
-const url = import.meta.env.VITE_APP_API_URL;
 
 const Signup = () => {
+  const url = import.meta.env.VITE_APP_API_URL;
   const [user, setUser] = useState({
     name: "",
     email: "",
