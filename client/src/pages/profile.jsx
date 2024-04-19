@@ -5,11 +5,9 @@ import { IoMdMail } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 
 const Profile = () => {
-  const {
-    error,
-    isPending,
-    data: user,
-  } = useFetch("http://localhost:3000/user/me");
+  const url = import.meta.env.VITE_APP_API_URL;
+
+  const { error, isPending, data: user } = useFetch(`${url}/user/me`);
 
   return (
     <div className="flex flex-col h-screen m-auto  px-24">
