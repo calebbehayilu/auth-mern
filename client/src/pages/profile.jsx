@@ -16,7 +16,6 @@ const Profile = () => {
         <div className="col-span-6 bg-base-200 p-3 rounded-lg mb-5">
           <h1 className="text-3xl">Profile</h1>
           <div className="container-lg">
-            {error && <Error error={error} />}
             {isPending && (
               <span className="loading loading-spinner loading-md"></span>
             )}
