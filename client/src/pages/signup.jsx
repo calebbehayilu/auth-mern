@@ -13,32 +13,51 @@ const Signup = () => {
     password: "",
     confirm_password: "",
   });
-  const [error, setError] = useState(false);
-
+  const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const signUp = async (user) => {
-    const post = await axios.post(`${url}/user`, {
-      name: user.name,
-      email: user.email,
-      password: user.password,
-    });
+    const post = await axios
+      .post(`${url}/user`, {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      })
+      .catch((err) => {
+        return err;
+      });
 
     return post;
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // if (
+    //   user.name == "" ||
+    //   user.password == "" ||
+    //   user.email == "" ||
+    //   user.confirm_password == ""
+    // )
+    //   return setError("Error! Inputs cant be empty.");
 
-    if (user.password !== user.confirm_password) return setError(true);
+    if (user.password !== user.confirm_password)
+      return setError("Error! Password not same.");
+
+    setIsLoading(true);
 
     const response = await signUp(user);
-    console.log(response);
+    if (response.status != 200) {
+      setIsLoading(false);
+      console.log(response);
+      return setError(response.response.data);
+    }
     if (response.status == 200) {
       localStorage.setItem("token", response.headers["x-auth-token"]);
+      setIsLoading(false);
       window.location = "/home";
     }
   };
 
   const handleChange = (e) => {
-    setError(false);
+    setError("");
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
@@ -63,7 +82,7 @@ const Signup = () => {
                   d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>Error! Password not same.</span>
+              <span>{error}</span>
             </div>
           )}
           <label className="input input-bordered flex items-center gap-2">
@@ -111,9 +130,16 @@ const Signup = () => {
               placeholder="Confirm Password"
             />
           </label>
-
-          <button className="btn btn-primary text-white" type="submit">
-            SignUp
+          <button
+            className="btn btn-primary text-white"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className="loading loading-spinner loading-sm"></span>
+            ) : (
+              <>Sign Up</>
+            )}
           </button>
         </form>
       </div>

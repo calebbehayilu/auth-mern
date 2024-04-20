@@ -8,8 +8,8 @@ const Welcome = () => {
   console.log(userInfo);
   return (
     <div className="mx-auto">
-      <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-3 px-3">
+      <div className="lg:grid grid-cols-12 gap-3 flex flex-col">
+        <div className="col-span-3 px-3 display">
           <Sidebar />
         </div>
         <div className="col-span-6 bg-base-200 p-3 rounded-lg mb-5">
