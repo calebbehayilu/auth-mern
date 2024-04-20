@@ -8,7 +8,7 @@ const Welcome = () => {
   console.log(userInfo);
   return (
     <div className="mx-auto">
-      <div className="lg:grid grid-cols-12 gap-3 flex flex-col">
+      <div className="lg:grid grid-cols-12 gap-3 flex flex-col m-5">
         <div className="col-span-3 px-3 display">
           <Sidebar />
         </div>

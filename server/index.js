@@ -1,7 +1,5 @@
 const helmet = require("helmet");
 const morgan = require("morgan");
-const startupDebug = require("debug")("app:startup");
-const dbDebug = require("debug")("app:db");
 const express = require("express");
 const cors = require("cors");
 const { connect } = require("./utils/dbconnect");
@@ -19,12 +17,9 @@ app.use(express.json());
 
 if (app.get("env") === "development") {
   app.use(morgan("tiny"));
-  mongo_url = process.env.MONGODB_URL_LOCAL;
-
-  startupDebug("Morgan enabled...");
 }
 
-connect(mongo_url);
+connect();
 
 app.get("/", (req, res) => {
   res.send("Welcome");
