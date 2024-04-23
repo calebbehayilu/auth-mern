@@ -5,6 +5,7 @@ import { MdAttachMoney } from "react-icons/md";
 import { CiCalendarDate } from "react-icons/ci";
 
 const PostCard = ({ user }) => {
+  if (!user) return <h1> No user </h1>;
   return (
     <div className="card card-bordered border-blue-300 m-2 w-full">
       <div className="card-body">

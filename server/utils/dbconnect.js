@@ -4,7 +4,7 @@ async function connect() {
   await mongoose
     .connect(process.env.MONGODB_URL)
     .then(() => {
-      console.log(`MongoDB Connected . . . ${url}`);
+      console.log(`MongoDB Connected . . . `);
     })
     .catch((err) => {
       console.log("Catch ERROR : ", err);

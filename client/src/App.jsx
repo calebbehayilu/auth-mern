@@ -20,7 +20,7 @@ function App() {
   }, []);
   return (
     <>
-      <Navbar user={currentUser} />
+      <Navbar currentUser={currentUser} />
       <Routes>
         <Route element={<PrivateRoutes check={currentUser} />}>
           <Route path="/home" element={<Welcome />} />

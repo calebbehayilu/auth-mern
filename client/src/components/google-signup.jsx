@@ -4,19 +4,23 @@ import { FaGoogle } from "react-icons/fa";
 import { auth, provider } from "../utils/firebase";
 import { getRedirectResult, signInWithRedirect } from "firebase/auth";
 import axios from "axios";
+const url = import.meta.env.VITE_APP_API_URL;
+import { useDispatch } from "react-redux";
+import { useNavigate, Navigate } from "react-router-dom";
+import { setUserInfo } from "../redux/userSlice";
 
 const GoogleSignup = () => {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const signUp = async (name, email, uid) => {
-    const post = await axios.post(
-      "http://localhost:3000/user/signUp-with-google",
-      {
-        name: name,
-        email: email,
-        uid: uid,
-      }
-    );
+  const signUp = async (name, email, uid, photoURL) => {
+    const post = await axios.post(`${url}/user/signUp-with-google`, {
+      name: name,
+      email: email,
+      uid: uid,
+      photoURL: photoURL,
+    });
 
     return post;
   };
@@ -26,16 +30,21 @@ const GoogleSignup = () => {
       .then(async (response) => {
         if (!response) return;
 
-        const res = await signUp(
+        await signUp(
           response.user.displayName,
           response.user.email,
-          response.user.uid
-        );
+          response.user.uid,
+          response.user.photoURL
+        ).then((res) => {
+          if (res.status == 200) {
+            console.log(res);
+            localStorage.setItem("token", res.headers["x-auth-token"]);
+            localStorage.setItem("userInfo", JSON.stringify(res.data));
+            dispatch(setUserInfo(res.data));
 
-        if (res.status == 200) {
-          localStorage.setItem("token", res.headers["x-auth-token"]);
-          window.location = "/home";
-        }
+            window.location = "/home";
+          }
+        });
       })
       .catch((error) => {
         console.error(error);

@@ -28,6 +28,6 @@ app.get("/", (req, res) => {
 app.use("/user", user);
 app.use("/auth", auth);
 
-app.listen(3001, () => {
+app.listen(3000, () => {
   console.log(`connected to 3000`);
 });

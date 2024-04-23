@@ -21,6 +21,7 @@ const Login = ({ currentUser }) => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,17 +31,24 @@ const Login = ({ currentUser }) => {
         cause: "Can`t leave the text filed empty!",
       }));
 
-    const res = await login(user);
+    setIsLoading(true);
 
-    if (!res) {
-      setError((prev) => ({
+    const res = await login(user);
+    console.log(res);
+    if (res.status !== 200) {
+      return setError({
         caught: true,
-        cause: "Wrong Email or Password!",
-      }));
+        cause: res.response.data,
+      });
     }
 
-    dispatch(setUserInfo(res.data));
-    navigate("/home");
+    if (res.status === 200) {
+      dispatch(setUserInfo(res.data));
+      localStorage.setItem("token", res.headers["x-auth-token"]);
+      window.location = "/home";
+    }
+
+    setIsLoading(false);
   };
 
   const handleChange = (e) => {
@@ -83,8 +91,16 @@ const Login = ({ currentUser }) => {
             />
           </label>
 
-          <button className="btn btn-primary text-white" type="submit">
-            Login
+          <button
+            className="btn btn-primary text-white btn-outline"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className="loading loading-spinner loading-sm"></span>
+            ) : (
+              <>Login</>
+            )}
           </button>
         </form>
 
