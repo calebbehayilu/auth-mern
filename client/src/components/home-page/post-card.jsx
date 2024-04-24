@@ -3,52 +3,59 @@ import { CiLocationOn } from "react-icons/ci";
 import { CiTimer } from "react-icons/ci";
 import { MdAttachMoney } from "react-icons/md";
 import { CiCalendarDate } from "react-icons/ci";
+import ImgPreview from "../img-preview";
 
-const PostCard = ({ user }) => {
-  if (!user) return <h1> No user </h1>;
+const PostCard = ({ post }) => {
   return (
-    <div className="card card-bordered border-blue-300 m-2 w-full">
+    <div className="card card-bordered bg-base-100 mb-2 mx-3 lg:mx-0 lg:w-full">
       <div className="card-body">
+        <ProfileCard user={post.user} />
         <div>
-          <h2 className="card-title">{user.name}</h2>
-          <span className="text-sm">{user.email}</span>
+          <h1 className="text-xl font-semibold">{post.title}</h1>
         </div>
-
         <div className="flex gap-4 m-2">
           <span className="flex items-center gap-1">
             <CiLocationOn />
-            Harar
+            {post.location}
           </span>
           <span className="flex items-center gap-1">
             <CiTimer />
-            Full Time
+            {post.duration}
           </span>
           <span className="flex items-center gap-1">
             <MdAttachMoney />
-            8000
+            {post.minAmount} - {post.maxAmount}
           </span>
           <span className="flex items-center gap-1">
             <CiCalendarDate />
-            02-05-2024
+            {post.postDate}
           </span>
         </div>
         <span className="flex gap-3 mx-3">
-          <div className="badge badge-neutral">C#</div>
-          <div className="badge badge-neutral">API</div>
-          <div className="badge badge-neutral">Backend</div>
+          {post.tags.map((tag) => (
+            <div className="badge badge-neutral" key={tag}>
+              {tag}
+            </div>
+          ))}
         </span>
         <div className="pt-3">
-          <p className="w-full">
-            We are looking for a talented and passionate full-stack website
-            creator to join our team! In this role, you will be responsible for
-            the entire website development lifecycle, from design and user
-            interface (UI) development to back-end functionality and database
-            management.
-          </p>
+          <p className="w-full">{post.discription}</p>
         </div>
         <div className="flex justify-end">
           <button className="btn btn-primary rounded-xl">Apply</button>
         </div>
+      </div>
+    </div>
+  );
+};
+
+const ProfileCard = ({ user }) => {
+  return (
+    <div className="flex items-center">
+      <ImgPreview user={user} size={"w-14"} />
+      <div>
+        <h2 className="card-title">{user.name}</h2>
+        <span className="text-sm">{user.email}</span>
       </div>
     </div>
   );

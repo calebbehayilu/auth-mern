@@ -4,24 +4,26 @@ import useFetch from "../utils/useFetch";
 import { IoMdMail } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import Error from "../components/error";
+import { BiCalendar, BiUser } from "react-icons/bi";
+import { MdEmail } from "react-icons/md";
 
 const Profile = () => {
-  const url = import.meta.env.VITE_APP_API_URL;
-  const { error, isPending, data: user } = useFetch(`${url}/user/me`);
+  const { error, isPending, data: user } = useFetch(`/user/me`);
   const getAvatar = (name) => {
     const getArray = name.split(" ");
     const initials = getArray.map((part) => part.charAt(0));
 
     return initials.join("");
   };
+
   return (
-    <div className="flex flex-col justify-center items-center  m-auto">
+    <div className="flex flex-col justify-center md:items-center mx-4 md:m-auto">
       {isPending && (
         <span className="loading loading-spinner loading-md"></span>
       )}
       {error && <Error error={error} />}
       {user && (
-        <div className="p-10 rounded-2xl mx-4 min-w-6/16">
+        <div className=" md:p-10 rounded-2xl md:mx-4 md:min-w-6/16">
           <h1 className="text-2xl text-center">Profile</h1>
           <div className="">
             <div className="avatar my-5">
@@ -39,20 +41,12 @@ const Profile = () => {
             </div>
 
             <div className="">
-              <div className="my-2">
-                <h2 className="text-md">Name</h2>
-                <p className="text-2xl">{user.name}</p>
-              </div>
-
-              <div className="my-2">
-                <h1 className="text-md">Email</h1>
-                <p className="text-2xl">{user.email}</p>
-              </div>
-
-              <div className="my-2">
-                <h1 className="text-md">Birthdate</h1>
-                <p className="text-2xl">20-04-2004</p>
-              </div>
+              <UserProfile icon={<BiUser size={35} />} text={user.name} />
+              <UserProfile icon={<MdEmail size={35} />} text={user.email} />
+              <UserProfile
+                icon={<BiCalendar size={35} />}
+                text={"20-04-2004"}
+              />
             </div>
             <div className="flex justify-between mt-5">
               <button className="btn btn-neutral ">Edit</button>
@@ -65,3 +59,12 @@ const Profile = () => {
   );
 };
 export default Profile;
+
+const UserProfile = ({ icon, text }) => {
+  return (
+    <div className="my-2 flex items-center">
+      <span className="p-3">{icon}</span>
+      <p className="text-2xl">{text}</p>
+    </div>
+  );
+};

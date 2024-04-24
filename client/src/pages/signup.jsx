@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";
+import apiClient from "../services/api-client";
 
 const Signup = () => {
-  const url = import.meta.env.VITE_APP_API_URL;
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -15,9 +15,10 @@ const Signup = () => {
   });
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
+
   const signUp = async (user) => {
-    const post = await axios
-      .post(`${url}/user`, {
+    const post = await apiClient
+      .post(`/user`, {
         name: user.name,
         email: user.email,
         password: user.password,
@@ -30,13 +31,13 @@ const Signup = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (
-    //   user.name == "" ||
-    //   user.password == "" ||
-    //   user.email == "" ||
-    //   user.confirm_password == ""
-    // )
-    //   return setError("Error! Inputs cant be empty.");
+    if (
+      user.name == "" ||
+      user.password == "" ||
+      user.email == "" ||
+      user.confirm_password == ""
+    )
+      return setError("Error! Inputs cant be empty.");
 
     if (user.password !== user.confirm_password)
       return setError("Error! Password not same.");
@@ -46,7 +47,6 @@ const Signup = () => {
     const response = await signUp(user);
     if (response.status != 200) {
       setIsLoading(false);
-      console.log(response);
       return setError(response.response.data);
     }
     if (response.status == 200) {

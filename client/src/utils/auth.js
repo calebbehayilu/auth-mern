@@ -1,12 +1,11 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-
-const url = import.meta.env.VITE_APP_API_URL;
+import apiClient from "../services/api-client";
 
 export async function login(user) {
   try {
-    const res = await axios
-      .post(`${url}/auth`, {
+    const res = await apiClient
+      .post(`/auth`, {
         email: user.email,
         password: user.password,
       })

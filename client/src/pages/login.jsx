@@ -34,6 +34,8 @@ const Login = ({ currentUser }) => {
     setIsLoading(true);
 
     const res = await login(user);
+    setIsLoading(false);
+
     console.log(res);
     if (res.status !== 200) {
       return setError({
@@ -47,8 +49,6 @@ const Login = ({ currentUser }) => {
       localStorage.setItem("token", res.headers["x-auth-token"]);
       window.location = "/home";
     }
-
-    setIsLoading(false);
   };
 
   const handleChange = (e) => {

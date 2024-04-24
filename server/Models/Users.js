@@ -16,6 +16,13 @@ const UserSchema = new mongoose.Schema({
   uid: {
     type: String,
   },
+  role: {
+    type: String,
+    enum: ["admin", "employer", "job_seeker"],
+  },
+  birthDate: {
+    type: Date,
+  },
 });
 
 const User = mongoose.model("users", UserSchema);

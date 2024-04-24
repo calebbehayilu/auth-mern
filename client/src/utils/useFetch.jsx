@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
+import apiClient from "../services/api-client";
 
 const useFetch = (url) => {
   const [data, setData] = useState(null);
@@ -9,15 +9,10 @@ const useFetch = (url) => {
   useEffect(() => {
     const abortCont = new AbortController();
 
-    axios
-      .get(url, {
-        headers: {
-          "x-auth-token": localStorage.getItem("token"),
-        },
-      })
+    apiClient
+      .get(url)
       .then((res) => {
         if (res.status !== 200) {
-          // error coming back from server
           throw Error("could not fetch the data for that resource");
         }
 
@@ -29,14 +24,11 @@ const useFetch = (url) => {
         if (err.name === "AbortError") {
           console.log("fetch aborted");
         } else {
-          // auto catches network / connection error
           setIsPending(false);
-          console.log(err.message);
           setError(err.message);
         }
       });
 
-    // abort the fetch
     return () => abortCont.abort();
   }, [url]);
 
