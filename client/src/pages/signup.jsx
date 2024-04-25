@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";

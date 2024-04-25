@@ -1,19 +1,31 @@
-import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import useFetch from "../utils/useFetch";
-import { IoMdMail } from "react-icons/io";
-import { FaUser } from "react-icons/fa";
 import Error from "../components/error";
 import { BiCalendar, BiUser } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
+import apiClient from "../services/api-client";
+import { useNavigate } from "react-router-dom";
+import ConfirmModal from "../components/confim-modal";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const { error, isPending, data: user } = useFetch(`/user/me`);
+  const { confirm, setConfirm } = useState(false);
   const getAvatar = (name) => {
     const getArray = name.split(" ");
     const initials = getArray.map((part) => part.charAt(0));
 
     return initials.join("");
+  };
+
+  const deleteAccount = (id) => {
+    setConfirm(true);
+
+    apiClient.delete(`/user/${id}`).then((res) => {
+      if (res.data === true) {
+        navigate("/logout");
+      }
+    });
   };
 
   return (
@@ -50,7 +62,12 @@ const Profile = () => {
             </div>
             <div className="flex justify-between mt-5">
               <button className="btn btn-neutral ">Edit</button>
-              <button className="btn btn-error">Delete Account</button>
+              <button
+                className="btn btn-error"
+                onClick={() => deleteAccount(user._id)}
+              >
+                Delete Account
+              </button>
             </div>
           </div>
         </div>

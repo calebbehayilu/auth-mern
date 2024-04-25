@@ -5,9 +5,9 @@ const cors = require("cors");
 const { connect } = require("./utils/dbconnect");
 const user = require("./routes/user");
 const auth = require("./routes/auth");
+const posts = require("./routes/posts");
 const app = express();
 require("dotenv").config();
-let mongo_url;
 
 console.log(`app: ${app.get("env")}`);
 
@@ -27,6 +27,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", user);
 app.use("/auth", auth);
+app.use("/posts", posts);
 
 app.listen(3000, () => {
   console.log(`connected to 3000`);

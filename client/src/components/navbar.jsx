@@ -38,7 +38,7 @@ const Navbar = ({ currentUser, tab, setTab }) => {
               <label className="input input-bordered rounded-2xl flex justify-around mx-2 ">
                 <input type="text" className="grow" value="Search" />
               </label>
-              <button className="rounded-2xl btn btn-accent m-0">
+              <button className="rounded-2xl btn btn-accent m-0" type="submit">
                 <BiSearch />
               </button>
             </form>
@@ -77,9 +77,6 @@ const Navbar = ({ currentUser, tab, setTab }) => {
                 </li>
                 <li>
                   <Link to={"/create-post"}>Create Post</Link>
-                </li>
-                <li>
-                  <Link to={"/settings"}>Settings</Link>
                 </li>
                 <li>
                   <Link to={"/logout"}>Logout</Link>

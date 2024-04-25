@@ -4,16 +4,16 @@ import Navbar from "./components/navbar";
 import PrivateRoutes from "./components/protectedRoute";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
-import Welcome from "./pages/home-page";
-import Home from "./pages/wellcome-page";
 import Logout from "./pages/logout";
 import Profile from "./pages/profile";
 import NotFound from "./pages/notfound";
 import { getCurrentUser } from "./utils/auth";
-import CreatePost from "./pages/create-post";
+import CreatePost from "./pages/employer/create-post";
 import HomePage from "./pages/home-page";
-import WelcomePage from "./pages/wellcome-page";
+import WelcomePage from "./pages/welcome-page";
 import Drawer from "./components/drawer";
+import JobDetail from "./pages/job-seeker/job-detail";
+import EditProfile from "./pages/edit-profile";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -31,11 +31,14 @@ function App() {
         <Route element={<PrivateRoutes check={currentUser} />}>
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
           <Route
             path="/create-post"
             element={<CreatePost currentUser={currentUser} />}
           />
+          <Route path="/jobdetail/:postId" element={<JobDetail />} />
         </Route>
+
         <Route path="/login" element={<Login currentUser={currentUser} />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/signup" element={<Signup />} />

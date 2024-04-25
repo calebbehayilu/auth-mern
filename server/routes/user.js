@@ -8,6 +8,13 @@ const auth = require("../middleware/auth");
 
 route.use(express.json());
 
+route.get("/all", async (req, res) => {
+  const data = req.user;
+
+  const user = await User.find().select("-password");
+  res.send(user);
+});
+
 route.get("/me", auth, async (req, res) => {
   const data = req.user;
 
@@ -60,6 +67,26 @@ route.post("/", async (req, res) => {
     .send(user);
 });
 
+route.put("/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  const user = await User.findByIdAndUpdate(userId, req.body);
+
+  if (!user) return res.status(404).send("User not found");
+
+  res.send(user);
+});
+
+route.delete("/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  const user = await User.findByIdAndDelete(userId);
+
+  if (!user) return res.status(404).send("user not found");
+
+  res.status(200).send(true);
+});
+
 async function generateToken(user) {
   const token = jwt.sign(
     { id: user._id, user: user.name },
@@ -74,11 +101,7 @@ function validate(body) {
       .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
       .min(6)
       .max(30),
-    password: Joi.string()
-      .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-      .min(6)
-      .max(30)
-      .required(),
+    password: Joi.string().min(6).max(30).required(),
     uid: Joi.string().min(3),
   });
 
