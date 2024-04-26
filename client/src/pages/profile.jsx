@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../utils/useFetch";
 import Error from "../components/error";
 import { BiCalendar, BiUser } from "react-icons/bi";
@@ -10,24 +10,23 @@ import getAvatar from "./../utils/create-avatar";
 const Profile = () => {
   const navigate = useNavigate();
   const { error, isPending, data: user } = useFetch(`/user/me`);
-  const { confirm, setConfirm } = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
-  const { deleteAcc, setDeleteAcc } = useState(false);
-
-  const deleteAccount = (id) => {
-    setConfirm(true);
-
-    if (deleteAcc) {
-      apiClient.delete(`/user/${id}`).then((res) => {
+  const AccountDelete = async () => {
+    if (confirm) {
+      apiClient.delete(`/user/${user._id}`).then((res) => {
         if (res.data === true) {
           navigate("/logout");
         }
       });
     }
-
-    setConfirm(false);
   };
-
+  const onDelete = () => {
+    document.getElementById("modal").showModal();
+  };
+  useEffect(() => {
+    AccountDelete();
+  }, [confirm]);
   return (
     <div className="flex flex-col justify-center md:items-center mx-4 md:m-auto">
       {isPending && (
@@ -51,7 +50,6 @@ const Profile = () => {
                 </div>
               )}
             </div>
-
             <div className="">
               <UserProfile icon={<BiUser size={35} />} text={user.name} />
               <UserProfile icon={<MdEmail size={35} />} text={user.email} />
@@ -64,31 +62,37 @@ const Profile = () => {
               <Link to={"/edit-profile"} className="btn btn-neutral ">
                 Edit
               </Link>
-              <button
-                className="btn btn-error"
-                onClick={() => deleteAccount(user._id)}
-              >
+              <button className="btn btn-error" onClick={() => onDelete()}>
                 Delete Account
               </button>
             </div>
-
-            {confirm && (
-              <div className="modal-box">
-                <h3 className="font-bold text-lg">Hello!</h3>
-                <p className="py-4">
-                  Press ESC key or click the button below to close
-                </p>
-                <div className="modal-action">
-                  <form method="dialog">
-                    {/* if there is a button in form, it will close the modal */}
-                    <button className="btn">Close</button>
-                  </form>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       )}
+
+      <dialog id="modal" className="modal">
+        <div className="modal-box w-fit">
+          <h3 className="font-bold text-lg text-center w-30">
+            Are You Sure You Want To Delete This Account?
+          </h3>
+          <div className="flex justify-evenly m-5">
+            <form method="dialog" className="btn btn-accent">
+              <button>close</button>
+            </form>
+            <button
+              className="btn btn-error"
+              onClick={() => {
+                setConfirm(true);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </div>
   );
 };

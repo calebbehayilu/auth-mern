@@ -1,4 +1,5 @@
 import React from "react";
+import { BiX } from "react-icons/bi";
 
 export default function Drawer({ children, isOpen, setIsOpen }) {
   return (
@@ -17,7 +18,16 @@ export default function Drawer({ children, isOpen, setIsOpen }) {
         }
       >
         <article className="relative w-screen max-w-lg pb-10 flex flex-col space-y-6 h-full">
-          <header className="p-4 font-bold text-lg">Header</header>
+          <div className="flex m-5 ">
+            <button
+              className="btn btn-outline"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              <BiX />
+            </button>
+          </div>
           {children}
         </article>
       </section>
