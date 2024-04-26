@@ -4,8 +4,7 @@ import Error from "../components/error";
 import { BiCalendar, BiUser } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
 import apiClient from "../services/api-client";
-import { useNavigate } from "react-router-dom";
-import ConfirmModal from "../components/confim-modal";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -19,8 +18,6 @@ const Profile = () => {
   };
 
   const deleteAccount = (id) => {
-    setConfirm(true);
-
     apiClient.delete(`/user/${id}`).then((res) => {
       if (res.data === true) {
         navigate("/logout");
@@ -61,7 +58,9 @@ const Profile = () => {
               />
             </div>
             <div className="flex justify-between mt-5">
-              <button className="btn btn-neutral ">Edit</button>
+              <Link to={"/edit-profile"} className="btn btn-neutral ">
+                Edit
+              </Link>
               <button
                 className="btn btn-error"
                 onClick={() => deleteAccount(user._id)}
