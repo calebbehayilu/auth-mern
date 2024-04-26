@@ -5,24 +5,27 @@ import { BiCalendar, BiUser } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
 import apiClient from "../services/api-client";
 import { Link, useNavigate } from "react-router-dom";
+import getAvatar from "./../utils/create-avatar";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { error, isPending, data: user } = useFetch(`/user/me`);
   const { confirm, setConfirm } = useState(false);
-  const getAvatar = (name) => {
-    const getArray = name.split(" ");
-    const initials = getArray.map((part) => part.charAt(0));
 
-    return initials.join("");
-  };
+  const { deleteAcc, setDeleteAcc } = useState(false);
 
   const deleteAccount = (id) => {
-    apiClient.delete(`/user/${id}`).then((res) => {
-      if (res.data === true) {
-        navigate("/logout");
-      }
-    });
+    setConfirm(true);
+
+    if (deleteAcc) {
+      apiClient.delete(`/user/${id}`).then((res) => {
+        if (res.data === true) {
+          navigate("/logout");
+        }
+      });
+    }
+
+    setConfirm(false);
   };
 
   return (
@@ -68,6 +71,21 @@ const Profile = () => {
                 Delete Account
               </button>
             </div>
+
+            {confirm && (
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">Hello!</h3>
+                <p className="py-4">
+                  Press ESC key or click the button below to close
+                </p>
+                <div className="modal-action">
+                  <form method="dialog">
+                    {/* if there is a button in form, it will close the modal */}
+                    <button className="btn">Close</button>
+                  </form>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

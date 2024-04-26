@@ -13,10 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@reduxjs/toolkit": "^2.2.3",
-    "debug": "^4.3.4",
-    "nodemon": "^3.1.0",
-    "react-hook-form": "^7.51.3",
-    "react-redux": "^9.1.0"
+    "nodemon": "^3.1.0"
   }
 }
