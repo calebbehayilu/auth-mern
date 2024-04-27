@@ -5,11 +5,10 @@ import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";
 import apiClient from "../services/api-client";
 import { BiCheckCircle, BiEdit } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { FaLastfmSquare } from "react-icons/fa";
 const EditProfile = () => {
-  const { error, isPending, data: user } = useFetch(`/user/me`);
+  const { data: user } = useFetch(`/user/me`);
   const [message, setMessage] = useState(false);
 
   const { register, handleSubmit } = useForm();
