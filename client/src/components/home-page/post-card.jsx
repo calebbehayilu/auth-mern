@@ -4,12 +4,23 @@ import { CiTimer } from "react-icons/ci";
 import { MdAttachMoney } from "react-icons/md";
 import { CiCalendarDate } from "react-icons/ci";
 import ImgPreview from "../img-preview";
+import { Link } from "react-router-dom";
 
 const PostCard = ({ post }) => {
+  const getFormattedDate = (newDate) => {
+    const formattedDate = new Date(newDate);
+    const year = formattedDate.getFullYear();
+    const month = formattedDate.getMonth() + 1;
+    const date = formattedDate.getDate();
+
+    return `${year}-${month}-${date}`;
+  };
   return (
     <div className="card card-bordered bg-base-100 mb-2 mx-3 lg:mx-0 lg:w-full">
       <div className="card-body">
-        <ProfileCard user={post.user} />
+        <Link to={`/profile/${post.userId._id}`}>
+          <ProfileCard user={post.userId} />
+        </Link>
         <div>
           <h1 className="text-xl font-semibold">{post.title}</h1>
         </div>
@@ -20,7 +31,7 @@ const PostCard = ({ post }) => {
           </span>
           <span className="flex items-center gap-1">
             <CiTimer />
-            {post.duration}
+            {post.jobDuration}
           </span>
           <span className="flex items-center gap-1">
             <MdAttachMoney />
@@ -28,7 +39,7 @@ const PostCard = ({ post }) => {
           </span>
           <span className="flex items-center gap-1">
             <CiCalendarDate />
-            {post.postDate}
+            {getFormattedDate(post.postDate)}
           </span>
         </div>
         <span className="flex gap-3 mx-3">
@@ -39,10 +50,15 @@ const PostCard = ({ post }) => {
           ))}
         </span>
         <div className="pt-3">
-          <p className="w-full">{post.discription}</p>
+          <p className="w-full">{post.description}</p>
         </div>
         <div className="flex justify-end">
-          <button className="btn btn-primary rounded-xl">Apply</button>
+          <Link
+            to={`/jobdetail/${post._id}`}
+            className="btn btn-primary rounded-xl"
+          >
+            Apply
+          </Link>
         </div>
       </div>
     </div>

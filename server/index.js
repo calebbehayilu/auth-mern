@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(express.json());
 
 if (app.get("env") === "development") {
-  app.use(morgan("tiny"));
+  app.use(morgan("common"));
 }
 
 connect();

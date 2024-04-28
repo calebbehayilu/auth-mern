@@ -1,43 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../components/sidebar";
 import PostCard from "../components/home-page/post-card";
-
-const posts = [
-  {
-    id: "1",
-    title: "Facebook ad specialist needed for product launch",
-    location: "Harar",
-    discription:
-      "We are looking for a talented and passionate full-stack website creator to join our team! In this role, you will be responsible for the entire website development lifecycle, from design and user interface (UI) development to back-end functionality and database management.",
-    tags: ["C#", "API", "Backend"],
-    postDate: "20-04-2024",
-    minAmount: "20",
-    jobDuration: "Month",
-    maxAmount: "200",
-    user: {
-      name: "Grey Lu",
-      email: "lugray30@gmail.com",
-    },
-  },
-  {
-    id: "2",
-    title: "Facebook ad specialist needed for product launch",
-    location: "Harar",
-    discription:
-      "We are looking for a talented and passionate full-stack website creator to join our team! In this role, you will be responsible for the entire website development lifecycle, from design and user interface (UI) development to back-end functionality and database management.",
-    tags: ["C#", "API", "Backend"],
-    postDate: "20-04-2024",
-    minAmount: "20",
-    jobDuration: "Month",
-    maxAmount: "200",
-    user: {
-      name: "Grey Lu",
-      email: "lugray30@gmail.com",
-    },
-  },
-];
+import apiClient from "../services/api-client";
+import useFetch from "./../utils/useFetch";
 
 const HomePage = () => {
+  apiClient.get("/posts");
+  const { isLoading, error, data: posts } = useFetch("/posts");
+
   if (!posts) return <h1>No Post found</h1>;
   return (
     <div className="mx-auto">
@@ -45,11 +15,16 @@ const HomePage = () => {
         <div className="lg:col-span-3 px-3">
           <Sidebar />
         </div>
-        <div className="lg:col-span-6 rounded-lg">
-          {posts.map((post) => (
-            <PostCard post={post} key={post.id} />
-          ))}
-        </div>
+        {isLoading && (
+          <span className="loading loading-spinner loading-lg"></span>
+        )}
+        {posts && (
+          <div className="lg:col-span-6 rounded-lg">
+            {posts.map((post) => (
+              <PostCard post={post} key={post._id} />
+            ))}
+          </div>
+        )}{" "}
       </div>
     </div>
   );

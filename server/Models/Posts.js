@@ -8,7 +8,10 @@ const PostsSchema = new mongoose.Schema({
     require: true,
     min: 10,
   },
-  discription: {
+  skills: {
+    type: Array,
+  },
+  description: {
     type: String,
     require: true,
     min: 15,
@@ -18,9 +21,12 @@ const PostsSchema = new mongoose.Schema({
   },
   postDate: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   jobDuration: {
+    type: String,
+  },
+  location: {
     type: String,
   },
   minAmount: {
@@ -28,6 +34,18 @@ const PostsSchema = new mongoose.Schema({
   },
   maxAmount: {
     type: Number,
+  },
+  experienceLevel: {
+    type: String,
+  },
+  additional: {
+    type: String,
+  },
+  jobType: {
+    type: String,
+  },
+  questions: {
+    type: Array,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -42,12 +60,18 @@ const PostsSchema = new mongoose.Schema({
 
 function validatePost(posts) {
   const schema = Joi.object({
-    title: Joi.string().min(10).max(50).required(),
-    discription: Joi.string().min(10).required(),
+    title: Joi.string().min(1).max(50).required(),
+    skills: Joi.array().min(1).max(50).required(),
+    description: Joi.string().min(10).required(),
     tags: Joi.array().min(1).max(5).required(),
     jobDuration: Joi.string().min(1).max(15).required(),
     minAmount: Joi.number().min(1).required(),
     maxAmount: Joi.number().min(1),
+    location: Joi.string().min(5).required(),
+    additional: Joi.string().min(5),
+    experienceLevel: Joi.string().min(5),
+    jobType: Joi.string().min(5),
+    questions: Joi.array().min(1).max(50).required(),
   });
 
   return schema.validate(posts);

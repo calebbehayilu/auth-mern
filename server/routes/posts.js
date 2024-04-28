@@ -11,7 +11,7 @@ const { Posts, validatePost } = require("../Models/Posts");
 route.use(express.json());
 
 route.get("/", async (req, res) => {
-  const posts = await Posts.find().populate("userId", ["-password"]);
+  let posts = await Posts.find().populate("userId", ["-password"]);
 
   res.send(posts);
 });
@@ -33,21 +33,33 @@ route.post("/", auth, async (req, res) => {
 
   const todo = _.pick(req.body, [
     "title",
-    "discription",
+    "skills",
+    "description",
     "tags",
     "minAmount",
     "maxAmount",
     "jobDuration",
     "userId",
+    "experienceLevel",
+    "location",
+    "additional",
+    "jobType",
+    "questions",
   ]);
   const post = new Posts({
     title: todo.title,
-    discription: todo.discription,
+    skills: todo.skills,
+    description: todo.description,
     tags: todo.tags,
     minAmount: todo.minAmount,
     maxAmount: todo.maxAmount,
     jobDuration: todo.jobDuration,
     userId: req.user.id,
+    location: todo.location,
+    experienceLevel: todo.experienceLevel,
+    additional: todo.additional,
+    jobType: todo.jobType,
+    questions: todo.questions,
   });
 
   const response = await post.save();
@@ -76,4 +88,12 @@ route.delete("/:postId", auth, async (req, res) => {
   const result = await Posts.findByIdAndDelete(postId);
   res.status(200).send(result);
 });
+const getFormattedDate = (newDate) => {
+  const formattedDate = new Date(newDate);
+  const year = formattedDate.getFullYear();
+  const month = date.getMonth() + 1;
+  const date = date.getDate();
+
+  return `${year}-${month}-${date}`;
+};
 module.exports = route;

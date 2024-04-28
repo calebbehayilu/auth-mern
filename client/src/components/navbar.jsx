@@ -36,7 +36,7 @@ const Navbar = ({ currentUser, tab, setTab }) => {
           <div className="flex">
             <form action="" className="hidden md:flex mx-5">
               <label className="input input-bordered rounded-2xl flex justify-around mx-2 ">
-                <input type="text" className="grow" value="Search" />
+                <input type="text" className="grow" placeholder="Search" />
               </label>
               <button className="rounded-2xl btn btn-accent m-0" type="submit">
                 <BiSearch />
