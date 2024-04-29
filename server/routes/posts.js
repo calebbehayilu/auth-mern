@@ -7,6 +7,7 @@ const { User } = require("../Models/Users");
 const auth = require("../middleware/auth");
 const { _ } = require("lodash");
 const { Posts, validatePost } = require("../Models/Posts");
+const employer = require("../middleware/employer");
 
 route.use(express.json());
 
@@ -15,7 +16,7 @@ route.get("/", async (req, res) => {
 
   res.send(posts);
 });
-route.get("/:postId", auth, async (req, res) => {
+route.get("/:postId", async (req, res) => {
   const postId = req.params.postId;
 
   const post = await Posts.findById(postId).populate("userId", ["-password"]);
@@ -24,7 +25,7 @@ route.get("/:postId", auth, async (req, res) => {
   res.status(200).send(post);
 });
 
-route.post("/", auth, async (req, res) => {
+route.post("/", [auth, employer], async (req, res) => {
   const { error } = validatePost(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -65,7 +66,7 @@ route.post("/", auth, async (req, res) => {
   const response = await post.save();
   res.send(response);
 });
-route.put("/:postId", auth, async (req, res) => {
+route.put("/:postId", [auth, employer], async (req, res) => {
   const postId = req.params.postId;
 
   const post = await Posts.findByIdAndUpdate(postId, req.body);
