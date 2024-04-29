@@ -1,4 +1,3 @@
-import React from "react";
 import Sidebar from "../components/sidebar";
 import PostCard from "../components/home-page/post-card";
 import useFetch from "./../utils/useFetch";
@@ -17,13 +16,15 @@ const HomePage = () => {
           <span className="loading loading-spinner loading-lg"></span>
         )}
         {error && <Error error={error.message} />}
-        {posts && (
+        {posts ? (
           <div className="lg:col-span-6 rounded-lg">
             {posts.map((post) => (
               <PostCard post={post} key={post._id} />
             ))}
           </div>
-        )}{" "}
+        ) : (
+          <span className="text-2xl text-info">No Posts </span>
+        )}
       </div>
     </div>
   );

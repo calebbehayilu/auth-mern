@@ -1,24 +1,41 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";
 import apiClient from "../services/api-client";
+import z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Error from "../components/error";
+
+const signupSchema = z
+  .object({
+    name: z.string().min(5).max(30),
+    email: z.string().email(),
+    role: z.string({}).min(1, { message: "Role can`t be empty" }),
+    password: z.string().min(6),
+    confirm_password: z.string().min(6),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Password does not match",
+    path: ["confirm_password"],
+  });
 
 const Signup = () => {
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirm_password: "",
-  });
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ resolver: zodResolver(signupSchema) });
 
   const signUp = async (user) => {
     const post = await apiClient
       .post(`/user`, {
         name: user.name,
         email: user.email,
+        role: user.role,
         password: user.password,
       })
       .catch((err) => {
@@ -27,26 +44,16 @@ const Signup = () => {
 
     return post;
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (
-      user.name == "" ||
-      user.password == "" ||
-      user.email == "" ||
-      user.confirm_password == ""
-    )
-      return setError("Error! Inputs cant be empty.");
 
-    if (user.password !== user.confirm_password)
-      return setError("Error! Password not same.");
-
+  const onSubmit = async (data) => {
     setIsLoading(true);
+    const response = await signUp(data);
 
-    const response = await signUp(user);
     if (response.status != 200) {
       setIsLoading(false);
       return setError(response.response.data);
     }
+
     if (response.status == 200) {
       localStorage.setItem("token", response.headers["x-auth-token"]);
       setIsLoading(false);
@@ -54,80 +61,87 @@ const Signup = () => {
     }
   };
 
-  const handleChange = (e) => {
-    setError("");
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
-  };
-
   return (
     <div>
       <div className="flex flex-col justify-center items-center m-5">
         <h1 className="text-2xl m-2">Sign Up</h1>
-        <form className="flex flex-col w-96 gap-2" onSubmit={handleSubmit}>
-          {error && (
-            <div role="alert" className="alert alert-error">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>{error}</span>
-            </div>
-          )}
+        {error && <Error error={error} />}
+        <form
+          className="flex flex-col w-96 gap-2"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <label className="input input-bordered flex items-center gap-2">
             <FaUser />
             <input
+              {...register("name")}
               name="name"
-              value={user.name}
-              onChange={handleChange}
               type="text"
               className="grow"
               placeholder="Name"
             />
           </label>
+          {errors.name && (
+            <span className="text-error">{errors.name.message}</span>
+          )}
+
           <label className="input input-bordered flex items-center gap-2">
             <IoMdMail />
             <input
+              {...register("email")}
               name="email"
-              value={user.email}
-              onChange={handleChange}
               type="text"
               className="grow"
               placeholder="Email"
             />
           </label>
+          {errors.email && (
+            <span className="text-error">{errors.email.message}</span>
+          )}
+
+          <select
+            {...register("role")}
+            className="select select-bordered "
+            placeholder="Choose A Role"
+          >
+            <option disabled selected>
+              Choose A Role
+            </option>
+            <option value={"job_seeker"}>Job Seeker</option>
+            <option value={"employer"}>Employer</option>
+          </select>
+          {errors.role && (
+            <span className="text-error">{errors.role.message}</span>
+          )}
 
           <label className="input input-bordered flex items-center gap-2">
             <IoKey />
             <input
-              name="password"
-              value={user.password}
-              onChange={handleChange}
+              {...register("password")}
               type="password"
               className="grow"
               placeholder="Password"
             />
           </label>
+          {errors.password && (
+            <span className="text-error">{errors.password.message}</span>
+          )}
+
           <label className="input input-bordered flex items-center gap-2">
             <IoKey />
             <input
+              {...register("confirm_password")}
               name="confirm_password"
-              value={user.confirm_password}
-              onChange={handleChange}
               type="password"
               className="grow"
               placeholder="Confirm Password"
             />
           </label>
+          {errors.confirm_password && (
+            <span className="text-error">
+              {errors.confirm_password.message}
+            </span>
+          )}
+
           <button
             className="btn btn-primary text-white"
             type="submit"

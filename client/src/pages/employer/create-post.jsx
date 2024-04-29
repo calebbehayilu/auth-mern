@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +21,7 @@ const countries = [
 const schema = z.object({
   title: z.string().min(3),
   skills: z.string().min(3),
-  location: z.string().min(3),
+  location: z.string().min(1),
   minAmount: z.number().min(1),
   maxAmount: z.number().min(1),
   experienceLevel: z.string().min(3),

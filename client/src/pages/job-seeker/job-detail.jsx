@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "./../../utils/useFetch";
 import Error from "./../../components/error";

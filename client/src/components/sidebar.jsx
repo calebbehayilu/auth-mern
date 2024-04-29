@@ -1,4 +1,3 @@
-import React from "react";
 import FormsSideBar from "./sidebar/forms-sidebar";
 
 const Sidebar = () => {

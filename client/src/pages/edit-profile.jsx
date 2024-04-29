@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import useFetch from "../utils/useFetch";
 import { FaUser } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
@@ -9,10 +9,14 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 const EditProfile = () => {
   const { data: user } = useFetch(`/user/me`);
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState();
 
   const { register, handleSubmit, formState } = useForm();
+
   const onEdit = async (data) => {
+    if (data.name == "" && data.date == "" && data.password == "") {
+      return setMessage("No change has been made.");
+    }
     await apiClient
       .put(`/user/${user._id}`, {
         name: data.name || user.name,
@@ -21,12 +25,11 @@ const EditProfile = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          setMessage(true);
+          setMessage("Update Successful.");
         }
       });
   };
 
-  useEffect(() => {});
   return (
     <div className="">
       {user && (
@@ -35,7 +38,7 @@ const EditProfile = () => {
             {message && (
               <div role="alert" className="alert alert-success">
                 <BiCheckCircle size={22} />
-                <span>Update Successful.</span>
+                <span>{message}</span>
                 <Link to={"/home"} className="link mr-2">
                   Home
                 </Link>

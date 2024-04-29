@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../utils/useFetch";
 import Error from "../components/error";
 import { BiCalendar, BiUser } from "react-icons/bi";

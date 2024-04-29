@@ -67,10 +67,10 @@ function validatePost(posts) {
     jobDuration: Joi.string().min(1).required(),
     minAmount: Joi.number().min(1).required(),
     maxAmount: Joi.number().min(1),
-    location: Joi.string().min(5).required(),
+    location: Joi.string().min(1).required(),
     additional: Joi.string().min(5),
-    experienceLevel: Joi.string().min(5),
-    jobType: Joi.string().min(5),
+    experienceLevel: Joi.string().min(1),
+    jobType: Joi.string().min(1),
     questions: Joi.array().min(1).max(50),
   });
 

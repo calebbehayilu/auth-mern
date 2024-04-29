@@ -1,11 +1,7 @@
-import React from "react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { logout } from "../utils/auth";
 
 const Logout = () => {
-  const history = useNavigate();
-
   useEffect(() => {
     logout();
   }, []);

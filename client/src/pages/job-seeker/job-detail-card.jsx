@@ -1,4 +1,3 @@
-import React from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { CiTimer } from "react-icons/ci";
 import { MdAttachMoney } from "react-icons/md";

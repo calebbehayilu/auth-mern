@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import userService from "../services/user-service";
 import getAvatar from "../utils/create-avatar";
 import ImgPreview from "./img-preview";
 const Navbar = ({ currentUser, tab, setTab }) => {
+  const location = useLocation();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -13,7 +14,7 @@ const Navbar = ({ currentUser, tab, setTab }) => {
       .getUser()
       .then((res) => setUser(res.data))
       .finally(setIsLoading(false));
-  }, []);
+  }, [location.pathname]);
 
   return (
     <div className="navbar bg-base-200 p-5 mb-4">

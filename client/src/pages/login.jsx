@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../utils/auth";
 import Error from "../components/error";
@@ -7,41 +7,35 @@ import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";
 import GoogleSignup from "../components/google-signup";
 import { setUserInfo } from "../redux/userSlice";
+import z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const loginSchema = z.object({
+  email: z.string({ required_error: "Email can`t be empty" }).email(),
+  password: z.string({ required_error: "Password can`t be empty" }).min(6),
+});
 
 const Login = ({ currentUser }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const [error, setError] = useState({
-    caught: false,
-    cause: "",
-  });
-
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ resolver: zodResolver(loginSchema) });
+  const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    if (user.password == "" || user.email == "")
-      return setError((prev) => ({
-        caught: true,
-        cause: "Can`t leave the text filed empty!",
-      }));
-
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
-    const res = await login(user);
+    const res = await login(data);
     setIsLoading(false);
 
     console.log(res);
     if (res.status !== 200) {
-      return setError({
-        caught: true,
-        cause: res.response.data,
-      });
+      return setError(res.response.data);
     }
 
     if (res.status === 200) {
@@ -51,12 +45,6 @@ const Login = ({ currentUser }) => {
     }
   };
 
-  const handleChange = (e) => {
-    setError(false);
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
-  };
-
   if (currentUser) return <Navigate to="/home" />;
 
   return (
@@ -64,32 +52,36 @@ const Login = ({ currentUser }) => {
       <div className="min-w-fit">
         <h1 className="text-2xl m-2 text-center">Login</h1>
 
-        <form className="flex flex-col w-96 gap-2 pb-2" onSubmit={handleSubmit}>
-          {error.caught && <Error error={error.cause} />}
+        <form
+          className="flex flex-col w-96 gap-2 pb-2"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {error && <Error error={error} />}
 
           <label className="input input-bordered flex items-center gap-2">
             <IoMdMail />
             <input
-              name="email"
-              value={user.email}
-              onChange={handleChange}
+              {...register("email")}
               type="text"
               className="grow"
               placeholder="Email"
             />
           </label>
-
+          {errors.email && (
+            <span className="text-error">{errors.email.message}</span>
+          )}
           <label className="input input-bordered flex items-center gap-2">
             <IoKey />
             <input
-              name="password"
-              value={user.password}
-              onChange={handleChange}
+              {...register("password")}
               type="password"
               className="grow"
               placeholder="Password"
             />
           </label>
+          {errors.password && (
+            <span className="text-error">{errors.password.message}</span>
+          )}
 
           <button
             className="btn btn-primary text-white btn-outline"

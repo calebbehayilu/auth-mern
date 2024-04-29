@@ -1,5 +1,3 @@
-import React from "react";
-
 const WelcomePage = () => {
   return (
     <div className="p-20 hero placeholder: flex flex-col items-center justify-center ">
