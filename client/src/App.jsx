@@ -31,6 +31,7 @@ function App() {
         <Route element={<PrivateRoutes check={currentUser} />}>
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route
             path="/create-post"

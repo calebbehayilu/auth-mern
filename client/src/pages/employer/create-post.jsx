@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Inputs from "../../components/input";
 import { BiTrash } from "react-icons/bi";
 import apiClient from "../../services/api-client";
+import { useNavigate } from "react-router-dom";
+import Error from "./../../components/error";
 const countries = [
   "Afar",
   "Amhara",
@@ -26,8 +28,11 @@ const schema = z.object({
   description: z.string().min(3),
   jobType: z.string().min(3),
   additional: z.string().min(3),
-  jobDuration: z.string().min(3),
-  questions: z.string().min(3),
+  jobDuration: z.string().min(1),
+  questions: z.string({
+    invalid_type_error: "You Have to add the question ",
+    required_error: "required field",
+  }),
 });
 const CreatePost = () => {
   const {
@@ -36,7 +41,11 @@ const CreatePost = () => {
     formState: { errors },
     getValues,
   } = useForm({ resolver: zodResolver(schema) });
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const [questions, setQuestion] = useState([]);
+  const navigate = useNavigate();
 
   const handleRemove = (index) => {
     const newArray = questions.filter((q, i) => i !== index);
@@ -54,22 +63,35 @@ const CreatePost = () => {
     return newArray;
   };
   const onSubmit = async (data) => {
+    setIsLoading(true);
+    if (getValues("questions") !== "") {
+      setQuestion((prevArray) => [...prevArray, getValues("questions")]);
+    }
+
     const post = {
       ...data,
       skills: getSkills(data.skills),
       questions,
     };
-    await apiClient
+
+    const res = await apiClient
       .post("/posts", {
         ...post,
         tags: ["new ", "not so new", "old"],
       })
-      .then((res) => console.log(res));
+      .then((res) => {
+        navigate("/home");
+      })
+      .catch((res) => {
+        setIsLoading(false);
+        setError(res.response.data);
+      });
   };
   return (
     <div className="flex flex-col justify-center items-center mb-3">
       <div className=" mx-5 md:w-8/12 lg:w-6/12">
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        {error && <Error error={error} />}
+        <form action="" className="mt-3" onSubmit={handleSubmit(onSubmit)}>
           <div className="collapse collapse-arrow bg-base-200 mb-5">
             <input type="radio" name="my-accordion-2" defaultChecked />
             <div className="collapse-title text-xl font-medium">Post</div>
@@ -210,7 +232,11 @@ const CreatePost = () => {
                   placeholder="What is your last job?"
                   className="input input-bordered w-full "
                 />
+                {errors.questions && (
+                  <span className="text-error">{errors.questions.message}</span>
+                )}
               </div>
+
               <span
                 className="badge badge-secondary cursor-pointer hover:badge-secondary"
                 onClick={() => handleAddQuestion()}
@@ -238,8 +264,17 @@ const CreatePost = () => {
               )}
             </div>
           </div>
-          <button type="submit" className="btn btn-primary w-full">
-            Post
+
+          <button
+            disabled={isLoading}
+            type="submit"
+            className="btn btn-primary w-full"
+          >
+            {isLoading ? (
+              <span className="loading loading-spinner loading-sm"></span>
+            ) : (
+              <h1>Post</h1>
+            )}
           </button>
         </form>
       </div>

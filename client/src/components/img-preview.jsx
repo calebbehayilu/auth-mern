@@ -10,7 +10,7 @@ const ImgPreview = ({ user, size }) => {
         <>
           {user?.photoURL ? (
             <div className={imgSize(size)}>
-              <img src={user.photoURL} />
+              <img src={user.photoURL} className="rounded-full" />
             </div>
           ) : (
             <div className="avatar placeholder">

@@ -2,7 +2,7 @@ const express = require("express");
 const route = express();
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
-const { _ } = require("lodash");
+const _ = require("lodash");
 const { User } = require("./../Models/Users");
 const { generateToken } = require("./user");
 
@@ -14,13 +14,15 @@ route.post("/", async (req, res) => {
   const { error } = validate(body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const user = await User.findOne({ email: body.email });
+  let user = await User.findOne({ email: body.email });
   if (!user) return res.status(404).send("Incorrect Email or Password");
 
   const password = await bcrypt.compare(body.password, user.password);
   if (!password) return res.status(404).send("Incorrect Email or Password");
 
   const token = await generateToken(user);
+
+  console.log(_.omit(user, ["password", "name"]));
   res
     .status(200)
     .header("x-auth-token", token)

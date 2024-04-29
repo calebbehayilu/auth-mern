@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "./../../utils/useFetch";
 import Error from "./../../components/error";
-import PostCard from "./../../components/home-page/post-card";
+import JobDetailCard from "./job-detail-card";
 
 const JobDetail = () => {
   const { postId } = useParams();
@@ -16,7 +16,7 @@ const JobDetail = () => {
       )}
       {post && (
         <div className="m-5">
-          <PostCard post={post} />
+          <JobDetailCard post={post} />
         </div>
       )}
     </div>

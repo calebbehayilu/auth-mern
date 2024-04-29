@@ -24,27 +24,27 @@ const PostCard = ({ post }) => {
         <div>
           <h1 className="text-xl font-semibold">{post.title}</h1>
         </div>
-        <div className="flex gap-4 m-2">
-          <span className="flex items-center gap-1">
-            <CiLocationOn />
+        <div className="md:flex gap-4 m-2">
+          <span className="flex items-center gap-1 my-2">
+            <CiLocationOn size={25} />
             {post.location}
           </span>
-          <span className="flex items-center gap-1">
-            <CiTimer />
+          <span className="flex items-center gap-1 my-2">
+            <CiTimer size={25} />
             {post.jobDuration}
           </span>
-          <span className="flex items-center gap-1">
-            <MdAttachMoney />
+          <span className="flex items-center gap-1 my-2">
+            <MdAttachMoney size={25} />
             {post.minAmount} - {post.maxAmount}
           </span>
-          <span className="flex items-center gap-1">
-            <CiCalendarDate />
+          <span className="flex items-center gap-1 my-2">
+            <CiCalendarDate size={25} />
             {getFormattedDate(post.postDate)}
           </span>
         </div>
         <span className="flex gap-3 mx-3">
           {post.tags.map((tag) => (
-            <div className="badge badge-neutral" key={tag}>
+            <div className="badge badge-neutral badge-md" key={tag}>
               {tag}
             </div>
           ))}

@@ -17,8 +17,17 @@ route.get("/all", async (req, res) => {
 
 route.get("/me", auth, async (req, res) => {
   const data = req.user;
-
   const user = await User.findOne({ _id: data.id }).select("-password");
+  res.send(user);
+});
+
+route.get("/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  const user = await User.findOne({ _id: userId }).select("-password");
+
+  if (!user) return res.status(404).send("User not found");
+
   res.send(user);
 });
 
@@ -45,6 +54,7 @@ route.post("/signUp-with-google", async (req, res) => {
     .header("access-control-expose-headers", "x-auth-token")
     .send(user);
 });
+
 route.post("/", async (req, res) => {
   const body = await req.body;
 
@@ -85,7 +95,6 @@ route.delete("/:userId", async (req, res) => {
   const userId = req.params.userId;
 
   const user = await User.findByIdAndDelete(userId);
-
   if (!user) return res.status(404).send("user not found");
 
   res.status(200).send(true);
@@ -98,6 +107,7 @@ async function generateToken(user) {
   );
   return token;
 }
+
 function validate(body) {
   const schema = Joi.object({
     name: Joi.string().min(3).max(30).required(),

@@ -11,7 +11,7 @@ const EditProfile = () => {
   const { data: user } = useFetch(`/user/me`);
   const [message, setMessage] = useState(false);
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState } = useForm();
   const onEdit = async (data) => {
     await apiClient
       .put(`/user/${user._id}`, {
@@ -60,11 +60,11 @@ const EditProfile = () => {
                   placeholder={user.name}
                 />
               </label>
-              <label className="input input-bordered flex items-center gap-2  mb-3">
+              <label className="input input-bordered flex items-center gap-2  mb-3 cursor-not-allowed">
                 <IoMdMail />
                 <input
                   type="email"
-                  className="grow"
+                  className="grow cursor-not-allowed"
                   placeholder={user.email}
                   disabled
                 />
@@ -81,6 +81,11 @@ const EditProfile = () => {
               <label className="input input-bordered flex items-center gap-2 mb-3">
                 <input {...register("date")} type="date" className="grow" />
               </label>
+              {formState.errors.date && (
+                <span className="text-error">
+                  {formState.errors.date.message}
+                </span>
+              )}
               <button type="submit" className="btn btn-neutral w-full">
                 Edit
               </button>

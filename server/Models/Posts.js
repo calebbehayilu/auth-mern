@@ -63,15 +63,15 @@ function validatePost(posts) {
     title: Joi.string().min(1).max(50).required(),
     skills: Joi.array().min(1).max(50).required(),
     description: Joi.string().min(10).required(),
-    tags: Joi.array().min(1).max(5).required(),
-    jobDuration: Joi.string().min(1).max(15).required(),
+    tags: Joi.array().min(1).required(),
+    jobDuration: Joi.string().min(1).required(),
     minAmount: Joi.number().min(1).required(),
     maxAmount: Joi.number().min(1),
     location: Joi.string().min(5).required(),
     additional: Joi.string().min(5),
     experienceLevel: Joi.string().min(5),
     jobType: Joi.string().min(5),
-    questions: Joi.array().min(1).max(50).required(),
+    questions: Joi.array().min(1).max(50),
   });
 
   return schema.validate(posts);

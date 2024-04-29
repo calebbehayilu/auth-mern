@@ -3,13 +3,17 @@ import useFetch from "../utils/useFetch";
 import Error from "../components/error";
 import { BiCalendar, BiUser } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
-import apiClient from "../services/api-client";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import getAvatar from "./../utils/create-avatar";
+import apiClient from "../services/api-client";
+import { getCurrentUser } from "./../utils/auth";
 
 const Profile = () => {
+  const currentUser = getCurrentUser();
   const navigate = useNavigate();
-  const { error, isPending, data: user } = useFetch(`/user/me`);
+  const { userId } = useParams();
+
+  const { error, isPending, data: user } = useFetch(`/user/${userId}`);
   const [confirm, setConfirm] = useState(false);
 
   const AccountDelete = async () => {
@@ -58,14 +62,16 @@ const Profile = () => {
                 text={"20-04-2004"}
               />
             </div>
-            <div className="flex justify-between mt-5">
-              <Link to={"/edit-profile"} className="btn btn-neutral ">
-                Edit
-              </Link>
-              <button className="btn btn-error" onClick={() => onDelete()}>
-                Delete Account
-              </button>
-            </div>
+            {currentUser.id == user._id && (
+              <div className="flex justify-between mt-5">
+                <Link to={"/edit-profile"} className="btn btn-neutral ">
+                  Edit
+                </Link>
+                <button className="btn btn-error" onClick={() => onDelete()}>
+                  Delete Account
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
