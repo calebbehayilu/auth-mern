@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ["admin", "employer", "job_seeker"],
   },
-  birthDate: {
+  birthdate: {
     type: Date,
   },
 });

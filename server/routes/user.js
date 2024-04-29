@@ -25,7 +25,6 @@ route.get("/:userId", async (req, res) => {
   const userId = req.params.userId;
 
   const user = await User.findOne({ _id: userId }).select("-password");
-
   if (!user) return res.status(404).send("User not found");
 
   res.send(user);
@@ -71,6 +70,7 @@ route.post("/", async (req, res) => {
 
   await user.save();
   const token = await generateToken(user);
+
   res
     .header("x-auth-token", token)
     .header("access-control-expose-headers", "x-auth-token")
@@ -102,7 +102,7 @@ route.delete("/:userId", async (req, res) => {
 
 async function generateToken(user) {
   const token = jwt.sign(
-    { id: user._id, user: user.name },
+    { id: user._id, user: user.name, role: user.role },
     process.env.JWT_KEY
   );
   return token;
@@ -116,6 +116,8 @@ function validate(body) {
       .min(6)
       .max(30),
     password: Joi.string().min(6).max(30).required(),
+    role: Joi.string().valid("admin", "employer", "job_seeker").required(),
+    birthdate: Joi.date().less(Date.now()),
     uid: Joi.string().min(3),
   });
 
