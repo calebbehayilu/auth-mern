@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-// Define Mongoose schema
 const jobSeekerSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -16,9 +15,6 @@ const jobSeekerSchema = new mongoose.Schema({
   education: { type: String },
 });
 
-// Define JOI schema for validation
-
-// Function to validate data using JOI schema
 function validateJobSeeker(jobSeeker) {
   const jobSeekerValidationSchema = Joi.object({
     resumeData: Joi.string().required(),

@@ -43,5 +43,4 @@ function validateUser(user) {
 }
 const User = mongoose.model("users", UserSchema);
 
-exports.User = User;
-module.exports.validateUser = validateUser;
+module.exports = { User, validateUser };

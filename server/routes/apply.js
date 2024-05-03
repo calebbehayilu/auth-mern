@@ -20,10 +20,20 @@ route.post("/:postId", [auth, jobSeeker], async (req, res) => {
 
   const post = await Posts.findById(postId);
   if (!post) return res.status(404).send("Post not found");
+  if (post.questions.length !== Object.keys(req.body.answers).length) {
+    return res
+      .status(404)
+      .send("Number of questions and answers must be equal");
+  }
+  let answers = post.questions.map((question, i) => ({
+    question: question,
+    answer: req.body.answers[i],
+  }));
 
   const apply = new JobApplier({
     userId: req.user.id,
     postId: postId,
+    answers: answers,
   });
 
   const result = await apply.save();

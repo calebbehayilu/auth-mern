@@ -25,5 +25,4 @@ function validateEmployer(employer) {
   return schema.validate(employer);
 }
 
-exports.Employer = Employer;
-exports.validateEmployer = validateEmployer;
+module.exports = { Employer, validateEmployer };

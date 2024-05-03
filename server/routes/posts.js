@@ -1,8 +1,5 @@
-const jwt = require("jsonwebtoken");
 const express = require("express");
 const route = express();
-const bcrypt = require("bcrypt");
-const Joi = require("joi");
 const { User } = require("../Models/Users");
 const auth = require("../middleware/auth");
 const { _ } = require("lodash");
@@ -39,7 +36,6 @@ route.post("/", [auth, employer], async (req, res) => {
     "tags",
     "minAmount",
     "maxAmount",
-    "jobDuration",
     "userId",
     "experienceLevel",
     "location",
@@ -54,7 +50,6 @@ route.post("/", [auth, employer], async (req, res) => {
     tags: todo.tags,
     minAmount: todo.minAmount,
     maxAmount: todo.maxAmount,
-    jobDuration: todo.jobDuration,
     userId: req.user.id,
     location: todo.location,
     experienceLevel: todo.experienceLevel,

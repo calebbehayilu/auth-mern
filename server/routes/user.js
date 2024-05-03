@@ -108,7 +108,7 @@ async function CreateUserByRole(user_res) {
     case "employer":
       newUser = new Employer({
         userId: user_res._id,
-      })();
+      });
       break;
     case "job_seeker":
       newUser = new JobSeeker({
