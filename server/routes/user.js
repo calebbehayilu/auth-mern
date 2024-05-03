@@ -2,10 +2,12 @@ const jwt = require("jsonwebtoken");
 const express = require("express");
 const route = express();
 const bcrypt = require("bcrypt");
-const Joi = require("joi");
 const { User } = require("./../Models/Users");
 const auth = require("../middleware/auth");
-
+const { validateUser } = require("../Models/Users");
+const { Employer } = require("../Models/Employer");
+const { JobSeeker } = require("../Models/JobSeeker");
+const { Admin } = require("../Models/Admin");
 route.use(express.json());
 
 route.get("/all", async (req, res) => {
@@ -32,7 +34,6 @@ route.get("/:userId", async (req, res) => {
 
 route.post("/signUp-with-google", async (req, res) => {
   const body = await req.body;
-
   let user = await User.findOne({ email: body.email, uid: body.uid });
   if (!user) {
     user = User(body);
@@ -57,7 +58,7 @@ route.post("/signUp-with-google", async (req, res) => {
 route.post("/", async (req, res) => {
   const body = await req.body;
 
-  const { error } = validate(body);
+  const { error } = validateUser(body);
   if (error) return res.status(400).send(error.details[0].message);
 
   let user = await User.findOne({ email: body.email });
@@ -68,7 +69,8 @@ route.post("/", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
 
-  await user.save();
+  const user_res = await user.save();
+  await CreateUserByRole(user_res);
   const token = await generateToken(user);
 
   res
@@ -100,28 +102,40 @@ route.delete("/:userId", async (req, res) => {
   res.status(200).send(true);
 });
 
+async function CreateUserByRole(user_res) {
+  let newUser;
+  switch (user_res.role) {
+    case "employer":
+      newUser = new Employer({
+        userId: user_res._id,
+      })();
+      break;
+    case "job_seeker":
+      newUser = new JobSeeker({
+        userId: user_res._id,
+      });
+      break;
+    case "admin":
+      newUser = new Admin({
+        userId: user_res._id,
+      });
+      break;
+
+    default:
+      throw new Error("Invalid role input");
+  }
+
+  const result = await newUser.save();
+
+  return result;
+}
+
 async function generateToken(user) {
   const token = jwt.sign(
     { id: user._id, user: user.name, role: user.role },
     process.env.JWT_KEY
   );
   return token;
-}
-
-function validate(body) {
-  const schema = Joi.object({
-    name: Joi.string().min(3).max(30).required(),
-    email: Joi.string()
-      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-      .min(6)
-      .max(30),
-    password: Joi.string().min(6).max(30).required(),
-    role: Joi.string().valid("admin", "employer", "job_seeker").required(),
-    birthdate: Joi.date().less(Date.now()),
-    uid: Joi.string().min(3),
-  });
-
-  return schema.validate(body);
 }
 
 module.exports = route;
