@@ -31,7 +31,7 @@ const PostCard = ({ post }) => {
           </span>
           <span className="flex items-center gap-1 my-2">
             <CiTimer size={25} />
-            {post.jobDuration}
+            {post.jobType}
           </span>
           <span className="flex items-center gap-1 my-2">
             <MdAttachMoney size={25} />

@@ -8,6 +8,7 @@ import apiClient from "../../services/api-client";
 import { useNavigate } from "react-router-dom";
 import Error from "./../../components/error";
 const countries = [
+  "All",
   "Afar",
   "Amhara",
   "Benishangul",
@@ -17,6 +18,19 @@ const countries = [
   "Somali",
   "Tigray",
   "SNNPR",
+];
+const jobType = [
+  "Permanent/Full-time",
+  "Temporary",
+  "Contract",
+  "Part-time",
+  "Internship",
+  "Freelance",
+  "Consulting",
+  "Probationary",
+  "Seasonal",
+  "On-call",
+  "Other",
 ];
 const schema = z.object({
   title: z.string().min(3),
@@ -28,7 +42,6 @@ const schema = z.object({
   description: z.string().min(3),
   jobType: z.string().min(3),
   additional: z.string().min(3),
-  jobDuration: z.string().min(1),
   questions: z.string({
     invalid_type_error: "You Have to add the question ",
     required_error: "required field",
@@ -53,6 +66,10 @@ const CreatePost = () => {
     setQuestion(newArray);
   };
   const handleAddQuestion = () => {
+    if (getValues("questions") == "") {
+      return setError("Can`t add empty question");
+    }
+    setError("");
     setQuestion((prevArray) => [...prevArray, getValues("questions")]);
   };
 
@@ -64,6 +81,7 @@ const CreatePost = () => {
   };
   const onSubmit = async (data) => {
     setIsLoading(true);
+
     if (getValues("questions") !== "") {
       setQuestion((prevArray) => [...prevArray, getValues("questions")]);
     }
@@ -143,7 +161,7 @@ const CreatePost = () => {
                 <label htmlFor="" className="m-2 my-4 text-lg py-3">
                   Budget
                 </label>
-                <div className="flex mx-4 w-6/12">
+                <div className="md:flex mx-4 w-6/12">
                   <Inputs
                     type="number"
                     title="Min"
@@ -172,22 +190,25 @@ const CreatePost = () => {
             <input type="radio" name="my-accordion-2" />
             <div className="collapse-title text-xl font-medium">Job Detail</div>
             <div className="collapse-content">
-              <Inputs
-                type="text"
-                title="Job Type"
-                register={register}
-                name="jobType"
-                placeholder="Remote"
-                error={errors.jobType}
-              />
-              <Inputs
-                type="text"
-                title="Job Duration"
-                register={register}
-                name="jobDuration"
-                placeholder="Month"
-                error={errors.jobDuration}
-              />
+              <div className="my-3">
+                <label htmlFor="" className="m-2 my-4 text-lg py-3">
+                  Job Type
+                </label>
+                <select
+                  {...register("jobType")}
+                  className="select select-bordered w-full"
+                >
+                  <option disabled defaultValue>
+                    Pick A Job Type
+                  </option>
+                  {jobType.map((jobtype) => (
+                    <option value={jobtype} key={jobtype}>
+                      {jobtype}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <Inputs
                 type="text"
                 title="Additional"
