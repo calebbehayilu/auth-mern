@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Route, Routes, Router, RouterProvider } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar";
 import PrivateRoutes from "./routes/protectedRoute";
 import Login from "./pages/login";
@@ -21,15 +21,7 @@ import Forbidden from "./routes/forbidden";
 import EmployerRoutes from "./routes/protectedEmployer";
 import ApplyPage from "./pages/job-seeker/apply-page";
 import AppliedJobList from "./pages/job-seeker/applied-job-lists";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import router from "./routes/routes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 function App() {
@@ -43,7 +35,6 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={true} />
         <Navbar currentUser={currentUser} {...tab} setTab={setIsOpen} />
         <Drawer isOpen={isOpen} setIsOpen={setIsOpen} />
         <Routes>
