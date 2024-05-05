@@ -9,8 +9,11 @@ import { useForm } from "react-hook-form";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import Error from "./../../components/error";
+import { getCurrentUser } from "../../utils/auth";
 
 const JobDetailCard = ({ post }) => {
+  const user = getCurrentUser();
+
   const {
     register,
     handleSubmit,
@@ -74,49 +77,51 @@ const JobDetailCard = ({ post }) => {
           <p className="w-full">{post.description}</p>
         </div>
 
-        <div>
-          <label htmlFor="" className="text-xl font-normal my-5">
-            Questions
-          </label>
-          <form
-            action=""
-            className="flex flex-col my-3"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            {post.questions &&
-              post.questions.map((question, i) => (
-                <div key={i} className="flex flex-col mb-3">
-                  <label className="my-3">
-                    {i + 1}. {question}
-                  </label>
-                  <input
-                    {...register(`answers[${i}]`, {
-                      required: "This is required.",
-                    })}
-                    className="input input-bordered"
-                    type="text"
-                  />
-                  {errors && errors.answers && errors.answers[i] && (
-                    <span className="text-error">
-                      {errors.answers[i].message}
-                    </span>
-                  )}
-                </div>
-              ))}
-
-            <button
-              disabled={isLoading}
-              type="submit"
-              className="btn btn-primary w-full"
+        {user.role === "job_seeker" && (
+          <div>
+            <label htmlFor="" className="text-xl font-normal my-5">
+              Questions
+            </label>
+            <form
+              action=""
+              className="flex flex-col my-3"
+              onSubmit={handleSubmit(onSubmit)}
             >
-              {isLoading ? (
-                <span className="loading loading-spinner loading-sm"></span>
-              ) : (
-                <h1>Apply</h1>
-              )}
-            </button>
-          </form>
-        </div>
+              {post.questions &&
+                post.questions.map((question, i) => (
+                  <div key={i} className="flex flex-col mb-3">
+                    <label className="my-3">
+                      {i + 1}. {question}
+                    </label>
+                    <input
+                      {...register(`answers[${i}]`, {
+                        required: "This is required.",
+                      })}
+                      className="input input-bordered"
+                      type="text"
+                    />
+                    {errors && errors.answers && errors.answers[i] && (
+                      <span className="text-error">
+                        {errors.answers[i].message}
+                      </span>
+                    )}
+                  </div>
+                ))}
+
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="btn btn-primary w-full"
+              >
+                {isLoading ? (
+                  <span className="loading loading-spinner loading-sm"></span>
+                ) : (
+                  <h1>Apply</h1>
+                )}
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

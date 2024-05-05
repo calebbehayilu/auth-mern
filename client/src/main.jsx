@@ -9,13 +9,18 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import store from "./redux/store.js";
+import router from "./routes/routes.jsx";
+import Providers from "./utils/providers.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <Providers>
+        <RouterProvider router={router} />
+        {/* <BrowserRouter>
         <App />
-      </BrowserRouter>
+      </BrowserRouter> */}
+      </Providers>
     </Provider>
   </React.StrictMode>
 );

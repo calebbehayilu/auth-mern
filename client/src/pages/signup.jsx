@@ -7,6 +7,8 @@ import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Error from "../components/error";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../redux/userSlice";
 
 const signupSchema = z
   .object({
@@ -22,6 +24,7 @@ const signupSchema = z
   });
 
 const Signup = () => {
+  const dispatch = useDispatch();
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -55,6 +58,7 @@ const Signup = () => {
     }
 
     if (response.status == 200) {
+      dispatch(setUserInfo(response.data));
       localStorage.setItem("token", response.headers["x-auth-token"]);
       setIsLoading(false);
       window.location = "/home";

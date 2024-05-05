@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { getCurrentUser } from "../utils/auth";
 
-const EmployerRoutes = () => {
+const JobSeekerRoutes = () => {
   const auth = getCurrentUser();
 
   if (auth.role !== "job_seeker") {
@@ -11,4 +11,4 @@ const EmployerRoutes = () => {
   return <Outlet />;
 };
 
-export default EmployerRoutes;
+export default JobSeekerRoutes;
