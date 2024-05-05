@@ -3,7 +3,6 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import userService from "../services/user-service";
 import getAvatar from "../utils/create-avatar";
-import ImgPreview from "./img-preview";
 const Navbar = ({ currentUser, tab, setTab }) => {
   const location = useLocation();
   const [user, setUser] = useState(null);
@@ -76,9 +75,16 @@ const Navbar = ({ currentUser, tab, setTab }) => {
                     <span className="badge">New</span>
                   </Link>
                 </li>
-                <li>
-                  <Link to={"/create-post"}>Create Post</Link>
-                </li>
+                {user.role === "job_seeker" && (
+                  <li>
+                    <Link to={"/applied-jobs"}>Applied Jobs</Link>
+                  </li>
+                )}
+                {user.role === "employer" && (
+                  <li>
+                    <Link to={"/create-post"}>Create Post</Link>
+                  </li>
+                )}
                 <li>
                   <Link to={"/logout"}>Logout</Link>
                 </li>

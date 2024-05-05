@@ -84,12 +84,5 @@ route.delete("/:postId", auth, async (req, res) => {
   const result = await Posts.findByIdAndDelete(postId);
   res.status(200).send(result);
 });
-const getFormattedDate = (newDate) => {
-  const formattedDate = new Date(newDate);
-  const year = formattedDate.getFullYear();
-  const month = date.getMonth() + 1;
-  const date = date.getDate();
 
-  return `${year}-${month}-${date}`;
-};
 module.exports = route;

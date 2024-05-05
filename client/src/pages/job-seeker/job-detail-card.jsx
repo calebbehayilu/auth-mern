@@ -22,7 +22,6 @@ const JobDetailCard = ({ post }) => {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-
     await apiClient
       .post(`/apply/${post._id}`, {
         answers: [...data.answers],
@@ -87,9 +86,9 @@ const JobDetailCard = ({ post }) => {
             {post.questions &&
               post.questions.map((question, i) => (
                 <div key={i} className="flex flex-col mb-3">
-                  <lable className="my-3">
+                  <label className="my-3">
                     {i + 1}. {question}
-                  </lable>
+                  </label>
                   <input
                     {...register(`answers[${i}]`, {
                       required: "This is required.",

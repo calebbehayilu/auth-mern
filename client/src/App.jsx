@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Route, Routes, Router } from "react-router-dom";
+import { Route, Routes, Router, RouterProvider } from "react-router-dom";
 import Navbar from "./components/navbar";
 import PrivateRoutes from "./routes/protectedRoute";
 import Login from "./pages/login";
@@ -20,7 +20,18 @@ import AdminDashboard from "./pages/admin/admin-dashboard";
 import Forbidden from "./routes/forbidden";
 import EmployerRoutes from "./routes/protectedEmployer";
 import ApplyPage from "./pages/job-seeker/apply-page";
+import AppliedJobList from "./pages/job-seeker/applied-job-lists";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import router from "./routes/routes";
 
+const queryClient = new QueryClient();
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [tab, setTab] = useState(false);
@@ -31,39 +42,43 @@ function App() {
   }, []);
   return (
     <>
-      <Navbar currentUser={currentUser} {...tab} setTab={setIsOpen} />
-      <Drawer isOpen={isOpen} setIsOpen={setIsOpen} />
-      <Routes>
-        <Route element={<PrivateRoutes check={currentUser} />}>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:userId" element={<Profile />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
-          <Route path="/jobdetail/:postId" element={<JobDetail />} />
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={true} />
+        <Navbar currentUser={currentUser} {...tab} setTab={setIsOpen} />
+        <Drawer isOpen={isOpen} setIsOpen={setIsOpen} />
+        <Routes>
+          <Route element={<PrivateRoutes check={currentUser} />}>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:userId" element={<Profile />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/jobdetail/:postId" element={<JobDetail />} />
 
-          <Route element={<AdminRoutes />}>
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route element={<AdminRoutes />}>
+              <Route path="/admin" element={<AdminDashboard />} />
+            </Route>
+
+            <Route element={<EmployerRoutes />}>
+              <Route
+                path="/create-post"
+                element={<CreatePost currentUser={currentUser} />}
+              />
+            </Route>
+
+            <Route element={<JobSeekerRoutes />}>
+              <Route path="/apply-job/:postId" element={<ApplyPage />} />
+              <Route path="/applied-jobs" element={<AppliedJobList />} />
+            </Route>
           </Route>
 
-          <Route element={<EmployerRoutes />}>
-            <Route
-              path="/create-post"
-              element={<CreatePost currentUser={currentUser} />}
-            />
-          </Route>
-
-          <Route element={<JobSeekerRoutes />}>
-            <Route path="/apply-job/:postId" element={<ApplyPage />} />
-          </Route>
-        </Route>
-
-        <Route path="/login" element={<Login currentUser={currentUser} />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/forbidden" element={<Forbidden />} />
-        <Route path="/" element={<WelcomePage />} exact />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="/login" element={<Login currentUser={currentUser} />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forbidden" element={<Forbidden />} />
+          <Route path="/" element={<WelcomePage />} exact />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </QueryClientProvider>
     </>
   );
 }

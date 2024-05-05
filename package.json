@@ -13,6 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tanstack/react-query": "^5.34.2",
+    "@tanstack/react-query-devtools": "^5.34.2",
     "nodemon": "^3.1.0"
   }
 }
