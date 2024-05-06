@@ -10,7 +10,16 @@ const { Employer } = require("../Models/Employer");
 route.use(express.json());
 
 route.get("/", async (req, res) => {
-  let posts = await Posts.find().populate("userId", ["-password"]);
+  // /?page=1&pageSize=10
+  const page = req.query.page || 1;
+  const pageSize = 10;
+
+  console.log(page, pageSize);
+
+  let posts = await Posts.find()
+    .populate("userId", ["-password"])
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
 
   res.send(posts);
 });

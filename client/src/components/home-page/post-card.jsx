@@ -42,8 +42,8 @@ const PostCard = ({ post }) => {
           </span>
         </div>
         <span className="flex gap-3 mx-3">
-          {post.tags.map((tag) => (
-            <div className="badge badge-neutral badge-md" key={tag}>
+          {post.tags.map((tag, i) => (
+            <div className="badge badge-neutral badge-md" key={i}>
               {tag}
             </div>
           ))}

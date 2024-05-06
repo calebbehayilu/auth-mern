@@ -1,16 +1,22 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "../services/api-client";
 
-const usePosts = () => {
-  const retrievePosts = async () => {
-    const response = await apiClient.get(`/posts`);
-    return response.data;
-  };
-
+const usePosts = (page, pageSize) => {
+  let query = { page, pageSize };
   return useQuery({
-    queryKey: ["posts"],
-    queryFn: retrievePosts,
+    queryKey: ["posts", query],
+    queryFn: () =>
+      apiClient
+        .get(`/posts`, {
+          params: {
+            page: query.page,
+          },
+        })
+        .then((res) => {
+          return res.data;
+        }),
     staleTime: 1 * 60 * 1000,
+    placeholderData: keepPreviousData,
   });
 };
 
