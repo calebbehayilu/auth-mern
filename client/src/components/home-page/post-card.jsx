@@ -1,4 +1,3 @@
-import React from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { CiTimer } from "react-icons/ci";
 import { MdAttachMoney } from "react-icons/md";
@@ -16,7 +15,7 @@ const PostCard = ({ post }) => {
     return `${year}-${month}-${date}`;
   };
   return (
-    <div className="card card-bordered bg-base-100 mb-2 mx-3 lg:mx-0 lg:w-full">
+    <div className="card card-bordered bg-base-100 mb-2 mx-3 lg:mx-0 ">
       <div className="card-body">
         <Link to={`/profile/${post.userId._id}`}>
           <ProfileCard user={post.userId} />

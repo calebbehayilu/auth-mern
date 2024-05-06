@@ -8,25 +8,29 @@ const HomePage = () => {
 
   return (
     <div className="mx-auto">
-      <div className="lg:grid grid-cols-12 gap-3 flex flex-col justify-center items-center">
+      <div className="lg:grid grid-cols-12 gap-3 flex  ">
         <div className="lg:col-span-3 px-3">
           <Sidebar />
         </div>
-        {isLoading && (
-          <span className="loading loading-spinner loading-lg"></span>
-        )}
-        {error && (
-          <div className="mx-10">
-            <Error error={error.message} />
-          </div>
-        )}
-        {posts && (
-          <div className="lg:col-span-6 rounded-lg">
-            {posts.map((post) => (
-              <PostCard post={post} key={post._id} />
-            ))}
-          </div>
-        )}
+        <div className="lg:col-span-6">
+          {isLoading && (
+            <div className="flex flex-col justify-center items-center">
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
+          )}
+          {error && (
+            <div className="mx-10 my-5">
+              <Error error={error.message} />
+            </div>
+          )}
+          {posts && (
+            <div className=" rounded-lg ">
+              {posts.map((post) => (
+                <PostCard post={post} key={post._id} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -10,16 +10,14 @@ const EmployerSchema = new mongoose.Schema({
   companyName: {
     type: String,
   },
-  posts: {
-    type: Array,
-  },
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Posts" }],
 });
 
 const Employer = mongoose.model("Employer", EmployerSchema);
 function validateEmployer(employer) {
   const schema = Joi.object({
     companyName: Joi.string().min(1).required(),
-    posts: Joi.object(),
+    posts: Joi.array(),
   });
 
   return schema.validate(employer);

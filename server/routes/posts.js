@@ -5,6 +5,7 @@ const auth = require("../middleware/auth");
 const { _ } = require("lodash");
 const { Posts, validatePost } = require("../Models/Posts");
 const employer = require("../middleware/employer");
+const { Employer } = require("../Models/Employer");
 
 route.use(express.json());
 
@@ -59,6 +60,19 @@ route.post("/", [auth, employer], async (req, res) => {
   });
 
   const response = await post.save();
+  await Employer.findOneAndUpdate(
+    { userId: req.user.id },
+    { $push: { posts: response._id } },
+    { new: true }
+  )
+    .then((updatedJobSeeker) => {
+      if (!updatedJobSeeker) {
+        throw new Error("JobSeeker not found");
+      }
+    })
+    .catch((error) => {
+      return res.status(404).send(error);
+    });
   res.send(response);
 });
 route.put("/:postId", [auth, employer], async (req, res) => {

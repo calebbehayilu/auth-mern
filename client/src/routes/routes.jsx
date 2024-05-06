@@ -1,6 +1,4 @@
-import * as React from "react";
 import { createBrowserRouter } from "react-router-dom";
-
 import HomePage from "../pages/home-page";
 import UserLayout from "../layouts/UserLayout";
 import Profile from "../pages/profile";
@@ -20,12 +18,16 @@ import ApplyPage from "../pages/job-seeker/apply-page";
 import AppliedJobList from "../pages/job-seeker/applied-job-lists";
 import Signup from "../pages/signup";
 import Logout from "../pages/logout";
+import GoogleRedirect from "../pages/google-redirect";
+import PostsList from "../pages/employer/posts-list";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <UserLayout />,
     children: [
+      { path: "/account-update", element: <GoogleRedirect /> },
+
       { path: "/signup", element: <Signup /> },
       { path: "/forbidden", element: <Forbidden /> },
       { path: "/logout", element: <Logout /> },
@@ -58,6 +60,7 @@ const router = createBrowserRouter([
                 path: "/create-post",
                 element: <CreatePost />,
               },
+              { path: "/employer", element: <PostsList /> },
             ],
           },
           { path: "/home", element: <HomePage /> },

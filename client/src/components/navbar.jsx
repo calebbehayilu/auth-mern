@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import userService from "../services/user-service";
 import getAvatar from "../utils/create-avatar";
-const Navbar = ({ currentUser, tab, setTab }) => {
+
+const Navbar = ({ tab, setTab }) => {
   const location = useLocation();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +68,7 @@ const Navbar = ({ currentUser, tab, setTab }) => {
               </div>
               <ul
                 tabIndex={0}
-                className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+                className="mt-3 z-[1] space-y-2 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
                   <Link to={`/profile/${user._id}`} className="justify-between">
@@ -81,9 +82,14 @@ const Navbar = ({ currentUser, tab, setTab }) => {
                   </li>
                 )}
                 {user.role === "employer" && (
-                  <li>
-                    <Link to={"/create-post"}>Create Post</Link>
-                  </li>
+                  <>
+                    <li>
+                      <Link to={"/create-post"}>Create Post</Link>
+                    </li>
+                    <li>
+                      <Link to={"/employer"}>Posts</Link>
+                    </li>
+                  </>
                 )}
                 <li>
                   <Link to={"/logout"}>Logout</Link>
@@ -92,7 +98,7 @@ const Navbar = ({ currentUser, tab, setTab }) => {
             </div>
           </div>
         ) : (
-          <ul className="menu menu-horizontal px-1">
+          <ul className="menu menu-horizontal px-1 space-x-2">
             <li>
               <NavLink to="/login">Login</NavLink>
             </li>
