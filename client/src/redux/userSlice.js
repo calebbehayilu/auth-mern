@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userInfo: localStorage.getItem("userInfo")
@@ -13,7 +13,10 @@ const userSlice = createSlice({
       state.userInfo = action.payload;
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
     },
-    logoutUser: (state, action) => {
+    getUserInfo: (state) => {
+      return state.userInfo;
+    },
+    logoutUser: (state) => {
       state.user = null;
       localStorage.removeItem("user");
     },

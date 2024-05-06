@@ -33,6 +33,9 @@ const Navbar = ({ tab, setTab }) => {
       </div>
 
       <div className="flex-none">
+        {isLoading && (
+          <span className="loading loading-spinner loading-sm"></span>
+        )}
         {user ? (
           <div className="flex">
             <form action="" className="hidden md:flex mx-5">

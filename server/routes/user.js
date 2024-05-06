@@ -87,10 +87,15 @@ route.put("/:userId", async (req, res) => {
     req.body.password = await bcrypt.hash(req.body.password, salt);
   }
   const user = await User.findByIdAndUpdate(userId, req.body);
-
   if (!user) return res.status(404).send("User not found");
 
-  res.send(user);
+  await CreateUserByRole(user);
+  const token = await generateToken(user);
+
+  res
+    .header("x-auth-token", token)
+    .header("access-control-expose-headers", "x-auth-token")
+    .send(user);
 });
 
 route.delete("/:userId", async (req, res) => {

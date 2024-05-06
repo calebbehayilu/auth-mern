@@ -8,7 +8,6 @@ const HomePage = () => {
   const pageSize = 10;
   const [page, setPage] = useState(1);
   const { isLoading, error, data: posts } = usePosts(page, pageSize);
-  console.log(posts);
   return (
     <div className="mx-auto">
       <div className="lg:grid grid-cols-12 gap-3 flex  ">

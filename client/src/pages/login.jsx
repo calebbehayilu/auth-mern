@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from "../utils/auth";
+import { getCurrentUser, login } from "../utils/auth";
 import Error from "../components/error";
 import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";
@@ -16,9 +16,9 @@ const loginSchema = z.object({
   password: z.string({ required_error: "Password can`t be empty" }).min(6),
 });
 
-const Login = ({ currentUser }) => {
+const Login = () => {
   const dispatch = useDispatch();
-
+  const currentUser = getCurrentUser();
   const {
     register,
     formState: { errors },

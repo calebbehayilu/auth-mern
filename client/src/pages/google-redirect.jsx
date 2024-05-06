@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Error from ".././components/error";
 import useFetch from "../utils/useFetch";
 import { FaUser } from "react-icons/fa";
 import apiClient from "../services/api-client";
+import { getCurrentUser } from "../utils/auth";
+import { Link } from "react-router-dom";
+import { BiCheckCircle } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../redux/userSlice";
+
 const GoogleRedirect = () => {
+  const dispatch = useDispatch();
+  const currentUser = getCurrentUser();
   const {
     register,
     handleSubmit,
@@ -15,33 +22,40 @@ const GoogleRedirect = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onEdit = async (data) => {
-    if (data.name == "" && data.date == "" && data.password == "") {
-      return setMessage("No change has been made.");
-    }
     setIsLoading(true);
     await apiClient
       .put(`/user/${user._id}`, {
         name: data.name || user.name,
-        password: data.password || user.password,
-        date: data.date,
+        role: data.role,
       })
       .then((res) => {
         if (res.status === 200) {
-          setMessage("Update Successful.");
+          dispatch(setUserInfo(res.data));
+          localStorage.setItem("token", res.headers["x-auth-token"]);
+          window.location = "/home";
           setIsLoading(false);
         }
       })
       .catch((res) => {
         setIsLoading(false);
-
         setMessage(res.response.data);
       });
   };
+  if (currentUser.role) return (window.location = "/home");
+
   return (
     <div>
       <div className="flex flex-col justify-center items-center m-5">
-        <h1 className="text-2xl m-2">Sign Up</h1>
-        {message && <Error error={message} />}
+        <h1 className="text-2xl m-2">Finish Up</h1>
+        {message && (
+          <div role="alert" className="my-3 max-w-96 alert alert-success">
+            <BiCheckCircle size={22} />
+            <span>{message}</span>
+            <Link to={"/home"} className="link mr-2">
+              Home
+            </Link>
+          </div>
+        )}
         <form
           className="flex flex-col w-96 gap-2"
           onSubmit={handleSubmit(onEdit)}
@@ -61,11 +75,11 @@ const GoogleRedirect = () => {
           )}
 
           <select
-            {...register("role")}
+            {...register("role", { required: "Role is required." })}
             className="select select-bordered "
             placeholder="Choose A Role"
           >
-            <option disabled selected>
+            <option disabled selected value={""}>
               Choose A Role
             </option>
             <option value={"job_seeker"}>Job Seeker</option>

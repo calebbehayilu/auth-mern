@@ -64,6 +64,7 @@ const router = createBrowserRouter([
             ],
           },
           { path: "/home", element: <HomePage /> },
+          { path: "/edit-account", element: <GoogleRedirect /> },
           { path: "/profile", element: <Profile /> },
           { path: "/profile/:userId", element: <Profile /> },
           { path: "/edit-profile", element: <EditProfile /> },

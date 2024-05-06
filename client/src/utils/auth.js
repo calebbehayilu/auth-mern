@@ -1,4 +1,3 @@
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import apiClient from "../services/api-client";
 
@@ -11,7 +10,6 @@ export async function login(user) {
       })
       .then((res) => {
         if (res.statusText !== "OK") {
-          console.log(res);
           return res;
         }
 

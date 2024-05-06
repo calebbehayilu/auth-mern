@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import _ from "lodash";
+import { useState, useEffect } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { auth, provider } from "../utils/firebase";
 import { getRedirectResult, signInWithRedirect } from "firebase/auth";
@@ -12,7 +11,6 @@ import { setUserInfo } from "../redux/userSlice";
 const GoogleSignup = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const signUp = async (name, email, uid, photoURL) => {
     const post = await axios.post(`${url}/user/signUp-with-google`, {
@@ -42,7 +40,7 @@ const GoogleSignup = () => {
             localStorage.setItem("userInfo", JSON.stringify(res.data));
             dispatch(setUserInfo(res.data));
 
-            window.location = "/home";
+            window.location = "/edit-account";
           }
         });
       })
