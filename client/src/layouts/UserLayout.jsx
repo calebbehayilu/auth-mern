@@ -17,7 +17,7 @@ const UserLayout = () => {
       <Navbar currentUser={currentUser} {...tab} setTab={setIsOpen} />
       <Drawer isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      <div>
+      <div className="pt-28">
         <Outlet />
       </div>
     </div>

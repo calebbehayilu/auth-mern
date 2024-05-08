@@ -52,6 +52,7 @@ route.post("/", [auth, employer], async (req, res) => {
     "additional",
     "jobType",
     "questions",
+    "active",
   ]);
   const post = new Posts({
     title: todo.title,

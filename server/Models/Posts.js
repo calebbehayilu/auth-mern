@@ -67,6 +67,10 @@ const PostsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 function validatePost(posts) {
@@ -84,6 +88,7 @@ function validatePost(posts) {
     experienceLevel: Joi.string().min(1),
     jobType: Joi.string().valid(...jobDurations),
     questions: Joi.array().min(1).max(50),
+    active: Joi.boolean(),
   });
 
   return schema.validate(posts);

@@ -11,6 +11,7 @@ const EmployerSchema = new mongoose.Schema({
     type: String,
   },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Posts" }],
+  notification: [{ type: mongoose.Schema.Types.ObjectId, ref: "Posts" }],
 });
 
 const Employer = mongoose.model("Employer", EmployerSchema);

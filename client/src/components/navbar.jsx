@@ -17,7 +17,7 @@ const Navbar = ({ tab, setTab }) => {
   }, [location.pathname]);
 
   return (
-    <div className="navbar bg-base-200 p-5 mb-4">
+    <div className="navbar bg-base-200 p-5 mb-4 fixed w-full z-20 top-0 start-0 border-b">
       <div className="flex-1">
         <button
           onClick={() => {
@@ -74,11 +74,20 @@ const Navbar = ({ tab, setTab }) => {
                 className="mt-3 z-[1] space-y-2 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
+                  <Link
+                    to={`/profile/notification`}
+                    className="justify-between"
+                  >
+                    Notification
+                  </Link>
+                </li>
+                <li>
                   <Link to={`/profile/${user._id}`} className="justify-between">
                     Profile
                     <span className="badge">New</span>
                   </Link>
                 </li>
+
                 {user.role === "job_seeker" && (
                   <li>
                     <Link to={"/applied-jobs"}>Applied Jobs</Link>
