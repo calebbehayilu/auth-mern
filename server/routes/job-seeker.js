@@ -1,6 +1,7 @@
 const express = require("express");
 const auth = require("../middleware/auth");
 const { JobApplier } = require("../Models/Appliers");
+const { JobSeeker } = require("../Models/JobSeeker");
 const route = express();
 
 route.use(express.json());
@@ -14,18 +15,21 @@ route.get("/", [auth], async (req, res) => {
   res.json(applied);
 });
 
-route.delete("/:appliedId", auth, async (req, res) => {
-  const appliedId = req.params.appliedId;
+route.delete("/:postId", auth, async (req, res) => {
+  const postId = req.params.postId;
 
-  const applied = await JobApplier.findOne({
-    _id: appliedId,
+  // delete from applied jobs
+  const post = await JobApplier.findOneAndDelete({
+    postId: postId,
   });
+  if (!post) return res.send("Post not found");
 
-  if (!applied) return res.status(404).send("Post not found.");
-
-  const result = await JobApplier.findByIdAndDelete(appliedId);
-
-  res.status(200).send(result);
+  // remove from jobseekers applied jobs array
+  await JobSeeker.findOneAndUpdate(
+    { userId: req.user.id },
+    { $pull: { appliedJobs: post._id } },
+    { new: true }
+  );
+  res.status(200).send(post);
 });
-
 module.exports = route;

@@ -1,6 +1,4 @@
-import React from "react";
-
-const TableList = ({ posts }) => {
+const TableList = ({ posts, onDelete }) => {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -42,12 +40,14 @@ const TableList = ({ posts }) => {
                   ${item.postId.minAmount} - ${item.postId.maxAmount}
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <a
-                    href="#"
+                  <button
+                    onClick={() => {
+                      onDelete(item.postId._id);
+                    }}
                     className="font-medium dark:text-red-500 hover:underline"
                   >
                     Delete
-                  </a>
+                  </button>
                 </td>
               </tr>
             ))}

@@ -16,6 +16,20 @@ route.get("/", [auth], async (req, res) => {
   res.json(applies);
 });
 
+// ! This Get /:userId  is a testing
+
+route.get("/:userId", [auth], async (req, res) => {
+  const userId = req.params.userId;
+
+  const applies = await JobApplier.findOne({
+    userId: userId,
+  })
+    .populate("userId", ["-password"])
+    .populate("postId");
+
+  res.json(applies);
+});
+
 route.post("/:postId", [auth, jobSeeker], async (req, res) => {
   const postId = req.params.postId;
 
