@@ -17,7 +17,7 @@ const AppliedJobList = () => {
     queryFn: retrievePosts,
     staleTime: 1 * 60 * 1000,
   });
-
+  refetch();
   const onDelete = async (postId) => {
     await apiClient.delete(`/applied/${postId}`).then((res) => {
       if (!res.status !== 200) {
