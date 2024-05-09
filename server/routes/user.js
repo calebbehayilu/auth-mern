@@ -8,6 +8,8 @@ const { validateUser } = require("../Models/Users");
 const { Employer } = require("../Models/Employer");
 const { JobSeeker } = require("../Models/JobSeeker");
 const { Admin } = require("../Models/Admin");
+const { JobApplier } = require("../Models/Appliers");
+const { Posts } = require("../Models/Posts");
 route.use(express.json());
 
 route.get("/all", async (req, res) => {
@@ -103,6 +105,25 @@ route.delete("/:userId", async (req, res) => {
 
   const user = await User.findByIdAndDelete(userId);
   if (!user) return res.status(404).send("user not found");
+
+  // check role
+  try {
+    if (user.role == "job_seeker") {
+      await JobApplier.deleteMany({ userId: user._id });
+      await JobSeeker.deleteOne({ userId: user._id });
+      await User.findByIdAndDelete(user._id);
+    }
+
+    // if employer clean posts
+    if (user.role == "employer") {
+      await Posts.deleteMany({ userId: user._id });
+      await Employer.deleteOne({ userId: user._id });
+      await User.findByIdAndDelete(user._id);
+    }
+  } catch (err) {
+    return res.status(501).send("Server error occured");
+  }
+  // if jobseeker clean jobapplications
 
   res.status(200).send(true);
 });

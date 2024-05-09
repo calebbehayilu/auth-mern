@@ -17,19 +17,10 @@ route.get("/", [auth], async (req, res) => {
 route.get("/:appliedId", [auth], async (req, res) => {
   const appliedId = req.params.appliedId;
 
-  // const applies = await JobApplier.find({})
-  //   .populate("userId", ["-password"])
-  //   .populate({
-  //     path: "postId",
-  //     match: req.user.id,
-  //   })
-  //   .populate({
-  //     path: "postId",
-  //   });
-
   const applies = await JobApplier.find({ postId: appliedId })
     .populate("userId", ["-password"])
     .populate("postId");
+
   res.json(applies);
 });
 

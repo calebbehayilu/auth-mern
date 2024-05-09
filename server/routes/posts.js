@@ -6,6 +6,8 @@ const { _ } = require("lodash");
 const { Posts, validatePost } = require("../Models/Posts");
 const employer = require("../middleware/employer");
 const { Employer } = require("../Models/Employer");
+const { JobApplier } = require("../Models/Appliers");
+const { JobSeeker } = require("../Models/JobSeeker");
 
 route.use(express.json());
 
@@ -105,8 +107,19 @@ route.delete("/:postId", auth, async (req, res) => {
   if (post.userId.toString() !== req.user.id) {
     return res.status(401).send("Unauthorized.");
   }
-  const result = await Posts.findByIdAndDelete(postId);
-  res.status(200).send(result);
+  const appliedId = await JobApplier.find({ postId: postId });
+
+  await Posts.findByIdAndDelete(postId);
+  await JobApplier.deleteMany({ postId: postId });
+
+  // ! code should get fixed
+  const deletion = await JobSeeker.updateOne(
+    [...appliedId],
+    { $pull: { appliedJobs: appliedId._id } },
+    { new: true }
+  );
+  console.log(deletion, appliedId);
+  res.status(200).send(true);
 });
 
 module.exports = route;
