@@ -19,7 +19,7 @@ const PostCard = ({ post }) => {
         <div>
           <h1 className="text-xl font-semibold">{post.title}</h1>
         </div>
-        <div className="md:flex gap-4 m-2">
+        <div className="flex gap-4 m-2">
           <span className="flex items-center gap-1 my-2">
             <CiLocationOn size={25} />
             {post.location}

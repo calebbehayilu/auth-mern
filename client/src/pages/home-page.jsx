@@ -12,7 +12,7 @@ const HomePage = () => {
 
   return (
     <div className="md:mx-auto">
-      <div className="lg:grid grid-cols-12 lg:gap-3 flex">
+      <div className="lg:grid grid-cols-12 lg:gap-3 ">
         <div className="lg:col-span-3 lg:px-3">
           <Sidebar />
         </div>
@@ -28,32 +28,34 @@ const HomePage = () => {
             </div>
           )}
           {posts && (
-            <div className="flex flex-col md:justify-center">
-              <div className="rounded-lg " ref={topRef}>
+            <div className="flex flex-col justify-center">
+              <div className="rounded-lg" ref={topRef}>
                 {posts.map((post) => (
                   <PostCard post={post} key={post._id} />
                 ))}
 
-                <div className="join grid grid-cols-2 mx-auto my-2 max-w-md ">
-                  <button
-                    className="join-item btn "
-                    onClick={() => {
-                      setPage(page - 1);
-                    }}
-                    disabled={page === 1}
-                  >
-                    Previous page
-                  </button>
-                  <button
-                    className="join-item btn "
-                    disabled={posts.length <= 9}
-                    onClick={() => {
-                      setPage(page + 1);
-                    }}
-                  >
-                    Next
-                  </button>
-                </div>
+                {posts != [] && (
+                  <div className="join grid grid-cols-2 mx-auto my-2 max-w-md ">
+                    <button
+                      className="join-item btn "
+                      onClick={() => {
+                        setPage(page - 1);
+                      }}
+                      disabled={page === 1}
+                    >
+                      Previous page
+                    </button>
+                    <button
+                      className="join-item btn "
+                      disabled={posts.length <= 9}
+                      onClick={() => {
+                        setPage(page + 1);
+                      }}
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}

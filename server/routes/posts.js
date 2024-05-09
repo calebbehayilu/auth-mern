@@ -14,9 +14,9 @@ route.get("/", async (req, res) => {
   const page = req.query.page || 1;
   const pageSize = 10;
 
-  console.log(page, pageSize);
-
-  let posts = await Posts.find()
+  let posts = await Posts.find({
+    active: true,
+  })
     .populate("userId", ["-password"])
     .skip((page - 1) * pageSize)
     .limit(pageSize);

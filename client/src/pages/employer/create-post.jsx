@@ -106,7 +106,7 @@ const CreatePost = () => {
       });
   };
   return (
-    <div className="flex flex-col justify-center items-center mb-3">
+    <div className="md:flex flex-col justify-center items-center mb-3">
       <div className=" mx-5 md:w-8/12 lg:w-6/12">
         {error && <Error error={error} />}
         <form action="" className="mt-3" onSubmit={handleSubmit(onSubmit)}>

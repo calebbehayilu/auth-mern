@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
-const TableList = ({ jobs, onDelete }) => {
+const TableList = ({ jobs, onDelete, onActive }) => {
   if (jobs.posts == 0)
     return (
       <h1 className="text-warning text-3xl text-center font-semibold m-5">
@@ -62,6 +62,7 @@ const TableList = ({ jobs, onDelete }) => {
                   <button
                     href="#"
                     className="font-medium dark: hover:underline"
+                    onClick={() => onActive(item._id, !item.active)}
                   >
                     {item?.active ? (
                       <span className="text-red-500">Close</span>

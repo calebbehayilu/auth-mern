@@ -4,6 +4,7 @@ import Error from "../../components/error";
 import TableList from "./table";
 import { BiCheckCircle } from "react-icons/bi";
 import { useState } from "react";
+import Success from "../../components/success";
 
 const PostsList = () => {
   const [message, setMessage] = useState("");
@@ -27,23 +28,37 @@ const PostsList = () => {
       refetch();
     });
   };
-  const onClose = () => {};
+  const onActive = async (postId, active) => {
+    await apiClient
+      .put(`/posts/${postId}`, {
+        active: active,
+      })
+      .then((res) => {
+        if (!res.status !== 200) {
+          setMessage("unexpected error has occoured");
+        }
+        active
+          ? setMessage("Job post is inactive.")
+          : setMessage("Job post is active.");
+        refetch();
+      });
+  };
   return (
     <div className="flex flex-col justify-center items-center m-5">
       <h1 className="text-2xl font-semibold mb-3">Posts</h1>
 
       {isLoading && <span className="loading loading-spinner"></span>}
       {error && <Error error={"Unexpected error has occurred"} />}
-      {message && (
-        <div role="alert" className="alert alert-success">
-          <BiCheckCircle size={22} />
-          <span>{message}</span>
-        </div>
-      )}
+      {message && <Success message={message} />}
       {data && (
         <div>
           {data.map((post) => (
-            <TableList key={post._id} jobs={post} onDelete={onDelete} />
+            <TableList
+              key={post._id}
+              jobs={post}
+              onDelete={onDelete}
+              onActive={onActive}
+            />
           ))}
 
           {data.posts == 0 && (
