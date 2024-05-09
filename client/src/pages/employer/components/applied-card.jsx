@@ -8,7 +8,9 @@ const AppliedCard = ({ applier }) => {
       key={applier.id}
       className="flex justify-between items-center bg-gray-800  border-b border-gray-700 "
     >
-      <Link to={`/profile/${applier.userId._id}`}>
+      {/* <Link to={`/profile/${applier.userId._id}`}> */}
+
+      <Link to={`/employer/answers/${applier._id}`}>
         <p
           scope="row"
           className="flex px-6 py-4 font-medium text-white hover:text-blue-300"

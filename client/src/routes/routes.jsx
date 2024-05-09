@@ -22,6 +22,7 @@ import GoogleRedirect from "../pages/google-redirect";
 import PostsList from "../pages/employer/posts-list";
 import NotificationEmployer from "../pages/employer/notification-employer";
 import AppledList from "../pages/employer/applied-list";
+import ApplierAnswer from "../pages/employer/applier-answer";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
               },
               { path: "/employer", element: <PostsList /> },
               { path: "/employer/:appliedId", element: <AppledList /> },
+              {
+                path: "/employer/answers/:applerId",
+                element: <ApplierAnswer />,
+              },
             ],
           },
           { path: "/home", element: <HomePage /> },
