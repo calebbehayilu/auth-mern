@@ -82,11 +82,11 @@ const CreatePost = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
 
-    if (getValues("questions") !== "") {
-      setQuestion((prevArray) => [...prevArray, getValues("questions")]);
-    }
+    // if (getValues("questions") !== "") {
+    //   setQuestion((prevArray) => [...prevArray, getValues("questions")]);
+    // }
 
-    const post = {
+    const post = await {
       ...data,
       skills: getSkills(data.skills),
       questions,

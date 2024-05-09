@@ -7,6 +7,7 @@ import apiClient from "../services/api-client";
 import { BiCheckCircle, BiEdit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Success from "../components/success";
 const EditProfile = () => {
   const { data: user } = useFetch(`/user/me`);
   const [message, setMessage] = useState();
@@ -33,17 +34,9 @@ const EditProfile = () => {
   return (
     <div className="">
       {user && (
-        <div className="flex justify-center md:p-10 rounded-2xl md:mx-4 ">
+        <div className="flex flex-col justify-center items-center md:p-10 rounded-2xl md:mx-4 ">
+          {message && <Success message={message} />}
           <div className="w-6/12">
-            {message && (
-              <div role="alert" className="alert alert-success">
-                <BiCheckCircle size={22} />
-                <span>{message}</span>
-                <Link to={"/home"} className="link mr-2">
-                  Home
-                </Link>
-              </div>
-            )}
             <div className="flex justify-center m-5">
               <div className="avatar placeholder">
                 <div className="bg-slate-600 hover:bg-slate-500 text-neutral-content rounded-full w-24">

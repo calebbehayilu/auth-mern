@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../services/api-client";
 import TableList from "./table";
 import Error from "../../components/error";
+import { BiCheckCircle } from "react-icons/bi";
+import Success from "../../components/success";
 
 const AppliedJobList = () => {
   const [message, setMessage] = useState("");
@@ -15,9 +17,7 @@ const AppliedJobList = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["applied"],
     queryFn: retrievePosts,
-    staleTime: 1 * 60 * 1000,
   });
-  refetch();
   const onDelete = async (postId) => {
     await apiClient.delete(`/applied/${postId}`).then((res) => {
       if (!res.status !== 200) {
@@ -33,7 +33,7 @@ const AppliedJobList = () => {
 
       {isLoading && <span className="loading loading-spinner"></span>}
       {error && <Error error={"Unexpected error has occurred"} />}
-      {message && <Error error={message} />}
+      {message && <Success message={message} />}
       {data && (
         <div>
           <TableList posts={data} onDelete={onDelete} />

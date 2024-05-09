@@ -11,7 +11,7 @@ const AppledList = () => {
     <div className="flex flex-col justify-center items-center  m-5">
       <h1 className="text-2xl font-semibold m-3">Appliers List</h1>
 
-      <div className="flex justify-center  w-full">
+      <div className="md:flex justify-center w-full">
         {isLoading && (
           <span className="loading loading-spinner loading-md"></span>
         )}
@@ -21,11 +21,10 @@ const AppledList = () => {
           </div>
         )}
         {data && (
-          <div className="w-6/12  overflow-x-auto rounded-lg">
+          <div className="md:w-6/12  overflow-x-auto rounded-lg">
             {data.map((applier) => (
               <AppliedCard applier={applier} key={applier._id} />
             ))}
-
             {data == "" && (
               <h1 className="text-warning text-3xl text-center font-semibold m-5">
                 There are No Appliers

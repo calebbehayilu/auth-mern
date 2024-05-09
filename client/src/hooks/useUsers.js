@@ -8,7 +8,6 @@ const useUsers = (appliedId) => {
       apiClient.get(`/employer/${appliedId}`).then((res) => {
         return res.data;
       }),
-    staleTime: 1 * 60 * 1000,
   });
 };
 

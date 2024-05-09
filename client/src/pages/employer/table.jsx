@@ -1,24 +1,30 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
-const TableList = ({ jobs }) => {
-  if (!jobs.posts) return <h1>No posted jobs</h1>;
+const TableList = ({ jobs, onDelete }) => {
+  if (jobs.posts == 0)
+    return (
+      <h1 className="text-warning text-3xl text-center font-semibold m-5">
+        There are No Posts
+      </h1>
+    );
+
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="relative overflow-x-auto shadow-md rounded-lg">
+      <div className="relative overflow-x-auto shadow-md rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="hidden lg:table-cell px-6 py-3">
                 Job Type
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="hidden lg:table-cell px-6 py-3">
                 Location
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="hidden sm:table-cell px-6 py-3">
                 Amount
               </th>
               <th scope="col" className="px-6 py-3">
@@ -43,28 +49,35 @@ const TableList = ({ jobs }) => {
                     {item.title}
                   </Link>
                 </th>
-                <td className="px-6 py-4">{item.jobType}</td>
-                <td className="px-6 py-4">{item.location}</td>
-                <td className="px-6 py-4">
+                <td className="hidden lg:table-cell px-6 py-4">
+                  {item.jobType}
+                </td>
+                <td className="hidden lg:table-cell px-6 py-4">
+                  {item.location}
+                </td>
+                <td className="hidden sm:table-cell px-6 py-4">
                   ${item.minAmount} - ${item.maxAmount}
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <a href="#" className="font-medium dark: hover:underline">
+                  <button
+                    href="#"
+                    className="font-medium dark: hover:underline"
+                  >
                     {item?.active ? (
                       <span className="text-red-500">Close</span>
                     ) : (
                       <span className="text-blue-500">Open</span>
                     )}
-                  </a>
+                  </button>
                 </td>
 
                 <td className="px-6 py-4 text-right">
-                  <a
-                    href="#"
+                  <button
+                    onClick={() => onDelete(item._id)}
                     className="font-medium dark:text-red-500 hover:underline"
                   >
                     Delete
-                  </a>
+                  </button>
                 </td>
               </tr>
             ))}
