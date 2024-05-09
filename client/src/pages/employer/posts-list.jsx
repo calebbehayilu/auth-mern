@@ -16,9 +16,23 @@ const PostsList = () => {
   });
   return (
     <div className="flex flex-col justify-center items-center m-5">
+      <h1 className="text-2xl font-semibold mb-3">Posts</h1>
+
       {isLoading && <span className="loading loading-spinner"></span>}
       {error && <Error error={"Unexpected error has occurred"} />}
-      {data && data.map((post) => <TableList key={post._id} jobs={post} />)}
+      {data && (
+        <div>
+          {data.map((post) => (
+            <TableList key={post._id} jobs={post} />
+          ))}
+
+          {data == "" && (
+            <h1 className="text-warning text-3xl text-center font-semibold m-5">
+              There are No Posts
+            </h1>
+          )}
+        </div>
+      )}
     </div>
   );
 };

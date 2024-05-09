@@ -16,7 +16,6 @@ const usePosts = (page, pageSize) => {
           return res.data;
         }),
     staleTime: 1 * 60 * 1000,
-    placeholderData: keepPreviousData,
   });
 };
 

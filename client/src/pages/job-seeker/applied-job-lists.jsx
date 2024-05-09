@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../services/api-client";
 import TableList from "./table";
@@ -29,9 +29,22 @@ const AppliedJobList = () => {
   };
   return (
     <div className="flex flex-col justify-center items-center m-5">
+      <h1 className="text-2xl font-semibold m-3">Applied Jobs</h1>
+
       {isLoading && <span className="loading loading-spinner"></span>}
       {error && <Error error={"Unexpected error has occurred"} />}
-      {data && <TableList posts={data} onDelete={onDelete} />}
+      {message && <Error error={message} />}
+      {data && (
+        <div>
+          <TableList posts={data} onDelete={onDelete} />
+
+          {data == "" && (
+            <h1 className="text-warning text-3xl text-center font-semibold m-5">
+              You haven`t applied to any jobs.
+            </h1>
+          )}
+        </div>
+      )}
     </div>
   );
 };

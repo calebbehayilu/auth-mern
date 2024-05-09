@@ -2,16 +2,18 @@ import Sidebar from "../components/sidebar";
 import PostCard from "../components/home-page/post-card";
 import Error from "../components/error";
 import usePosts from "../hooks/usePosts";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const HomePage = () => {
   const pageSize = 10;
   const [page, setPage] = useState(1);
   const { isLoading, error, data: posts } = usePosts(page, pageSize);
+  const topRef = useRef(null);
+
   return (
-    <div className="mx-auto">
-      <div className="lg:grid grid-cols-12 gap-3 flex  ">
-        <div className="lg:col-span-3 px-3">
+    <div className="md:mx-auto">
+      <div className="lg:grid grid-cols-12 lg:gap-3 flex">
+        <div className="lg:col-span-3 lg:px-3">
           <Sidebar />
         </div>
         <div className="lg:col-span-6">
@@ -26,8 +28,8 @@ const HomePage = () => {
             </div>
           )}
           {posts && (
-            <div className="flex flex-col justify-center">
-              <div className="  rounded-lg ">
+            <div className="flex flex-col md:justify-center">
+              <div className="rounded-lg " ref={topRef}>
                 {posts.map((post) => (
                   <PostCard post={post} key={post._id} />
                 ))}

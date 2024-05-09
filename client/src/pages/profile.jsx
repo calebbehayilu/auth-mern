@@ -32,13 +32,15 @@ const Profile = () => {
     AccountDelete();
   }, [confirm]);
   return (
-    <div className="flex flex-col justify-center md:items-center mx-4 md:m-auto">
+    <div className="flex flex-col justify-center items-center mx-4 m-auto">
       {isPending && (
-        <span className="loading loading-spinner loading-md"></span>
+        <div className="flex flex-col justify-center items-center">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
       )}
       {error && <Error error={error} />}
       {user && (
-        <div className=" md:p-10 rounded-2xl md:mx-4 md:min-w-6/16">
+        <div className="w-fit md:p-10 rounded-2xl md:mx-4 md:min-w-6/16">
           <h1 className="text-2xl text-center">Profile</h1>
           <div className="">
             <div className="avatar my-5">

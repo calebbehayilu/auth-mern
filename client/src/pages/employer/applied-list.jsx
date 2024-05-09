@@ -12,27 +12,26 @@ const AppledList = () => {
       <h1 className="text-2xl font-semibold m-3">Appliers List</h1>
 
       <div className="flex justify-center  w-full">
+        {isLoading && (
+          <span className="loading loading-spinner loading-md"></span>
+        )}
         {error && (
           <div className="mx-10 my-5">
             <Error error={error.message} />
           </div>
         )}
-        {isLoading && (
-          <span className="loading loading-spinner loading-md"></span>
-        )}
-
-        {isLoading && (
-          <span className="loading loading-spinner loading-md"></span>
-        )}
-
-        {data ? (
+        {data && (
           <div className="w-6/12  overflow-x-auto rounded-lg">
             {data.map((applier) => (
               <AppliedCard applier={applier} key={applier._id} />
             ))}
+
+            {data == "" && (
+              <h1 className="text-warning text-3xl text-center font-semibold m-5">
+                There are No Appliers
+              </h1>
+            )}
           </div>
-        ) : (
-          <p> There are no any appliers.</p>
         )}
       </div>
     </div>
