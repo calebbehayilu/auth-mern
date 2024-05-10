@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ImgPreview from "./img-preview";
 import { useState } from "react";
 
-const ApplierCard = ({ applierDetail }) => {
+const ApplierCard = ({ applierDetail, onAccept }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -34,12 +34,17 @@ const ApplierCard = ({ applierDetail }) => {
         <button
           disabled={isLoading}
           type="submit"
-          className="btn btn-success w-24 place-self-end"
+          onClick={() => {
+            onAccept(applierDetail._id, applierDetail.isAccepted);
+          }}
+          className="btn btn-outline w-24 place-self-end"
         >
           {isLoading ? (
             <span className="loading loading-spinner loading-sm"></span>
+          ) : applierDetail.isAccepted ? (
+            <span className="text-red-500">Remove</span>
           ) : (
-            <h1>Accept</h1>
+            <span className="text-blue-500">Accept</span>
           )}
         </button>
       </div>

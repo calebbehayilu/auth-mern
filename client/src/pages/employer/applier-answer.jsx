@@ -14,13 +14,19 @@ const ApplierAnswer = () => {
     queryKey: ["appler_answer"],
     queryFn: retrievePosts,
   });
-
+  const onAccept = async (id, isAccepted) => {
+    await apiClient
+      .put(`/posts/accept/${id}`, { isAccepted: !isAccepted })
+      .then((res) => {
+        refetch();
+      });
+  };
   return (
     <div className="flex flex-col justify-center items-center m-5">
       <h1 className="text-2xl font-semibold m-3">Applier Application</h1>
       {data && (
         <div className="flex justify-center">
-          <ApplierCard applierDetail={data} />
+          <ApplierCard applierDetail={data} onAccept={onAccept} />
         </div>
       )}
     </div>
