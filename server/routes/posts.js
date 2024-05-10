@@ -8,6 +8,7 @@ const employer = require("../middleware/employer");
 const { Employer } = require("../Models/Employer");
 const { JobApplier } = require("../Models/Appliers");
 const { JobSeeker } = require("../Models/JobSeeker");
+const { Notification } = require("../Models/Notification");
 
 route.use(express.json());
 
@@ -94,6 +95,25 @@ route.put("/:postId", [auth, employer], async (req, res) => {
   if (!post) return res.status(404).send("Post not found");
 
   res.send(true);
+});
+
+// * accepting a request
+route.put("/accept/:appliedId", auth, async (req, res) => {
+  const appliedId = req.params.appliedId;
+
+  const applied = await JobApplier.findByIdAndUpdate(appliedId, req.body);
+  if (!applied) return res.send("Application not found");
+
+  const notification = new Notification({
+    userId: applied.userId,
+    postId: applied.postId,
+    type: "ACCEPTED",
+    from: req.user.id,
+    appliedJobs: applied._id,
+  });
+
+  await notification.save();
+  res.send(applied);
 });
 
 route.delete("/:postId", auth, async (req, res) => {

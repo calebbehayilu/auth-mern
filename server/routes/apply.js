@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const jobSeeker = require("../middleware/jobSeeker");
 const { JobApplier } = require("../Models/Appliers");
 const { JobSeeker } = require("../Models/JobSeeker");
+const { Notification } = require("../Models/Notification");
 const route = express();
 
 route.use(express.json());
@@ -62,6 +63,16 @@ route.post("/:postId", [auth, jobSeeker], async (req, res) => {
   });
 
   const result = await apply.save();
+
+  const notification = new Notification({
+    userId: post.userId,
+    postId: postId,
+    type: "REQESTED",
+    fromId: req.user.id,
+    appliedJobs: result._id,
+  });
+
+  await notification.save();
 
   await JobSeeker.findOneAndUpdate(
     { userId: req.user.id },

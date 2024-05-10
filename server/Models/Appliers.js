@@ -26,6 +26,10 @@ const JobApplierSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  isAccepted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 function validateJobApplier(jobApplier) {

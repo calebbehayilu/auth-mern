@@ -15,6 +15,7 @@ route.get("/", [auth], async (req, res) => {
   res.json(applied);
 });
 
+// deleting an applied job
 route.delete("/:postId", auth, async (req, res) => {
   const postId = req.params.postId;
 
