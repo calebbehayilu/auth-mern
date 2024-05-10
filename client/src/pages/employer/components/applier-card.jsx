@@ -34,12 +34,12 @@ const ApplierCard = ({ applierDetail }) => {
         <button
           disabled={isLoading}
           type="submit"
-          className="btn btn-primary w-24 place-self-end"
+          className="btn btn-success w-24 place-self-end"
         >
           {isLoading ? (
             <span className="loading loading-spinner loading-sm"></span>
           ) : (
-            <h1>Apply</h1>
+            <h1>Accept</h1>
           )}
         </button>
       </div>
