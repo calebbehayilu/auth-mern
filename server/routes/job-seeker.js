@@ -33,4 +33,20 @@ route.delete("/:postId", auth, async (req, res) => {
   );
   res.status(200).send(post);
 });
+
+route.put("/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  const jobSeeker = await JobSeeker.findOne({ userId: userId });
+
+  const user = await JobSeeker.findByIdAndUpdate(jobSeeker._id, {
+    resumeData: "",
+    resumeLink: "",
+    phoneNumber: req.body.phoneNumber,
+    experience: req.body.experienceLevel,
+    education: req.body.educationLevel,
+  });
+  if (!user) return res.status(404).send("User not found");
+  res.send(user);
+});
 module.exports = route;

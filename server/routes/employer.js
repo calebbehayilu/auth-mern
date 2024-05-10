@@ -37,5 +37,19 @@ route.delete("/:appliedId", auth, async (req, res) => {
 
   res.status(200).send(result);
 });
+route.put("/:userId", async (req, res) => {
+  const userId = req.params.userId;
 
+  const employer = await Employer.findOne({ userId: userId });
+
+  const user = await Employer.findByIdAndUpdate(employer._id, {
+    companyName: req.body.companyName,
+    componyCategory: req.body.companyCategory,
+    phoneNumber: req.body.phoneNumber,
+    website: req.body.website,
+    additional: req.body.additional,
+  });
+  if (!user) return res.status(404).send("User not found");
+  res.send(user);
+});
 module.exports = route;

@@ -61,7 +61,8 @@ const Signup = () => {
       dispatch(setUserInfo(response.data));
       localStorage.setItem("token", response.headers["x-auth-token"]);
       setIsLoading(false);
-      window.location = "/home";
+      // window.location = "/home";
+      window.location = `/finish-up/${response.data._id}`;
     }
   };
 

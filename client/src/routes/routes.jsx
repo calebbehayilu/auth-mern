@@ -23,6 +23,7 @@ import PostsList from "../pages/employer/posts-list";
 import AppledList from "../pages/employer/applied-list";
 import ApplierAnswer from "../pages/employer/applier-answer";
 import Notification from "../pages/notification";
+import FinishUp from "../pages/finish-up";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,7 @@ const router = createBrowserRouter([
           { path: "/profile/notification", element: <Notification /> },
           { path: "/edit-profile", element: <EditProfile /> },
           { path: "/jobdetail/:postId", element: <JobDetail /> },
+          { path: "/finish-up/:postId", element: <FinishUp /> },
         ],
       },
     ],

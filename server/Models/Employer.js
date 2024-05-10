@@ -10,8 +10,20 @@ const EmployerSchema = new mongoose.Schema({
   companyName: {
     type: String,
   },
+  componyCategory: {
+    type: Array,
+  },
+  phoneNumber: {
+    type: Number,
+  },
+  website: {
+    type: String,
+  },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Posts" }],
   notification: [{ type: mongoose.Schema.Types.ObjectId, ref: "Posts" }],
+  additional: {
+    type: String,
+  },
 });
 
 const Employer = mongoose.model("Employer", EmployerSchema);
