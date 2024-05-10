@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import formatDate from "../../../utils/formatdate";
 
-const AppliedCard = ({ applier }) => {
+const AppliedCard = ({ applier, onAccept }) => {
   return (
     <div
       key={applier.id}
@@ -23,13 +23,19 @@ const AppliedCard = ({ applier }) => {
         <p className="px-6 py-4">{formatDate(applier.appliedTime)}</p>
         <div className="px-6 py-4">
           <section className="px-6 py-4 w-32">
-            <a href="#" className="font-medium hover:underline ">
-              {applier?.accept ? (
+            <button
+              onClick={() => {
+                onAccept(applier._id, applier.isAccepted);
+              }}
+              href="#"
+              className="font-medium hover:underline "
+            >
+              {applier.isAccepted ? (
                 <span className="text-red-500">Remove</span>
               ) : (
                 <span className="text-blue-500">Accept</span>
               )}
-            </a>
+            </button>
           </section>
         </div>
       </div>

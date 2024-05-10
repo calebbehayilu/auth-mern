@@ -20,9 +20,9 @@ import Signup from "../pages/signup";
 import Logout from "../pages/logout";
 import GoogleRedirect from "../pages/google-redirect";
 import PostsList from "../pages/employer/posts-list";
-import NotificationEmployer from "../pages/employer/notification-employer";
 import AppledList from "../pages/employer/applied-list";
 import ApplierAnswer from "../pages/employer/applier-answer";
+import Notification from "../pages/notification";
 
 const router = createBrowserRouter([
   {
@@ -75,7 +75,7 @@ const router = createBrowserRouter([
           { path: "/edit-account", element: <GoogleRedirect /> },
           { path: "/profile", element: <Profile /> },
           { path: "/profile/:userId", element: <Profile /> },
-          { path: "/profile/notification", element: <NotificationEmployer /> },
+          { path: "/profile/notification", element: <Notification /> },
           { path: "/edit-profile", element: <EditProfile /> },
           { path: "/jobdetail/:postId", element: <JobDetail /> },
         ],

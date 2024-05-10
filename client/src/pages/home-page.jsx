@@ -2,13 +2,14 @@ import Sidebar from "../components/sidebar";
 import PostCard from "../components/home-page/post-card";
 import Error from "../components/error";
 import usePosts from "../hooks/usePosts";
-import { useEffect, useRef, useState } from "react";
-
+import { useState } from "react";
+import { sort } from "fast-sort";
 const HomePage = () => {
   const pageSize = 10;
   const [page, setPage] = useState(1);
-  const { isLoading, error, data: posts } = usePosts(page, pageSize);
-  const topRef = useRef(null);
+  const { isLoading, error, data } = usePosts(page, pageSize);
+
+  const posts = sort(data).desc("postDate");
 
   return (
     <div className="md:mx-auto">
@@ -29,7 +30,7 @@ const HomePage = () => {
           )}
           {posts && (
             <div className="flex flex-col justify-center">
-              <div className="rounded-lg" ref={topRef}>
+              <div className="rounded-lg">
                 {posts.map((post) => (
                   <PostCard post={post} key={post._id} />
                 ))}

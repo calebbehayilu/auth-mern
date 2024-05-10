@@ -45,6 +45,10 @@ route.post("/:postId", [auth, jobSeeker], async (req, res) => {
   const post = await Posts.findById(postId);
   if (!post) return res.status(404).send("Post not found");
 
+  const job = await JobApplier.find({ postId: postId, userId: req.user.id });
+  if (job.length !== 0)
+    return res.status(409).send("You have already applied for the job.");
+  console.log(job);
   if (post.questions.length !== Object.keys(req.body.answers).length) {
     return res
       .status(404)
@@ -69,7 +73,7 @@ route.post("/:postId", [auth, jobSeeker], async (req, res) => {
     postId: postId,
     type: "REQESTED",
     fromId: req.user.id,
-    appliedJobs: result._id,
+    appliedId: result._id,
   });
 
   await notification.save();

@@ -17,9 +17,9 @@ const ApplierAnswer = () => {
 
   return (
     <div className="flex flex-col justify-center items-center m-5">
-      <h1 className="text-2xl font-semibold m-3">Appliers List</h1>
+      <h1 className="text-2xl font-semibold m-3">Applier Application</h1>
       {data && (
-        <div>
+        <div className="flex justify-center">
           <ApplierCard applierDetail={data} />
         </div>
       )}

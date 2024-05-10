@@ -3,8 +3,9 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import userService from "../services/user-service";
 import getAvatar from "../utils/create-avatar";
+import { BiBell } from "react-icons/bi";
 
-const Navbar = ({ tab, setTab }) => {
+const Navbar = ({ tab, setTab, isRead }) => {
   const location = useLocation();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +16,6 @@ const Navbar = ({ tab, setTab }) => {
       .then((res) => setUser(res.data))
       .finally(setIsLoading(false));
   }, [location.pathname]);
-
   return (
     <div className="navbar bg-base-200 p-5 mb-4 fixed w-full z-20 top-0 start-0 border-b">
       <div className="flex-1">
@@ -46,7 +46,17 @@ const Navbar = ({ tab, setTab }) => {
                 <BiSearch />
               </button>
             </form>
-
+            <Link
+              to={`/profile/notification`}
+              className="btn btn-ghost btn-circle"
+            >
+              <div className="indicator">
+                <BiBell size={30} />
+                {isRead && (
+                  <span className="badge badge-xs badge-primary indicator-item"></span>
+                )}
+              </div>
+            </Link>
             <div className="dropdown dropdown-end  gap-2">
               <div
                 tabIndex={0}
@@ -74,17 +84,8 @@ const Navbar = ({ tab, setTab }) => {
                 className="mt-3 z-[1] space-y-2 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <Link
-                    to={`/profile/notification`}
-                    className="justify-between"
-                  >
-                    Notification
-                  </Link>
-                </li>
-                <li>
                   <Link to={`/profile/${user._id}`} className="justify-between">
                     Profile
-                    <span className="badge">New</span>
                   </Link>
                 </li>
 

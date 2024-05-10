@@ -2,11 +2,20 @@ import { useParams } from "react-router-dom";
 import useUsers from "../../hooks/useUsers";
 import AppliedCard from "./components/applied-card";
 import Error from "../../components/error";
+import apiClient from "../../services/api-client";
 
 const AppledList = () => {
   const params = useParams();
+  // /accept/:appliedId
+  const { data, isLoading, error, refetch } = useUsers(params.appliedId);
 
-  const { data, isLoading, error } = useUsers(params.appliedId);
+  const onAccept = async (id, isAccepted) => {
+    await apiClient
+      .put(`/posts/accept/${id}`, { isAccepted: !isAccepted })
+      .then((res) => {
+        refetch();
+      });
+  };
   return (
     <div className="flex flex-col justify-center items-center  m-5">
       <h1 className="text-2xl font-semibold m-3">Appliers List</h1>
@@ -21,9 +30,13 @@ const AppledList = () => {
           </div>
         )}
         {data && (
-          <div className="md:w-6/12  overflow-x-auto rounded-lg">
+          <div className="sm:w-6/12 overflow-x-auto rounded-lg">
             {data.map((applier) => (
-              <AppliedCard applier={applier} key={applier._id} />
+              <AppliedCard
+                applier={applier}
+                key={applier._id}
+                onAccept={onAccept}
+              />
             ))}
             {data == "" && (
               <h1 className="text-warning text-3xl text-center font-semibold m-5">

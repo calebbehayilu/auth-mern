@@ -16,6 +16,7 @@
     "@tanstack/react-query-devtools": "^5.34.2",
     "axios": "^1.6.8",
     "daisyui": "^4.7.3",
+    "fast-sort": "^3.4.0",
     "firebase": "^10.10.0",
     "joi-browser": "^13.4.0",
     "jwt-decode": "^4.0.0",

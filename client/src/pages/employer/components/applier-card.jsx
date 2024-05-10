@@ -6,7 +6,7 @@ const ApplierCard = ({ applierDetail }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className="card card-bordered bg-base-100 mb-2 mx-3 lg:mx-0 ">
+    <div className="card card-bordered bg-base-100 mb-2 mx-3 lg:mx-0 md:w-fit">
       <div className="card-body">
         <Link to={`/profile/${applierDetail.userId._id}`}>
           <ProfileCard user={applierDetail.userId} />

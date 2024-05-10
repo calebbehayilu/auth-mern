@@ -103,13 +103,12 @@ route.put("/accept/:appliedId", auth, async (req, res) => {
 
   const applied = await JobApplier.findByIdAndUpdate(appliedId, req.body);
   if (!applied) return res.send("Application not found");
-
   const notification = new Notification({
     userId: applied.userId,
     postId: applied.postId,
     type: "ACCEPTED",
-    from: req.user.id,
-    appliedJobs: applied._id,
+    fromId: req.user.id,
+    appliedId: applied._id,
   });
 
   await notification.save();

@@ -10,7 +10,7 @@ const NotificationSchema = new mongoose.Schema({
     ref: "users",
   },
   appliedId: { type: mongoose.Schema.Types.ObjectId, ref: "jobapplier" },
-  postId: { type: mongoose.Schema.Types.ObjectId, ref: "posts" },
+  postId: { type: mongoose.Schema.Types.ObjectId, ref: "Posts" },
   isRead: { type: Boolean, default: false },
   type: { type: String, enum: ["ACCEPTED", "REQESTED", "POSTED"] },
   date: {

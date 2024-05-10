@@ -9,6 +9,7 @@ const posts = require("./routes/posts");
 const apply = require("./routes/apply");
 const applied = require("./routes/job-seeker");
 const employer = require("./routes/employer");
+const notification = require("./routes/notification");
 const app = express();
 require("dotenv").config();
 
@@ -34,6 +35,7 @@ app.use("/posts", posts);
 app.use("/apply", apply);
 app.use("/applied", applied);
 app.use("/employer", employer);
+app.use("/notification", notification);
 
 app.listen(3000, () => {
   console.log(`connected to 3000`);
