@@ -4,13 +4,14 @@ import useFetch from "../utils/useFetch";
 import { FaUser } from "react-icons/fa";
 import apiClient from "../services/api-client";
 import { getCurrentUser } from "../utils/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiCheckCircle } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../redux/userSlice";
 
 const GoogleRedirect = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentUser = getCurrentUser();
   const {
     register,
@@ -32,7 +33,7 @@ const GoogleRedirect = () => {
         if (res.status === 200) {
           dispatch(setUserInfo(res.data));
           localStorage.setItem("token", res.headers["x-auth-token"]);
-          window.location = "/home";
+          navigate(`/finish-up/${res.data._id}`);
           setIsLoading(false);
         }
       })
@@ -41,7 +42,7 @@ const GoogleRedirect = () => {
         setMessage(res.response.data);
       });
   };
-  if (currentUser.role) return (window.location = "/home");
+  if (currentUser.role) return navigate("/home");
 
   return (
     <div>

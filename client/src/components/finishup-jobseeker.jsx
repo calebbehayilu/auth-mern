@@ -3,22 +3,34 @@ import apiClient from "../services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import JobSeekerValidation from "./validation/jobseeker";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const JobSeekerFinishup = ({ currentUser, setMessage }) => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmit,
     formState: { errors },
     register,
   } = useForm({ resolver: zodResolver(JobSeekerValidation) });
+
+  const getSkills = (skills) => {
+    let newArray = skills.split(",");
+
+    return newArray;
+  };
+
   const onSubmit = async (data) => {
+    data.workCategory = getSkills(data.workCategory);
+    console.log(data);
     await apiClient
       .put(`/applied/${currentUser.id}`, data)
       .then((res) => {
         if (res.status === 200) {
           setIsLoading(false);
         }
-        window.location = "/home";
+        // window.location = "/home";
+        navigate("/home");
       })
       .catch((res) => {
         setIsLoading(false);
@@ -28,7 +40,7 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
   return (
     <div>
       <form
-        className="flex flex-col w-96 gap-2"
+        className="flex flex-col w-fu;; sm:w-96 gap-2"
         onSubmit={handleSubmit(onSubmit)}
       >
         <select
@@ -64,15 +76,15 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
           <label className="input input-bordered flex items-center gap-2">
             +251
             <input
-              {...register("phonenumber", { valueAsNumber: true })}
+              {...register("phoneNumber", { valueAsNumber: true })}
               type="number"
               className="grow"
               placeholder="Phone Number"
             />
           </label>
 
-          {errors.phonenumber && (
-            <span className="text-error">{errors.phonenumber.message}</span>
+          {errors.phoneNumber && (
+            <span className="text-error">{errors.phoneNumber.message}</span>
           )}
         </div>
         <div>

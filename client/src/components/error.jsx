@@ -4,7 +4,7 @@ const Error = ({ error }) => {
   return (
     <div
       role="alert"
-      className="flex justify-center items-center m-3 sm:max-w-xl alert alert-error"
+      className="flex justify-center items-center m-3 w-full sm:max-w-xl alert alert-error"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

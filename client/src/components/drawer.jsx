@@ -3,40 +3,30 @@ import { BiX } from "react-icons/bi";
 
 export default function Drawer({ children, isOpen, setIsOpen }) {
   return (
-    <main
-      className={
-        " fixed overflow-hidden z-10 bg-base bg-opacity-50 inset-0 transform ease-in-out " +
-        (isOpen
-          ? " transition-opacity opacity-100 duration-500 translate-x-0 bg-base-300 bg-opacity-50  "
-          : " transition-all delay-500 opacity-0 translate-x-full ")
-      }
-    >
-      <section
-        className={
-          "w-5/6 max-w-lg left-0 absolute bg-base-100 h-screen shadow-2xl delay-400 duration-500 ease-in-out " +
-          (isOpen ? " translate-x-0 " : " translate-x-full shadow-2xl")
-        }
-      >
-        <article className="relative w-screen max-w-lg pb-10 flex flex-col space-y-6 h-full">
-          <div className="flex m-5 ">
-            <button
-              className="btn btn-outline"
-              onClick={() => {
-                setIsOpen(false);
-              }}
-            >
-              <BiX />
-            </button>
-          </div>
-          {children}
-        </article>
-      </section>
-      <section
-        className=" w-screen h-full cursor-pointer "
-        onClick={() => {
-          setIsOpen(false);
-        }}
-      ></section>
-    </main>
+    <div className="drawer w-5/12">
+      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content">
+        {/* Page content here */}
+        <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
+          Open drawer
+        </label>
+      </div>
+      <div className="drawer-side">
+        <label
+          htmlFor="my-drawer"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+          {/* Sidebar content here */}
+          <li>
+            <a>Sidebar Item 1</a>
+          </li>
+          <li>
+            <a>Sidebar Item 2</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   );
 }

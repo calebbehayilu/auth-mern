@@ -23,7 +23,14 @@ route.get("/:appliedId", [auth], async (req, res) => {
 
   res.json(applies);
 });
+route.get("/profile/:userId", async (req, res) => {
+  const userId = req.params.userId;
 
+  const user = await Employer.findOne({ userId: userId });
+  if (!user) return res.status(404).send("User not found");
+
+  res.send(user);
+});
 route.delete("/:appliedId", auth, async (req, res) => {
   const appliedId = req.params.appliedId;
 

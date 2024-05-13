@@ -11,8 +11,10 @@ const jobSeekerSchema = new mongoose.Schema({
   resumeLink: { type: String },
   appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "JobApplier" }],
   phoneNumber: { type: Number },
-  experience: { type: Array },
+  experience: { type: String },
+  workCategory: { type: Array },
   education: { type: String },
+  additional: { type: String },
 });
 
 function validateJobSeeker(jobSeeker) {

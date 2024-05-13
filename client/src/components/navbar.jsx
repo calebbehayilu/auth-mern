@@ -18,6 +18,7 @@ const Navbar = ({ tab, setTab, isRead }) => {
   }, [location.pathname]);
   return (
     <div className="navbar bg-base-200 p-5 mb-4 fixed w-full z-20 top-0 start-0 border-b">
+      {/* Code Starts Here */}
       <div className="flex-1">
         <button
           onClick={() => {

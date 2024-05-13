@@ -34,7 +34,7 @@ function validateUser(user) {
       .min(6)
       .max(30),
     password: Joi.string().min(6).max(30).required(),
-    role: Joi.string().valid("admin", "employer", "job_seeker").required(),
+    role: Joi.string().valid("admin", "employer", "job_seeker"),
     birthdate: Joi.date().less(Date.now()),
     uid: Joi.string().min(3),
   });

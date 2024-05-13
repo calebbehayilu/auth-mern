@@ -10,7 +10,7 @@ const JobSeekerValidation = z.object({
     "master_degree",
     "doctorate",
   ]),
-  phonenumber: z.number().min(3),
+  phoneNumber: z.number().min(3),
   workCategory: z.string().min(3).max(50),
   additional: z.string().max(500),
 });

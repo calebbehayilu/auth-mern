@@ -15,17 +15,25 @@ route.get("/", [auth], async (req, res) => {
   res.json(applied);
 });
 
-// deleting an applied job
+// * get single user
+route.get("/:userId", auth, async (req, res) => {
+  const user = await JobSeeker.findOne({ userId: req.user.id });
+  if (!user) return res.status(404).send("User Not Found.");
+
+  res.json(user);
+});
+
+// * deleting an applied job
 route.delete("/:postId", auth, async (req, res) => {
   const postId = req.params.postId;
 
-  // delete from applied jobs
+  // * delete from applied jobs
   const post = await JobApplier.findOneAndDelete({
     postId: postId,
   });
   if (!post) return res.send("Post not found");
 
-  // remove from jobseekers applied jobs array
+  // * remove from jobseekers applied jobs array
   await JobSeeker.findOneAndUpdate(
     { userId: req.user.id },
     { $pull: { appliedJobs: post._id } },
@@ -45,6 +53,8 @@ route.put("/:userId", async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     experience: req.body.experienceLevel,
     education: req.body.educationLevel,
+    workCategory: req.body.workCategory,
+    additional: req.body.additional,
   });
   if (!user) return res.status(404).send("User not found");
   res.send(user);

@@ -25,18 +25,20 @@ const UserLayout = () => {
     setCurrentUser(user);
   }, []);
   return (
-    <div>
-      <Navbar
-        currentUser={currentUser}
-        {...tab}
-        setTab={setIsOpen}
-        isRead={data}
-      />
-      <Drawer isOpen={isOpen} setIsOpen={setIsOpen} />
+    <div className="">
+      {/* <Drawer isOpen={isOpen} setIsOpen={setIsOpen} /> */}
+      <main>
+        <Navbar
+          currentUser={currentUser}
+          {...tab}
+          setTab={setIsOpen}
+          isRead={data}
+        />
 
-      <div className="pt-28">
-        <Outlet />
-      </div>
+        <div className="pt-28">
+          <Outlet />
+        </div>
+      </main>
     </div>
   );
 };

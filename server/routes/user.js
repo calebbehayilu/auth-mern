@@ -84,15 +84,18 @@ route.post("/", async (req, res) => {
 route.put("/:userId", async (req, res) => {
   const userId = req.params.userId;
 
-  const salt = await bcrypt.genSalt(10);
   if (req.body.password) {
+    const salt = await bcrypt.genSalt(10);
     req.body.password = await bcrypt.hash(req.body.password, salt);
   }
+
   const user = await User.findByIdAndUpdate(userId, req.body);
   if (!user) return res.status(404).send("User not found");
 
-  await CreateUserByRole(user);
-  const token = await generateToken(user);
+  const newUser = await User.findById(userId);
+  await CreateUserByRole(newUser);
+
+  const token = await generateToken(newUser);
 
   res
     .header("x-auth-token", token)

@@ -72,7 +72,7 @@ const Signup = () => {
         <h1 className="text-2xl m-2">Sign Up</h1>
         {error && <Error error={error} />}
         <form
-          className="flex flex-col w-96 gap-2"
+          className="flex flex-col w-full sm:w-8/12 gap-2"
           onSubmit={handleSubmit(onSubmit)}
         >
           <label className="input input-bordered flex items-center gap-2">
