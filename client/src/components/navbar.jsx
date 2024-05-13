@@ -15,7 +15,7 @@ const Navbar = ({ tab, setTab, isRead }) => {
       .getUser()
       .then((res) => setUser(res.data))
       .finally(setIsLoading(false));
-  }, [location.pathname]);
+  }, [isRead]);
   return (
     <div className="navbar bg-base-200 p-5 mb-4 fixed w-full z-20 top-0 start-0 border-b">
       {/* Code Starts Here */}

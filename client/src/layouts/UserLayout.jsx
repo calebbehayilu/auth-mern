@@ -23,7 +23,7 @@ const UserLayout = () => {
     const user = getCurrentUser();
     refetch();
     setCurrentUser(user);
-  }, []);
+  }, [data]);
   return (
     <div className="">
       {/* <Drawer isOpen={isOpen} setIsOpen={setIsOpen} /> */}

@@ -50,7 +50,7 @@ const Notification = () => {
             >
               <div className="card-body">
                 <h2 className="card-title">
-                  {notification.type !== "REQUESTED" ? (
+                  {notification.type !== "REQESTED" ? (
                     <>Requested</>
                   ) : (
                     <>Accepted</>

@@ -30,7 +30,7 @@ const AppledList = () => {
           </div>
         )}
         {data && (
-          <div className="sm:w-6/12 overflow-x-auto rounded-lg">
+          <div className="sm:w-8/12 overflow-x-auto rounded-lg">
             {data.map((applier) => (
               <AppliedCard
                 applier={applier}

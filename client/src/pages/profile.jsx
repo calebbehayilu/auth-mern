@@ -125,6 +125,9 @@ const Profile = () => {
             <p className="font-normal text-gray-700 dark:text-gray-400">
               {user.email}
             </p>
+            <p className="font-normal text-gray-700 dark:text-gray-400">
+              {user.role === "job_seeker" ? <>JobSeeker</> : <>Employer</>}
+            </p>
           </div>
           {user.role === "job_seeker" ? (
             <JobSeekerProfile userId={userId} />

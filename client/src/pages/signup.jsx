@@ -4,11 +4,13 @@ import { IoMdMail } from "react-icons/io";
 import { IoKey } from "react-icons/io5";
 import apiClient from "../services/api-client";
 import z from "zod";
+import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Error from "../components/error";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../redux/userSlice";
+import { getCurrentUser } from "../utils/auth";
 
 const signupSchema = z
   .object({
@@ -26,6 +28,8 @@ const signupSchema = z
 const Signup = () => {
   const dispatch = useDispatch();
   const [error, setError] = useState();
+  const currentUser = getCurrentUser();
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -65,6 +69,7 @@ const Signup = () => {
       window.location = `/finish-up/${response.data._id}`;
     }
   };
+  if (currentUser) return <Navigate to="/home" />;
 
   return (
     <div>
@@ -72,7 +77,7 @@ const Signup = () => {
         <h1 className="text-2xl m-2">Sign Up</h1>
         {error && <Error error={error} />}
         <form
-          className="flex flex-col w-full sm:w-8/12 gap-2"
+          className="flex flex-col w-full lg:w-96 gap-2"
           onSubmit={handleSubmit(onSubmit)}
         >
           <label className="input input-bordered flex items-center gap-2">

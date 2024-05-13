@@ -11,7 +11,15 @@ const EmployerFinishup = ({ currentUser, setMessage }) => {
     formState: { errors },
     register,
   } = useForm({ resolver: zodResolver(EmployerValidation) });
+
+  const getSkills = (skills) => {
+    let newArray = skills.split(",");
+
+    return newArray;
+  };
   const onSubmit = async (data) => {
+    data.componyCategory = getSkills(data.componyCategory);
+
     await apiClient
       .put(`/employer/${currentUser.id}`, data)
       .then((res) => {
