@@ -2,20 +2,31 @@ import Sidebar from "../components/sidebar";
 import PostCard from "../components/home-page/post-card";
 import Error from "../components/error";
 import usePosts from "../hooks/usePosts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { sort } from "fast-sort";
+import { useParams, useSearchParams } from "react-router-dom";
 const HomePage = () => {
   const pageSize = 10;
   const [page, setPage] = useState(1);
-  const { isLoading, error, data } = usePosts(page, pageSize);
+  const [location, setLocation] = useState();
+  const [searchParam, setSearchParam] = useSearchParams();
+  const search = searchParam.get("search");
+
+  const { isLoading, error, data, refetch } = usePosts(
+    page,
+    pageSize,
+    location,
+    search
+  );
+  useEffect(() => {}, [search]);
 
   const posts = sort(data).desc("postDate");
-
+  console.log(search);
   return (
     <div className="md:mx-auto">
       <div className="lg:grid grid-cols-12 lg:gap-3 ">
         <div className="lg:col-span-3 lg:px-3">
-          <Sidebar />
+          <Sidebar setLocation={setLocation} refetch={refetch} />
         </div>
         <div className="lg:col-span-6">
           {isLoading && (

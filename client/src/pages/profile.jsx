@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import useFetch from "../utils/useFetch";
 import Error from "../components/error";
-import { BiCalendar, BiUser } from "react-icons/bi";
-import { MdEmail } from "react-icons/md";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import getAvatar from "./../utils/create-avatar";
 import apiClient from "../services/api-client";
@@ -47,7 +45,7 @@ const Profile = () => {
             href="#"
             className="block pl-6 pb-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 "
           >
-            {currentUser.id == user._id && (
+            {currentUser.id == user._id ? (
               <div className="flex justify-end px-4 pt-4 dropdown dropdown-end">
                 <button
                   tabIndex={0}
@@ -104,6 +102,8 @@ const Profile = () => {
                   </ul>
                 </div>
               </div>
+            ) : (
+              <div className="pb-6"></div>
             )}
 
             <div className="avatar mb-5">
@@ -163,12 +163,3 @@ const Profile = () => {
   );
 };
 export default Profile;
-
-const UserProfile = ({ icon, text }) => {
-  return (
-    <div className="my-2 flex items-center">
-      <span className="p-3">{icon}</span>
-      <p className="text-2xl">{text}</p>
-    </div>
-  );
-};

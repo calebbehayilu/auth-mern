@@ -47,8 +47,7 @@ const PostsSchema = new mongoose.Schema({
     default: Date.now(),
   },
   location: {
-    type: String,
-    enum: countries,
+    type: Array,
   },
   minAmount: Number,
   maxAmount: Number,
@@ -81,9 +80,7 @@ function validatePost(posts) {
     tags: Joi.array().min(1).required(),
     minAmount: Joi.number().min(1).required(),
     maxAmount: Joi.number().min(1),
-    location: Joi.string()
-      .valid(...countries)
-      .required(),
+    location: Joi.array().required(),
     additional: Joi.string().min(5),
     experienceLevel: Joi.string().min(1),
     jobType: Joi.string().valid(...jobDurations),

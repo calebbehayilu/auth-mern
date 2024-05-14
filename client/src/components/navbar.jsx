@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import userService from "../services/user-service";
 import getAvatar from "../utils/create-avatar";
 import { BiBell } from "react-icons/bi";
+import { useForm } from "react-hook-form";
 
 const Navbar = ({ tab, setTab, isRead }) => {
-  const location = useLocation();
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,7 +17,8 @@ const Navbar = ({ tab, setTab, isRead }) => {
       .getUser()
       .then((res) => setUser(res.data))
       .finally(setIsLoading(false));
-  }, [isRead]);
+  }, []);
+
   return (
     <div className="navbar bg-base-200 p-5 mb-4 fixed w-full z-20 top-0 start-0 border-b">
       {/* Code Starts Here */}
@@ -39,9 +42,20 @@ const Navbar = ({ tab, setTab, isRead }) => {
         )}
         {user ? (
           <div className="flex">
-            <form action="" className="hidden md:flex mx-5">
+            <form
+              action=""
+              className="hidden md:flex mx-5"
+              onSubmit={handleSubmit((data) => {
+                navigate(`?search=${data.search}`);
+              })}
+            >
               <label className="input input-bordered rounded-2xl flex justify-around mx-2 ">
-                <input type="text" className="grow" placeholder="Search" />
+                <input
+                  {...register("search")}
+                  type="text"
+                  className="grow"
+                  placeholder="Search"
+                />
               </label>
               <button className="rounded-2xl btn btn-accent m-0" type="submit">
                 <BiSearch />

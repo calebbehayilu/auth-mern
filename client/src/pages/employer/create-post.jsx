@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Inputs from "../../components/input";
@@ -7,17 +7,49 @@ import { BiTrash } from "react-icons/bi";
 import apiClient from "../../services/api-client";
 import { useNavigate } from "react-router-dom";
 import Error from "./../../components/error";
+import Select from "react-select";
+import { clsx } from "clsx";
+
+const controlStyles = {
+  base: "input input-bordered text-base-100",
+  focus: "",
+  nonFocus: "border hover:border-gray-100",
+};
+const placeholderStyles = "text-slate-500 pl-1 py-0.5";
+const selectInputStyles = "pl-1 py-0.5";
+const valueContainerStyles = "p-1 gap-1";
+const singleValueStyles = "leading-7 ml-1";
+const multiValueStyles =
+  "bg-primary rounded items-center py-0.5 pl-2 pr-1 gap-1.5";
+const multiValueLabelStyles = "leading-6 py-0.5";
+const multiValueRemoveStyles =
+  " bg-base hover:bg-red-50 hover:text-red-800 text-base-300 hover:border-red-300 rounded-md";
+const indicatorsContainerStyles = "p-1 gap-1";
+const indicatorSeparatorStyles = "";
+const clearIndicatorStyles =
+  "text-gray-100 p-1 rounded-md hover:bg-red-50 hover:text-red-800";
+const dropdownIndicatorStyles =
+  "p-1 bg-base-200 rounded hover:bg-base-300 text-slate-500 ";
+const menuStyles = "p-1 mt-2 border border-gray-200 bg-base rounded-lg";
+const groupHeadingStyles = "ml-3 mt-2 mb-1 text-base-500 text-sm";
+const optionStyles = {
+  base: "hover:cursor-pointer px-3 py-2 rounded menu bg-base-100",
+  focus: "bg-base-200 active:bg-base-200 border",
+  selected: "after:content-['✔'] after:ml-2 after:text-green-500 text-base-100",
+};
+const noOptionsMessageStyles =
+  "text-gray-100 p-2 bg-base-200 border border-dashed border-base-200 rounded-sm";
 const countries = [
-  "All",
-  "Afar",
-  "Amhara",
-  "Benishangul",
-  "Gambella",
-  "Harari",
-  "Oromia",
-  "Somali",
-  "Tigray",
-  "SNNPR",
+  { value: "All", label: "All" },
+  { value: "Afar", label: "Afar" },
+  { value: "Amhara", label: "Amhara" },
+  { value: "Benishangul", label: "Benishangul" },
+  { value: "Gambella", label: "Gambella" },
+  { value: "Harari", label: "Harari" },
+  { value: "Oromia", label: "Oromia" },
+  { value: "Somali", label: "Somali" },
+  { value: "Tigray", label: "Tigray" },
+  { value: "SNNPR", label: "SNNPR" },
 ];
 const jobType = [
   "Permanent/Full-time",
@@ -32,28 +64,16 @@ const jobType = [
   "On-call",
   "Other",
 ];
-const schema = z.object({
-  title: z.string().min(3),
-  skills: z.string().min(3),
-  location: z.string().min(1),
-  minAmount: z.number().min(1),
-  maxAmount: z.number().min(1),
-  experienceLevel: z.string().min(3),
-  description: z.string().min(3),
-  jobType: z.string().min(3),
-  additional: z.string().min(3),
-  questions: z.string({
-    invalid_type_error: "You Have to add the question ",
-    required_error: "required field",
-  }),
-});
+
 const CreatePost = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm({ resolver: zodResolver(schema) });
+    control,
+    setValue,
+  } = useForm();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
@@ -82,16 +102,15 @@ const CreatePost = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
 
-    // if (getValues("questions") !== "") {
-    //   setQuestion((prevArray) => [...prevArray, getValues("questions")]);
-    // }
+    if (getValues("questions") !== "") {
+      setQuestion((prevArray) => [...prevArray, getValues("questions")]);
+    }
 
-    const post = await {
+    const post = {
       ...data,
       skills: getSkills(data.skills),
       questions,
     };
-
     const res = await apiClient
       .post("/posts", {
         ...post,
@@ -126,20 +145,67 @@ const CreatePost = () => {
                 <label htmlFor="" className="m-2 my-4 text-lg py-3">
                   Location
                 </label>
-                <select
+                {/* <select
                   {...register("location")}
                   className="select select-bordered w-full"
                 >
                   <option disabled defaultValue>
                     Pick Job Location
                   </option>
-                  <option value="All">All</option>
                   {countries.map((countrie) => (
                     <option value={countrie} key={countrie}>
                       {countrie}
                     </option>
                   ))}
-                </select>
+                </select> */}
+                <Controller
+                  control={control}
+                  name={"location"}
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                  }) => (
+                    <Select
+                      options={countries}
+                      value={countries.find((c) => c.value == value)}
+                      onChange={(val) => onChange(val.map((c) => c.value))}
+                      isMulti={true}
+                      onBlur={onBlur}
+                      name={name}
+                      ref={ref}
+                      unstyled
+                      className="w-full h-fit"
+                      classNames={{
+                        control: ({ isFocused }) =>
+                          clsx(
+                            isFocused
+                              ? controlStyles.focus
+                              : controlStyles.nonFocus,
+                            controlStyles.base
+                          ),
+                        placeholder: () => placeholderStyles,
+                        input: () => selectInputStyles,
+                        valueContainer: () => valueContainerStyles,
+                        singleValue: () => singleValueStyles,
+                        multiValue: () => multiValueStyles,
+                        multiValueLabel: () => multiValueLabelStyles,
+                        multiValueRemove: () => multiValueRemoveStyles,
+                        indicatorsContainer: () => indicatorsContainerStyles,
+                        clearIndicator: () => clearIndicatorStyles,
+                        indicatorSeparator: () => indicatorSeparatorStyles,
+                        dropdownIndicator: () => dropdownIndicatorStyles,
+                        menu: () => menuStyles,
+                        groupHeading: () => groupHeadingStyles,
+                        option: ({ isFocused, isSelected }) =>
+                          clsx(
+                            isFocused && optionStyles.focus,
+                            isSelected && optionStyles.selected,
+                            optionStyles.base
+                          ),
+                        noOptionsMessage: () => noOptionsMessageStyles,
+                      }}
+                    />
+                  )}
+                />
               </div>
               <Inputs
                 type="text"
