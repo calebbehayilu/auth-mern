@@ -13,6 +13,7 @@ const EmployerFinishup = ({ currentUser, setMessage }) => {
   } = useForm({ resolver: zodResolver(EmployerValidation) });
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     if (data.companyCategory && data.companyCategory.includes(",")) {
       data.companyCategory = data.companyCategory
         .split(",")

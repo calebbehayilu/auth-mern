@@ -21,6 +21,7 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
   };
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     if (data.workCategory && data.workCategory.includes(",")) {
       data.workCategory = data.workCategory
         .split(",")
@@ -33,7 +34,7 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
         if (res.status === 200) {
           setIsLoading(false);
         }
-        // window.location = "/home";
+        window.location = "/home";
         navigate("/home");
       })
       .catch((res) => {
