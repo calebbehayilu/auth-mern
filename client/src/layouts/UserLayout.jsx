@@ -26,12 +26,12 @@ const UserLayout = () => {
   }, [data]);
   return (
     <div className="">
-      {/* <Drawer isOpen={isOpen} setIsOpen={setIsOpen} /> */}
-      <main>
+      <Drawer setIsOpen={setIsOpen} isOpen={isOpen} />
+      <main className="">
         <Navbar
           currentUser={currentUser}
-          {...tab}
-          setTab={setIsOpen}
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
           isRead={data}
         />
 

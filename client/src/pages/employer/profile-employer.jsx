@@ -39,8 +39,11 @@ const EmployerProfile = ({ userId }) => {
         <div className="my-2">
           <span className="text-lg font-light">Company Category</span>
           <h5 className="my-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {user.componyCategory.map((tags) => (
-              <span class="text-xl font-medium me-2 px-2.5 py-0.5 rounded bg-blue-900 text-blue-300">
+            {user.componyCategory.map((tags, i) => (
+              <span
+                key={i}
+                className="text-xl font-medium me-2 px-2.5 py-0.5 rounded bg-blue-900 text-blue-300"
+              >
                 {tags}
               </span>
             ))}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FormsSideBar from "./sidebar/forms-sidebar";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 const countries = [
   "All",
   "Afar",
@@ -15,31 +16,31 @@ const countries = [
   "Other",
 ];
 
-const Sidebar = ({ setLocation, refetch }) => {
-  const { register, watch, getValues, control } = useForm();
-
-  const selectedLocation = watch("location") || "All";
-
-  useEffect(() => {
-    setLocation(selectedLocation);
-    refetch();
-  }, [selectedLocation]);
+const Sidebar = ({ setIsOpen }) => {
+  const navigate = useNavigate();
+  const { control } = useForm();
 
   return (
-    <div className="hidden lg:flex flex-col bg-base-100 rounded-lg">
+    <div className="flex flex-col bg-base-100 rounded-lg">
       <h1 className="text-xl px-4 pt-4">Filters</h1>
       <div className="px-6 py-3">
-        <h1 className="text-xl">Location</h1>
+        <h1 className="text-md md:text-xl ">Location</h1>
         {/* <FormsSideBar /> */}
         <Controller
           control={control}
           name="location"
-          defaultValue=""
-          render={({ field }) => (
+          render={({ field: { onChange, value } }) => (
             <select
-              className="select select-bordered w-full max-w-xs"
-              {...field}
+              className="select select-bordered w-4/5 md:w-full md:max-w-xs"
+              onChange={(e) => {
+                let Val = "All";
+                Val = e.target.value;
+                onChange(Val);
+                navigate(`?location=${Val}`);
+                setIsOpen(false);
+              }}
             >
+              <option>Select a Country</option>
               {countries.map((country) => (
                 <option key={country} value={country}>
                   {country}

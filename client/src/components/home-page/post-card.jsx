@@ -22,7 +22,9 @@ const PostCard = ({ post }) => {
         <div className="md:flex items-center gap-4 m-2 space-y-3 md:space-y-0">
           <span className="flex items-center gap-1 my-2">
             <CiLocationOn size={25} />
-            {post.location}
+            {post.location.map((city, i) => (
+              <span key={i}>{city}</span>
+            ))}
           </span>
           <span className="flex items-center gap-1 my-2">
             <CiTimer size={25} />

@@ -8,9 +8,9 @@ import { useParams, useSearchParams } from "react-router-dom";
 const HomePage = () => {
   const pageSize = 10;
   const [page, setPage] = useState(1);
-  const [location, setLocation] = useState();
   const [searchParam, setSearchParam] = useSearchParams();
   const search = searchParam.get("search");
+  const location = searchParam.get("location");
 
   const { isLoading, error, data, refetch } = usePosts(
     page,
@@ -23,11 +23,11 @@ const HomePage = () => {
   const posts = sort(data).desc("postDate");
   return (
     <div className="md:mx-auto">
-      <div className="lg:grid grid-cols-12 lg:gap-3 ">
-        <div className="lg:col-span-3 lg:px-3">
-          <Sidebar setLocation={setLocation} refetch={refetch} />
+      <div className="lg:grid grid-cols-12 lg:gap-3">
+        <div className="hidden md:flex lg:col-span-3 lg:px-3">
+          <Sidebar />
         </div>
-        <div className="lg:col-span-6">
+        <div className="lg:col-span-6 ">
           {isLoading && (
             <div className="flex flex-col justify-center items-center">
               <span className="loading loading-spinner loading-lg"></span>
@@ -40,12 +40,12 @@ const HomePage = () => {
           )}
           {posts && (
             <div className="flex flex-col justify-center">
-              <div className="rounded-lg">
+              <div className="rounded-lg min-w-4">
                 {posts.map((post) => (
                   <PostCard post={post} key={post._id} />
                 ))}
 
-                {posts != [] && (
+                {posts != [] ? (
                   <div className="join grid grid-cols-2 mx-auto my-2 max-w-md ">
                     <button
                       className="join-item btn "
@@ -66,6 +66,8 @@ const HomePage = () => {
                       Next
                     </button>
                   </div>
+                ) : (
+                  <></>
                 )}
               </div>
             </div>

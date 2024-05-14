@@ -6,7 +6,7 @@ import getAvatar from "../utils/create-avatar";
 import { BiBell } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 
-const Navbar = ({ tab, setTab, isRead }) => {
+const Navbar = ({ isOpen, setIsOpen, isRead }) => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [user, setUser] = useState(null);
@@ -25,7 +25,7 @@ const Navbar = ({ tab, setTab, isRead }) => {
       <div className="flex-1">
         <button
           onClick={() => {
-            setTab(!tab);
+            setIsOpen(!isOpen);
           }}
           className="md:hidden btn btn-ghost rounded-2xl"
         >

@@ -29,7 +29,7 @@ const indicatorSeparatorStyles = "";
 const clearIndicatorStyles =
   "text-gray-100 p-1 rounded-md hover:bg-red-50 hover:text-red-800";
 const dropdownIndicatorStyles =
-  "p-1 bg-base-200 rounded hover:bg-base-300 text-slate-500 ";
+  "p-1 bg-base-200 rounded hover:bg-base-300 text-slate-500 overflow-y-auto";
 const menuStyles = "p-1 mt-2 border border-gray-200 bg-base rounded-lg";
 const groupHeadingStyles = "ml-3 mt-2 mb-1 text-base-500 text-sm";
 const optionStyles = {
@@ -64,7 +64,21 @@ const jobType = [
   "On-call",
   "Other",
 ];
-
+const schema = z.object({
+  title: z.string().min(3),
+  skills: z.string().min(3),
+  location: z.string().array().min(1),
+  minAmount: z.number().min(1),
+  maxAmount: z.number().min(1),
+  experienceLevel: z.string().min(3),
+  description: z.string().min(3),
+  jobType: z.string().min(3),
+  additional: z.string().min(3),
+  questions: z.string({
+    invalid_type_error: "You Have to add the question ",
+    required_error: "required field",
+  }),
+});
 const CreatePost = () => {
   const {
     register,
@@ -72,8 +86,9 @@ const CreatePost = () => {
     formState: { errors },
     getValues,
     control,
-    setValue,
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
@@ -94,14 +109,18 @@ const CreatePost = () => {
   };
 
   const getSkills = (skills) => {
-    let testdata = "day ,night , mid day";
-    let newArray = testdata.split(",");
+    if (skills.includes(",")) {
+      let newArray = skills.split(",");
 
-    return newArray;
+      return newArray;
+    }
+    return skills;
   };
   const onSubmit = async (data) => {
     setIsLoading(true);
-
+    if (getValues("questions") == "") {
+      setError("Quesion is Required ");
+    }
     if (getValues("questions") !== "") {
       setQuestion((prevArray) => [...prevArray, getValues("questions")]);
     }
@@ -110,11 +129,11 @@ const CreatePost = () => {
       ...data,
       skills: getSkills(data.skills),
       questions,
+      tags: getSkills(data.skills),
     };
-    const res = await apiClient
+    await apiClient
       .post("/posts", {
         ...post,
-        tags: ["new ", "not so new", "old"],
       })
       .then((res) => {
         navigate("/home");
@@ -206,6 +225,10 @@ const CreatePost = () => {
                     />
                   )}
                 />
+
+                {errors.location && (
+                  <span className="text-error">{errors.location.message}</span>
+                )}
               </div>
               <Inputs
                 type="text"
