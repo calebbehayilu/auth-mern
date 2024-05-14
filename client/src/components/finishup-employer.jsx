@@ -20,7 +20,7 @@ const EmployerFinishup = ({ currentUser, setMessage }) => {
     }
 
     await apiClient
-      .put(`/employer/${currentUser.id}`, newData)
+      .put(`/employer/${currentUser.id}`, data)
       .then((res) => {
         if (res.status === 200) {
           setIsLoading(false);
