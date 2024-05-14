@@ -21,8 +21,12 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
   };
 
   const onSubmit = async (data) => {
-    data.workCategory = getSkills(data.workCategory);
-    console.log(data);
+    if (data.workCategory && data.workCategory.includes(",")) {
+      data.workCategory = data.workCategory
+        .split(",")
+        .map((category) => category.trim());
+    }
+
     await apiClient
       .put(`/applied/${currentUser.id}`, data)
       .then((res) => {

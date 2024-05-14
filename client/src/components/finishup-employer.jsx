@@ -12,26 +12,28 @@ const EmployerFinishup = ({ currentUser, setMessage }) => {
     register,
   } = useForm({ resolver: zodResolver(EmployerValidation) });
 
-  const getSkills = (skills) => {
-    let newArray = skills.split(",");
-
-    return newArray;
-  };
   const onSubmit = async (data) => {
-    data.componyCategory = getSkills(data.componyCategory);
+    if (data.companyCategory && data.companyCategory.includes(",")) {
+      data.companyCategory = data.companyCategory
+        .split(",")
+        .map((category) => category.trim());
+    }
+    console.log(data);
 
-    await apiClient
-      .put(`/employer/${currentUser.id}`, data)
-      .then((res) => {
-        if (res.status === 200) {
-          setIsLoading(false);
-        }
-        window.location = "/home";
-      })
-      .catch((res) => {
-        setIsLoading(false);
-        setMessage(res.response.data);
-      });
+    // await apiClient
+    //   .put(`/employer/${currentUser.id}`, newData)
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       setIsLoading(false);
+    //     }
+    //     // window.location = "/home";
+    //   })
+    //   .catch((res) => {
+    //     setIsLoading(false);
+    //     setMessage(res.response.data);
+    //   });
+
+    setIsLoading(false);
   };
   return (
     <div>
