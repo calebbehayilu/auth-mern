@@ -21,7 +21,6 @@ const HomePage = () => {
   useEffect(() => {}, [search]);
 
   const posts = sort(data).desc("postDate");
-  console.log(search);
   return (
     <div className="md:mx-auto">
       <div className="lg:grid grid-cols-12 lg:gap-3 ">
