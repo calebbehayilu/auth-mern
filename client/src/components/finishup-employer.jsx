@@ -18,20 +18,19 @@ const EmployerFinishup = ({ currentUser, setMessage }) => {
         .split(",")
         .map((category) => category.trim());
     }
-    console.log(data);
 
-    // await apiClient
-    //   .put(`/employer/${currentUser.id}`, newData)
-    //   .then((res) => {
-    //     if (res.status === 200) {
-    //       setIsLoading(false);
-    //     }
-    //     // window.location = "/home";
-    //   })
-    //   .catch((res) => {
-    //     setIsLoading(false);
-    //     setMessage(res.response.data);
-    //   });
+    await apiClient
+      .put(`/employer/${currentUser.id}`, newData)
+      .then((res) => {
+        if (res.status === 200) {
+          setIsLoading(false);
+        }
+        window.location = "/home";
+      })
+      .catch((res) => {
+        setIsLoading(false);
+        setMessage(res.response.data);
+      });
 
     setIsLoading(false);
   };
