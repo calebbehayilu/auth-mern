@@ -19,13 +19,13 @@ const JobSeekerProfile = ({ userId }) => {
         <div className="my-2">
           <span className="text-lg font-light">Education Level</span>
           <h5 className="my-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {user.education}
+            {toTitleCase(user.education)}
           </h5>
         </div>
         <div className="my-2">
           <span className="text-lg font-light">Experience Level</span>
           <h5 className="my-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {user.experience}
+            {toTitleCase(user.experience)}
           </h5>
         </div>
         <div className="my-2">
@@ -38,15 +38,29 @@ const JobSeekerProfile = ({ userId }) => {
             ))}
           </h5>
         </div>
-        <div className="my-2">
-          <span className="text-lg font-light">Portfolio Link</span>
-          <h5 className="my-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {user.resumeLink}
-          </h5>
-        </div>
+        {user.resumeLink && (
+          <div className="my-2">
+            <span className="text-lg font-light">Portfolio Link</span>
+            <h5 className="my-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              {user.resumeLink}
+            </h5>
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
+function toTitleCase(inputString) {
+  const words = inputString.split("_");
+
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1)
+  );
+
+  const result = capitalizedWords.join(" ");
+
+  return result;
+}
 
 export default JobSeekerProfile;

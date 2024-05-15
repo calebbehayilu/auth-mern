@@ -34,7 +34,6 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
         if (res.status === 200) {
           setIsLoading(false);
         }
-        window.location = "/home";
         navigate("/home");
       })
       .catch((res) => {
@@ -45,17 +44,16 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
   return (
     <div>
       <form
-        className="flex flex-col w-fu;; sm:w-96 gap-2"
+        className="flex flex-col w-full sm:w-96 gap-2"
         onSubmit={handleSubmit(onSubmit)}
       >
         <select
           {...register("experienceLevel")}
           className="select select-bordered"
           placeholder="Experience Level"
+          defaultValue
         >
-          <option disabled defaultValue selected>
-            Experience Level
-          </option>
+          <option>Experience Level</option>
           <option value="beginner">Beginner</option>
           <option value="intermediate">Intermediate</option>
           <option value="advanced">Advanced</option>
@@ -66,10 +64,9 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
           {...register("educationLevel")}
           className="select select-bordered"
           placeholder="educationLevel"
+          defaultValue
         >
-          <option disabled selected>
-            Education Level
-          </option>
+          <option>Education Level</option>
           <option value="high_school_1_8">High School (Grades 1-8)</option>
           <option value="high_school_9_12">High School (Grades 9-12)</option>
           <option value="associate_degree">Associate Degree</option>

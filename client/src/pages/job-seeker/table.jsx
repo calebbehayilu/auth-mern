@@ -18,7 +18,7 @@ const TableList = ({ posts, onDelete }) => {
               <th scope="col" className="hidden sm:table-cell px-6 py-3">
                 Location
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className=" hidden sm:table-cell px-6 py-3">
                 Amount
               </th>
               <th scope="col" className="px-6 py-3">
@@ -47,7 +47,7 @@ const TableList = ({ posts, onDelete }) => {
                 <td className="hidden sm:table-cell px-6 py-4">
                   {item.postId.location}
                 </td>
-                <td className="px-6 py-4">
+                <td className=" hidden sm:table-cell px-6 py-4">
                   ${item.postId.minAmount} - ${item.postId.maxAmount}
                 </td>
                 <td className="px-6 py-4 text-right">

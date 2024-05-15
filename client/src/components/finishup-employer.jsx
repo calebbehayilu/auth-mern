@@ -3,8 +3,11 @@ import apiClient from "../services/api-client";
 import EmployerValidation from "./validation/employe";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const EmployerFinishup = ({ currentUser, setMessage }) => {
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmit,
@@ -26,7 +29,7 @@ const EmployerFinishup = ({ currentUser, setMessage }) => {
         if (res.status === 200) {
           setIsLoading(false);
         }
-        window.location = "/home";
+        navigate("/home");
       })
       .catch((res) => {
         setIsLoading(false);
@@ -47,20 +50,20 @@ const EmployerFinishup = ({ currentUser, setMessage }) => {
               {...register("companyName")}
               type="text"
               className="grow"
-              placeholder="Company"
+              placeholder="Company Name (If you use the page as a company)"
             />
           </label>
           {errors.companyName && (
             <span className="text-error">{errors.companyName.message}</span>
           )}
-        </div>{" "}
+        </div>
         <div>
           <label className="input input-bordered flex items-center gap-2">
             <input
               {...register("companyCategory")}
               type="text"
               className="grow"
-              placeholder="Company Category"
+              placeholder="Food, Serve, Organise"
             />
           </label>
           {errors.companyCategory && (

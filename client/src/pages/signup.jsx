@@ -65,7 +65,6 @@ const Signup = () => {
       dispatch(setUserInfo(response.data));
       localStorage.setItem("token", response.headers["x-auth-token"]);
       setIsLoading(false);
-      // window.location = "/home";
       window.location = `/finish-up/${response.data._id}`;
     }
   };
@@ -112,10 +111,9 @@ const Signup = () => {
             {...register("role")}
             className="select select-bordered "
             placeholder="Choose A Role"
+            defaultValue={""}
           >
-            <option disabled selected>
-              Choose A Role
-            </option>
+            <option>Choose A Role</option>
             <option value={"job_seeker"}>Job Seeker</option>
             <option value={"employer"}>Employer</option>
           </select>

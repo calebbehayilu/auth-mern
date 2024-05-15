@@ -38,9 +38,8 @@ const JobDetailCard = ({ post }) => {
       });
   };
   return (
-    <div className="card card-bordered max-w-2xl  bg-base-100 mb-2 mx-3 lg:mx-0 lg:w-full">
+    <div className="card card-bordered w-full bg-base-100 mb-2 lg:mx-0 lg:w-full">
       {error && <Error error={error} />}
-
       <div className="card-body">
         <Link to={`/profile/${post.userId._id}`}>
           <ProfileCard user={post.userId} />

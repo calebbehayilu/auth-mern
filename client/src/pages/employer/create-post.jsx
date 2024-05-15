@@ -65,14 +65,52 @@ const jobType = [
   "Other",
 ];
 const schema = z.object({
-  title: z.string().min(3),
-  skills: z.string().min(3),
+  title: z
+    .string({
+      message: "Title Can`t be empty ",
+    })
+    .min(3),
+  skills: z
+    .string({
+      message: "Skills Can`t be empty ",
+    })
+    .min(3)
+    .refine(
+      (value) => {
+        return value.includes(",");
+      },
+      {
+        message: "The string must include at least one comma (,)",
+      }
+    ),
   location: z.string().array().min(1),
-  minAmount: z.number().min(1),
-  maxAmount: z.number().min(1),
-  experienceLevel: z.string().min(3),
-  description: z.string().min(3),
-  jobType: z.string().min(3),
+  minAmount: z
+    .number({
+      invalid_type_error: "Must be number",
+      message: "Budget Can`t be empty ",
+    })
+    .min(1),
+  maxAmount: z
+    .number({
+      invalid_type_error: "Must be number",
+      message: "Budget Can`t be empty ",
+    })
+    .min(1),
+  experienceLevel: z
+    .string({
+      message: "Experience Level Can`t be empty ",
+    })
+    .min(3),
+  description: z
+    .string({
+      message: "Description Can`t be empty ",
+    })
+    .min(3),
+  jobType: z
+    .string({
+      message: "Job Type Can`t be empty ",
+    })
+    .min(3),
   additional: z.string().min(3),
   questions: z.string({
     invalid_type_error: "You Have to add the question ",
@@ -238,14 +276,26 @@ const CreatePost = () => {
                 placeholder="Web Developer, UI/UX, JS"
                 error={errors.skills}
               />
-              <Inputs
-                type="text"
-                title="Experience Level"
-                register={register}
-                name="experienceLevel"
-                placeholder="Degree"
-                error={errors.experienceLevel}
-              />
+
+              <div className="my-3">
+                <label htmlFor="" className="m-2 my-4 text-lg py-3">
+                  Experience Level
+                </label>
+                <select
+                  {...register("experienceLevel")}
+                  className="select select-bordered w-full"
+                  defaultValue={""}
+                >
+                  <option value={""} disabled>
+                    Experience Level
+                  </option>
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                  <option value="expert">Expert</option>
+                </select>
+              </div>
+
               <div className="my-3 ">
                 <label htmlFor="" className="m-2 my-4 text-lg py-3">
                   Budget

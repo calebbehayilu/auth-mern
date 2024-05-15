@@ -7,7 +7,7 @@ const JobDetail = () => {
   const { postId } = useParams();
   const { isPending, error, data: post } = useFetch(`/posts/${postId}`);
   return (
-    <div className="flex flex-col justify-center items-center m-5">
+    <div className="flex flex-col justify-center items-center">
       <h1 className="font-semibold text-2xl">Job Detail</h1>
       {error && <Error error={error.message} />}
       {isPending && (
@@ -16,7 +16,7 @@ const JobDetail = () => {
         </div>
       )}
       {post && (
-        <div className="m-5">
+        <div className="mt-5 m-2">
           <JobDetailCard post={post} />
         </div>
       )}

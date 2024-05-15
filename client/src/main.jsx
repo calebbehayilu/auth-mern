@@ -9,14 +9,12 @@ import router from "./routes/routes.jsx";
 import Providers from "./utils/providers.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Providers>
-        <RouterProvider router={router} />
-        {/* <BrowserRouter>
+  <Provider store={store}>
+    <Providers>
+      <RouterProvider router={router} />
+      {/* <BrowserRouter>
         <App />
       </BrowserRouter> */}
-      </Providers>
-    </Provider>
-  </React.StrictMode>
+    </Providers>
+  </Provider>
 );
