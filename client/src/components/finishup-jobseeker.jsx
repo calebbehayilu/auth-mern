@@ -4,30 +4,66 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import JobSeekerValidation from "./validation/jobseeker";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../utils/firebase";
 
 const JobSeekerFinishup = ({ currentUser, setMessage }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const {
     handleSubmit,
     formState: { errors },
     register,
   } = useForm({ resolver: zodResolver(JobSeekerValidation) });
 
-  const getSkills = (skills) => {
-    let newArray = skills.split(",");
-
-    return newArray;
-  };
-
   const onSubmit = async (data) => {
     setIsLoading(true);
+    let file;
+    if (data.file) {
+      file = data?.file[0];
+    }
     if (data.workCategory && data.workCategory.includes(",")) {
       data.workCategory = data.workCategory
         .split(",")
         .map((category) => category.trim());
     }
+    if (file) {
+      const storageRef = ref(storage, `testing/${currentUser.id}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
 
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (error) => {
+          setIsLoading(false);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadUrl) => {
+            if (downloadUrl) {
+              let post = { ...data, resumeData: downloadUrl };
+              delete post.file;
+
+              await apiClient
+                .put(`/applied/${currentUser.id}`, post)
+                .then((res) => {
+                  if (res.status === 200) {
+                    setIsLoading(false);
+                  }
+                  navigate("/home");
+                })
+                .catch((res) => {
+                  setIsLoading(false);
+                  setMessage(res.response.data);
+                });
+            }
+            setIsLoading(false);
+          });
+        }
+      );
+      return;
+    }
     await apiClient
       .put(`/applied/${currentUser.id}`, data)
       .then((res) => {
@@ -43,6 +79,7 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
   };
   return (
     <div>
+      {error && <Error error={"Unexpected error occured"} />}
       <form
         className="flex flex-col w-full sm:w-96 gap-2"
         onSubmit={handleSubmit(onSubmit)}
@@ -78,7 +115,7 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
           <label className="input input-bordered flex items-center gap-2">
             +251
             <input
-              {...register("phoneNumber", { valueAsNumber: true })}
+              {...register("phoneNumber")}
               type="number"
               className="grow"
               placeholder="Phone Number"
@@ -102,11 +139,18 @@ const JobSeekerFinishup = ({ currentUser, setMessage }) => {
             <span className="text-error">{errors.workCategory.message}</span>
           )}
         </div>
-        <input
-          type="file"
-          className="file-input file-input-bordered w-full"
-          placeholder="Upload CV"
-        />
+        <div>
+          <input
+            type="file"
+            className="file-input file-input-bordered w-full"
+            placeholder="Upload CV"
+            {...register("file")}
+          />
+
+          {errors.file && (
+            <span className="text-error">{errors.file.message}</span>
+          )}
+        </div>
         <div>
           <textarea
             {...register("additional")}

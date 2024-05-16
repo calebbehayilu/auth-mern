@@ -48,7 +48,7 @@ route.put("/:userId", async (req, res) => {
   const jobSeeker = await JobSeeker.findOne({ userId: userId });
 
   const user = await JobSeeker.findByIdAndUpdate(jobSeeker._id, {
-    resumeData: "",
+    resumeData: req.body.resumeData || "",
     resumeLink: "",
     phoneNumber: req.body.phoneNumber,
     experience: req.body.experienceLevel,

@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+const MAX_UPLOAD_SIZE = 1024 * 1024 * 3; // 3MB
+const ACCEPTED_FILE_TYPES = ["application/pdf", "docx", "jpeg"];
+
 const JobSeekerValidation = z.object({
   experienceLevel: z.enum(["beginner", "intermediate", "advanced", "expert"]),
   educationLevel: z.enum([
@@ -10,9 +13,18 @@ const JobSeekerValidation = z.object({
     "master_degree",
     "doctorate",
   ]),
-  phoneNumber: z.number().min(3),
+  phoneNumber: z.coerce.string(),
   workCategory: z.string().min(3).max(50),
   additional: z.string().max(500),
+  file: z
+    .any()
+    .optional()
+    .refine((file) => {
+      return !file[0] || file[0].size <= MAX_UPLOAD_SIZE;
+    }, "File size must be less than 3MB")
+    .refine((file) => {
+      return !file[0] || ACCEPTED_FILE_TYPES.includes(file[0].type);
+    }, "File must be a PDF,Docx or JPEG"),
 });
 
 export default JobSeekerValidation;
