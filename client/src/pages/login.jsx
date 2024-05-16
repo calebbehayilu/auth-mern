@@ -33,7 +33,6 @@ const Login = () => {
     const res = await login(data);
     setIsLoading(false);
 
-    console.log(res);
     if (res.status !== 200) {
       return setError(res.response.data);
     }

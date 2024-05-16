@@ -17,7 +17,7 @@ const AppledList = () => {
       });
   };
   return (
-    <div className="flex flex-col justify-center items-center  m-5">
+    <div className="flex flex-col justify-center items-center m-5 h-screen">
       <h1 className="text-2xl font-semibold m-3">Appliers List</h1>
 
       <div className="md:flex justify-center w-full">

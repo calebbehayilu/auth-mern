@@ -159,7 +159,6 @@ route.delete("/:postId", auth, async (req, res) => {
     { $pull: { appliedJobs: appliedId._id } },
     { new: true }
   );
-  console.log(deletion, appliedId);
   res.status(200).send(true);
 });
 

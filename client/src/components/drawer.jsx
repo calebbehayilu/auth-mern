@@ -44,7 +44,7 @@ export default function Drawer({ children, isOpen, setIsOpen }) {
               setIsOpen(false);
             })}
           >
-            <label className="input input-bordered rounded-2xl flex justify-around mx-2 ">
+            <label className="input input-bordered  flex justify-around mx-2 ">
               <input
                 {...register("search")}
                 type="text"
@@ -52,7 +52,7 @@ export default function Drawer({ children, isOpen, setIsOpen }) {
                 placeholder="Search"
               />
             </label>
-            <button className="rounded-2xl btn btn-accent m-0" type="submit">
+            <button className="btn btn-accent m-0" type="submit">
               <BiSearch />
             </button>
           </form>

@@ -24,6 +24,9 @@ import AppledList from "../pages/employer/applied-list";
 import ApplierAnswer from "../pages/employer/applier-answer";
 import Notification from "../pages/notification";
 import FinishUp from "../pages/finish-up";
+import AboutPage from "../pages/additional-pages/about";
+import ContactPage from "../pages/additional-pages/contact";
+import HelpPage from "../pages/additional-pages/help";
 
 const router = createBrowserRouter([
   {
@@ -31,13 +34,15 @@ const router = createBrowserRouter([
     element: <UserLayout />,
     children: [
       { path: "/account-update", element: <GoogleRedirect /> },
-
       { path: "/signup", element: <Signup /> },
       { path: "/forbidden", element: <Forbidden /> },
       { path: "/logout", element: <Logout /> },
       { path: "/login", element: <Login /> },
       { path: "/", element: <WelcomePage /> },
       { path: "*", element: <NotFound /> },
+      { path: "/about", element: <AboutPage /> },
+      { path: "/contact", element: <ContactPage /> },
+      { path: "/help", element: <HelpPage /> },
       {
         element: <PrivateRoutes />,
         children: [

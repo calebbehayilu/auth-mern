@@ -5,6 +5,7 @@ import usePosts from "../hooks/usePosts";
 import { useEffect, useState } from "react";
 import { sort } from "fast-sort";
 import { useParams, useSearchParams } from "react-router-dom";
+import Footer from "../components/footer";
 const HomePage = () => {
   const pageSize = 10;
   const [page, setPage] = useState(1);
@@ -21,6 +22,14 @@ const HomePage = () => {
   useEffect(() => {}, [search]);
 
   const posts = sort(data).desc("postDate");
+
+  if (isLoading)
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+
   return (
     <div className="md:mx-auto">
       <div className="lg:grid grid-cols-12 lg:gap-3">
@@ -28,18 +37,13 @@ const HomePage = () => {
           <Sidebar />
         </div>
         <div className="lg:col-span-6 ">
-          {isLoading && (
-            <div className="flex flex-col justify-center items-center">
-              <span className="loading loading-spinner loading-lg"></span>
-            </div>
-          )}
           {error && (
             <div className="mx-10 my-5">
               <Error error={error.message} />
             </div>
           )}
           {posts && (
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center mb-2">
               <div className="rounded-lg min-w-4">
                 {posts.map((post) => (
                   <PostCard post={post} key={post._id} />
@@ -74,6 +78,7 @@ const HomePage = () => {
           )}
         </div>
       </div>
+      {posts && <Footer />}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Drawer from "../components/drawer";
 import apiClient from "../services/api-client";
 import { useQuery } from "@tanstack/react-query";
+import Footer from "../components/footer";
 
 const UserLayout = () => {
   const [currentUser, setCurrentUser] = useState(null);
