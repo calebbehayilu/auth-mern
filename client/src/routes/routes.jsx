@@ -27,6 +27,7 @@ import FinishUp from "../pages/finish-up";
 import AboutPage from "../pages/additional-pages/about";
 import ContactPage from "../pages/additional-pages/contact";
 import HelpPage from "../pages/additional-pages/help";
+import FileUpload from "../pages/additional-pages/test-upload";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
       { path: "/about", element: <AboutPage /> },
       { path: "/contact", element: <ContactPage /> },
       { path: "/help", element: <HelpPage /> },
+      { path: "/fileupload", element: <FileUpload /> },
       {
         element: <PrivateRoutes />,
         children: [
