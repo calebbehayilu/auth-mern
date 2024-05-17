@@ -33,7 +33,7 @@ const HomePage = () => {
   return (
     <div className="md:mx-auto">
       <div className="lg:grid grid-cols-12 lg:gap-3">
-        <div className="hidden md:flex lg:col-span-3 lg:px-3">
+        <div className="hidden lg:flex lg:col-span-3 lg:px-3">
           <Sidebar />
         </div>
         <div className="lg:col-span-6 ">

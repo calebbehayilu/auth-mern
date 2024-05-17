@@ -111,7 +111,7 @@ const schema = z.object({
       message: "Job Type Can`t be empty ",
     })
     .min(3),
-  additional: z.string().min(3),
+  additional: z.string().optional(),
   questions: z.string({
     invalid_type_error: "You Have to add the question ",
     required_error: "required field",
@@ -270,7 +270,7 @@ const CreatePost = () => {
               </div>
               <Inputs
                 type="text"
-                title="Skills"
+                title="Tags"
                 register={register}
                 name="skills"
                 placeholder="Web Developer, UI/UX, JS"
@@ -350,7 +350,7 @@ const CreatePost = () => {
 
               <Inputs
                 type="text"
-                title="Additional"
+                title="Additional Note"
                 register={register}
                 name="additional"
                 placeholder="$200"

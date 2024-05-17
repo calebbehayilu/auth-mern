@@ -40,7 +40,7 @@ const AboutPage = () => {
           <div className="p-5">
             With the help of:
             <ul className="px-3 list-disc">
-              <li>Gemmachis T.</li>
+              <li>Mr. Gemmachis T.</li>
             </ul>
           </div>
         </div>

@@ -22,12 +22,18 @@ route.post("/", async (req, res) => {
 
   const token = await generateToken(user);
 
-  console.log(_.omit(user, ["password", "name"]));
+  const user_info = {
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    _id: user._id,
+  };
+
   res
     .status(200)
     .header("x-auth-token", token)
     .header("access-control-expose-headers", "x-auth-token")
-    .send(user);
+    .send(user_info);
 });
 
 function validate(body) {

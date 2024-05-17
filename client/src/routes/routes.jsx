@@ -1,33 +1,36 @@
 import { createBrowserRouter } from "react-router-dom";
-import HomePage from "../pages/home-page";
+import AdminLayout from "../layouts/AdminLayout";
 import UserLayout from "../layouts/UserLayout";
-import Profile from "../pages/profile";
-import EditProfile from "../pages/edit-profile";
-import JobDetail from "../pages/job-seeker/job-detail";
-import WelcomePage from "../pages/welcome-page";
-import PrivateRoutes from "./protectedRoute";
-import Login from "../pages/login";
-import AdminRoutes from "../routes/protectedEmployer";
-import AdminDashboard from "../pages/admin/admin-dashboard";
-import NotFound from "./notfound";
-import EmployerRoutes from "./protectedEmployer";
-import CreatePost from "../pages/employer/create-post";
-import Forbidden from "./forbidden";
-import JobSeekerRoutes from "./protectedJobSeeker";
-import ApplyPage from "../pages/job-seeker/apply-page";
-import AppliedJobList from "../pages/job-seeker/applied-job-lists";
-import Signup from "../pages/signup";
-import Logout from "../pages/logout";
-import GoogleRedirect from "../pages/google-redirect";
-import PostsList from "../pages/employer/posts-list";
-import AppledList from "../pages/employer/applied-list";
-import ApplierAnswer from "../pages/employer/applier-answer";
-import Notification from "../pages/notification";
-import FinishUp from "../pages/finish-up";
 import AboutPage from "../pages/additional-pages/about";
 import ContactPage from "../pages/additional-pages/contact";
 import HelpPage from "../pages/additional-pages/help";
 import FileUpload from "../pages/additional-pages/test-upload";
+import AdminContact from "../pages/admin/admin-contact";
+import AdminDashboard from "../pages/admin/admin-dashboard";
+import AdminPosts from "../pages/admin/admin-posts";
+import AdminUsers from "../pages/admin/admin-users";
+import EditProfile from "../pages/edit-profile";
+import AppledList from "../pages/employer/applied-list";
+import ApplierAnswer from "../pages/employer/applier-answer";
+import CreatePost from "../pages/employer/create-post";
+import PostsList from "../pages/employer/posts-list";
+import FinishUp from "../pages/finish-up";
+import GoogleRedirect from "../pages/google-redirect";
+import HomePage from "../pages/home-page";
+import AppliedJobList from "../pages/job-seeker/applied-job-lists";
+import ApplyPage from "../pages/job-seeker/apply-page";
+import JobDetail from "../pages/job-seeker/job-detail";
+import Login from "../pages/login";
+import Logout from "../pages/logout";
+import Notification from "../pages/notification";
+import Profile from "../pages/profile";
+import Signup from "../pages/signup";
+import WelcomePage from "../pages/welcome-page";
+import Forbidden from "./forbidden";
+import NotFound from "./notfound";
+import EmployerRoutes from "./protectedEmployer";
+import JobSeekerRoutes from "./protectedJobSeeker";
+import PrivateRoutes from "./protectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -48,15 +51,6 @@ const router = createBrowserRouter([
       {
         element: <PrivateRoutes />,
         children: [
-          {
-            element: <AdminRoutes />,
-            children: [
-              {
-                path: "/admin",
-                element: <AdminDashboard />,
-              },
-            ],
-          },
           {
             element: <JobSeekerRoutes />,
             children: [
@@ -89,6 +83,16 @@ const router = createBrowserRouter([
           { path: "/finish-up/:postId", element: <FinishUp /> },
         ],
       },
+    ],
+  },
+  {
+    path: "/",
+    element: <AdminLayout />,
+    children: [
+      { path: "/admin", element: <AdminDashboard /> },
+      { path: "/inbox", element: <AdminContact /> },
+      { path: "/users", element: <AdminUsers /> },
+      { path: "/Posts", element: <AdminPosts /> },
     ],
   },
 ]);

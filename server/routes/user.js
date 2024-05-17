@@ -13,9 +13,16 @@ const { Posts } = require("../Models/Posts");
 route.use(express.json());
 
 route.get("/all", async (req, res) => {
-  const data = req.user;
+  const page = req.query.page || 1;
+  const pageSize = 10;
 
-  const user = await User.find().select("-password");
+  const search = req.query.search || "";
+
+  const user = await User.find()
+    .select("-password")
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
+
   res.send(user);
 });
 
