@@ -3,7 +3,7 @@ import { CiTimer } from "react-icons/ci";
 import { MdAttachMoney } from "react-icons/md";
 import { CiCalendarDate } from "react-icons/ci";
 import ImgPreview from "../img-preview";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import formatDate from "../../utils/formatdate";
 import { getCurrentUser } from "../../utils/auth";
 
@@ -12,9 +12,9 @@ const PostCard = ({ post }) => {
 
   return (
     <div className="card card-bordered bg-base-100 mb-2 mx-3 lg:mx-0 ">
-      <Link to={`/jobdetail/${post._id}`}>
-        <div className="card-body">
-          <Link to={`/profile/${post.userId._id}`}>
+      <NavLink id="job_detail" to={`/jobdetail/${post._id}`}>
+        <div className="card-body ">
+          <Link id="profile" to={`/profile/${post.userId._id}`}>
             <ProfileCard user={post.userId} />
           </Link>
           <div>
@@ -42,7 +42,7 @@ const PostCard = ({ post }) => {
           </div>
           <span className="flex gap-3 mx-3">
             {post.tags.map((tag, i) => (
-              <div className="badge badge-neutral badge-md" key={i}>
+              <div className="badge badge-accent badge-md" key={i}>
                 {tag}
               </div>
             ))}
@@ -54,6 +54,7 @@ const PostCard = ({ post }) => {
           {user.role === "job_seeker" && (
             <div className="flex justify-end">
               <Link
+                id="apply"
                 to={`/jobdetail/${post._id}`}
                 className="btn btn-primary rounded-xl"
               >
@@ -62,7 +63,7 @@ const PostCard = ({ post }) => {
             </div>
           )}
         </div>
-      </Link>
+      </NavLink>
     </div>
   );
 };

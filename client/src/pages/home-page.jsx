@@ -31,8 +31,8 @@ const HomePage = () => {
     );
 
   return (
-    <div className="md:mx-auto">
-      <div className="lg:grid grid-cols-12 lg:gap-3">
+    <div className="md:mx-auto ">
+      <div className="lg:grid grid-cols-12 lg:gap-3 h-screen">
         <div className="hidden lg:flex lg:col-span-3 lg:px-3">
           <Sidebar />
         </div>
@@ -49,7 +49,7 @@ const HomePage = () => {
                   <PostCard post={post} key={post._id} />
                 ))}
 
-                {posts != [] ? (
+                {posts?.length > 0 ? (
                   <div className="join grid grid-cols-2 mx-auto my-2 max-w-md ">
                     <button
                       className="join-item btn "
@@ -71,7 +71,9 @@ const HomePage = () => {
                     </button>
                   </div>
                 ) : (
-                  <></>
+                  <h1 className="text-warning text-3xl text-center font-semibold m-5">
+                    There are No Posts
+                  </h1>
                 )}
               </div>
             </div>

@@ -111,11 +111,7 @@ const schema = z.object({
       message: "Job Type Can`t be empty ",
     })
     .min(3),
-  additional: z.string().optional(),
-  questions: z.string({
-    invalid_type_error: "You Have to add the question ",
-    required_error: "required field",
-  }),
+  questions: z.string().optional(),
 });
 const CreatePost = () => {
   const {
@@ -124,6 +120,7 @@ const CreatePost = () => {
     formState: { errors },
     getValues,
     control,
+    resetField,
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -138,12 +135,14 @@ const CreatePost = () => {
 
     setQuestion(newArray);
   };
-  const handleAddQuestion = () => {
+  const handleAddQuestion = async () => {
     if (getValues("questions") == "") {
       return setError("Can`t add empty question");
     }
     setError("");
-    setQuestion((prevArray) => [...prevArray, getValues("questions")]);
+
+    await setQuestion((prevArray) => [...prevArray, getValues("questions")]);
+    resetField("questions");
   };
 
   const getSkills = (skills) => {
@@ -156,12 +155,15 @@ const CreatePost = () => {
   };
   const onSubmit = async (data) => {
     setIsLoading(true);
-    if (getValues("questions") == "") {
+    if (data.minAmount > data.maxAmount) {
+      setError("Min Amount can`t be bigger than Max. ");
+    }
+    if (questions == "") {
       setError("Quesion is Required ");
     }
-    if (getValues("questions") !== "") {
-      setQuestion((prevArray) => [...prevArray, getValues("questions")]);
-    }
+    // if (getValues("questions") !== "") {
+    //   setQuestion((prevArray) => [...prevArray, getValues("questions")]);
+    // }
 
     const post = {
       ...data,
@@ -335,15 +337,6 @@ const CreatePost = () => {
                 </select>
               </div>
 
-              <Inputs
-                type="text"
-                title="Additional Note"
-                register={register}
-                name="additional"
-                placeholder="$200"
-                error={errors.additional}
-              />
-
               <div className="my-3 ">
                 <label htmlFor="" className="m-2 my-4 text-lg py-3">
                   Description
@@ -386,7 +379,9 @@ const CreatePost = () => {
 
               <span
                 className="badge badge-secondary cursor-pointer hover:badge-secondary"
-                onClick={() => handleAddQuestion()}
+                onClick={() => {
+                  handleAddQuestion();
+                }}
               >
                 + Add Question
               </span>

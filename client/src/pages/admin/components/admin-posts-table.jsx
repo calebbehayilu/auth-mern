@@ -16,7 +16,7 @@ const AdminPostsTable = () => {
     queryKey: ["posts_admin", pagination],
     queryFn: () =>
       apiClient
-        .get(`/posts`, {
+        .get(`/admin/posts`, {
           params: {
             page: pagination.page,
           },

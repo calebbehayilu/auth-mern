@@ -40,6 +40,7 @@ route.get("/", async (req, res) => {
     $or: [
       { title: { $regex: search, $options: "i" } },
       { description: { $regex: search, $options: "i" } },
+      { skills: { $regex: search, $options: "i" } },
     ],
     active: true,
   })
@@ -77,7 +78,6 @@ route.post("/", [auth, employer], async (req, res) => {
     "userId",
     "experienceLevel",
     "location",
-    "additional",
     "jobType",
     "questions",
     "active",
@@ -92,7 +92,6 @@ route.post("/", [auth, employer], async (req, res) => {
     userId: req.user.id,
     location: todo.location,
     experienceLevel: todo.experienceLevel,
-    additional: todo.additional,
     jobType: todo.jobType,
     questions: todo.questions,
   });

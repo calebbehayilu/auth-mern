@@ -67,7 +67,7 @@ const JobDetailCard = ({ post }) => {
         </div>
         <span className="flex gap-3 mx-3">
           {post.tags.map((tag) => (
-            <div className="badge badge-neutral" key={tag}>
+            <div className="badge badge-accent" key={tag}>
               {tag}
             </div>
           ))}

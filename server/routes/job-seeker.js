@@ -17,7 +17,9 @@ route.get("/", [auth], async (req, res) => {
 
 // * get single user
 route.get("/:userId", auth, async (req, res) => {
-  const user = await JobSeeker.findOne({ userId: req.user.id });
+  const userId = req.params.userId;
+
+  const user = await JobSeeker.findOne({ userId: userId });
   if (!user) return res.status(404).send("User Not Found.");
 
   res.json(user);

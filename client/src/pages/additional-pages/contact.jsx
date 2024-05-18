@@ -44,7 +44,7 @@ const ContactPage = () => {
   };
   return (
     <div>
-      <div className="flex flex-col justify-center items-center m-5">
+      <div className="flex flex-col justify-center items-center ">
         <h1 className="text-2xl font-semibold mb-3">Contact</h1>
         <div className="lg:max-w-2xl">
           {error && <Error error={error} />}
