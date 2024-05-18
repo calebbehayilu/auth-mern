@@ -202,19 +202,6 @@ const CreatePost = () => {
                 <label htmlFor="" className="m-2 my-4 text-lg py-3">
                   Location
                 </label>
-                {/* <select
-                  {...register("location")}
-                  className="select select-bordered w-full"
-                >
-                  <option disabled defaultValue>
-                    Pick Job Location
-                  </option>
-                  {countries.map((countrie) => (
-                    <option value={countrie} key={countrie}>
-                      {countrie}
-                    </option>
-                  ))}
-                </select> */}
                 <Controller
                   control={control}
                   name={"location"}
@@ -378,7 +365,7 @@ const CreatePost = () => {
           <div className="collapse collapse-arrow bg-base-200 mb-5">
             <input type="radio" name="my-accordion-2" />
             <div className="collapse-title text-xl font-medium">
-              Questionnaire (Optional)
+              Questionnaire
             </div>
             <div className="collapse-content">
               <div className="my-3 ">

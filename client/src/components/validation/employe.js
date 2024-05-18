@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const EmployerValidation = z.object({
-  companyName: z.string().min(3).max(50).optional(),
+  companyName: z.string().optional(),
   companyCategory: z
     .string({
       message: "Company Category Level Can`t be empty ",
@@ -16,7 +16,7 @@ const EmployerValidation = z.object({
         message: "The string must include at least one comma (,)",
       }
     ),
-  phonenumber: z.number().min(9),
+  phonenumber: z.coerce.string(),
   website: z.string().optional(),
   additional: z.string().max(500).optional(),
 });

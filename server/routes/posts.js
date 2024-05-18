@@ -37,7 +37,10 @@ route.get("/", async (req, res) => {
     : (location = req.query.location.slice(","));
 
   let posts = await Posts.find({
-    title: { $regex: search, $options: "i" },
+    $or: [
+      { title: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+    ],
     active: true,
   })
     .populate("userId", ["-password"])

@@ -74,7 +74,7 @@ const EmployerFinishup = ({ currentUser, setMessage }) => {
           <label className="input input-bordered flex items-center gap-2">
             +251
             <input
-              {...register("phonenumber", { valueAsNumber: true })}
+              {...register("phonenumber")}
               type="number"
               className="grow"
               placeholder="Phone Number"

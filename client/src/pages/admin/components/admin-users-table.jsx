@@ -1,17 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../services/api-client";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Success from "../../../components/success";
 
 const AdminUsersTable = () => {
   const pageSize = 10;
   const [page, setPage] = useState(1);
   const pagination = { page, pageSize };
+  const [confirm, setConfirm] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [userId, setUserId] = useState("");
+  const navigate = useNavigate();
 
   const {
     data: tableContent,
     isLoading,
     error,
+    refetch,
   } = useQuery({
     queryKey: ["users_admin", pagination],
     queryFn: () =>
@@ -27,11 +33,34 @@ const AdminUsersTable = () => {
     staleTime: 1 * 60 * 1000,
   });
 
+  const AccountDelete = async () => {
+    if (confirm) {
+      apiClient.delete(`/user/${userId}`).then((res) => {
+        if (res.data === true) {
+          setSuccess(true);
+          setUserId("");
+          refetch();
+          setTimeout(() => {
+            setSuccess(false);
+          }, 5000);
+        }
+      });
+    }
+  };
+  const onDelete = (_id) => {
+    setUserId(_id);
+    document.getElementById("modal").showModal();
+  };
+  useEffect(() => {
+    AccountDelete();
+  }, [confirm]);
+
   if (isLoading) return <span className="loading loading-spinner"></span>;
 
   return (
     <div className="overflow-hidden rounded-lg">
-      <table className=" text-sm text-left rtl:text-right text-gray-400">
+      {success && <Success message={"User have been deleted."} />}
+      <table className="w-full text-sm text-left rtl:text-right text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
@@ -64,12 +93,14 @@ const AdminUsersTable = () => {
                 <td className="px-6 py-4">{contact.email}</td>
                 <td className="px-6 py-4">{toTitleCase(contact.role)}</td>
                 <td className="px-6 py-4 text-right">
-                  <Link
-                    to="#"
+                  <button
+                    onClick={() => {
+                      onDelete(contact._id);
+                    }}
                     className="font-medium text-error  hover:underline"
                   >
                     Delete
-                  </Link>
+                  </button>
                 </td>
               </tr>
             ))}
@@ -99,6 +130,29 @@ const AdminUsersTable = () => {
       ) : (
         <></>
       )}
+      <dialog id="modal" className="modal">
+        <div className="modal-box w-fit">
+          <h3 className="font-bold text-lg text-center w-30">
+            Are You Sure You Want To Delete This Account?
+          </h3>
+          <div className="flex justify-evenly m-5">
+            <form method="dialog" className="btn btn-accent">
+              <button>close</button>
+            </form>
+            <button
+              className="btn btn-error"
+              onClick={() => {
+                setConfirm(true);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </div>
   );
 };

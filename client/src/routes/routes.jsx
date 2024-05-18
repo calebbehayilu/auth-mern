@@ -31,6 +31,7 @@ import NotFound from "./notfound";
 import EmployerRoutes from "./protectedEmployer";
 import JobSeekerRoutes from "./protectedJobSeeker";
 import PrivateRoutes from "./protectedRoute";
+import AdminRoutes from "./protectedAdmin";
 
 const router = createBrowserRouter([
   {
@@ -89,10 +90,15 @@ const router = createBrowserRouter([
     path: "/",
     element: <AdminLayout />,
     children: [
-      { path: "/admin", element: <AdminDashboard /> },
-      { path: "/inbox", element: <AdminContact /> },
-      { path: "/users", element: <AdminUsers /> },
-      { path: "/Posts", element: <AdminPosts /> },
+      {
+        element: <AdminRoutes />,
+        children: [
+          { path: "/admin", element: <AdminDashboard /> },
+          { path: "/inbox", element: <AdminContact /> },
+          { path: "/users", element: <AdminUsers /> },
+          { path: "/Posts", element: <AdminPosts /> },
+        ],
+      },
     ],
   },
 ]);

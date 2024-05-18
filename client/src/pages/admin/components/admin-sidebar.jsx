@@ -9,7 +9,7 @@ const AdminSidebar = () => {
       <ul className="font-light">
         <li>
           <Link
-            to={"/dashboard"}
+            to={"/admin"}
             className="flex items-center font-medium p-5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 "
           >
             <span className="ms-3 pb-5">📄Qitir Tiri Dashboard</span>
@@ -48,11 +48,11 @@ const AdminSidebar = () => {
         </li>
         <li>
           <Link
-            to={"/"}
+            to={"/logout"}
             className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 "
           >
             <LuLogIn size={20} />
-            <span className="flex-1 ms-3 whitespace-nowrap">Log In</span>
+            <span className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
           </Link>
         </li>
       </ul>

@@ -14,6 +14,10 @@ const adminSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  removedMessages: {
+    type: [String],
+    default: [],
+  },
 });
 
 const Admin = mongoose.model("Admin", adminSchema);

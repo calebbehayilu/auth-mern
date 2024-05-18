@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCurrentUser, login } from "../utils/auth";
 import Error from "../components/error";
@@ -18,6 +18,7 @@ const loginSchema = z.object({
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentUser = getCurrentUser();
   const {
     register,
@@ -40,6 +41,9 @@ const Login = () => {
     if (res.status === 200) {
       dispatch(setUserInfo(res.data));
       localStorage.setItem("token", res.headers["x-auth-token"]);
+
+      if (res.data.role == "admin") return navigate("/admin");
+
       window.location = "/home";
     }
   };
